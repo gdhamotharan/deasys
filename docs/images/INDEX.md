@@ -1,6 +1,6 @@
 # Screenshot index
 
-Generated from `docs/screenshot-manifest.json` and the last capture run (2026-11-10T07:08:25.794Z, base http://127.0.0.1:5197).
+Generated from `docs/screenshot-manifest.json` and the last capture run (2026-11-10T08:46:37.303Z, base http://127.0.0.1:5197).
 Every image is a plain capture of the fictional demo company (Harbor Pine Trading Co. (Demo)) from a fresh install,
 1600 x 900, light theme. Nothing is annotated. Entries marked "not captured" are not in this folder.
 
