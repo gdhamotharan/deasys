@@ -1,10 +1,10 @@
 # Screenshot index
 
-Generated from `docs/screenshot-manifest.json` and the last capture run (2026-11-10T05:53:22.108Z, base http://127.0.0.1:5197).
+Generated from `docs/screenshot-manifest.json` and the last capture run (2026-11-10T07:08:25.794Z, base http://127.0.0.1:5197).
 Every image is a plain capture of the fictional demo company (Harbor Pine Trading Co. (Demo)) from a fresh install,
 1600 x 900, light theme. Nothing is annotated. Entries marked "not captured" are not in this folder.
 
-Captured: 132 of 155.
+Captured: 134 of 155.
 
 | File | Screen | Signed in as | Guide section | Caption | Status |
 |---|---|---|---|---|---|
@@ -57,13 +57,13 @@ Captured: 132 of 155.
 | [47-receipt-form-filled.png](47-receipt-form-filled.png) | /vouchers/new/receipt | maker | 7 | The receipt filled in: Fennick Foods (Demo) pays into the bank. | captured |
 | [48-contra-form.png](48-contra-form.png) | /vouchers/new/contra | maker | 7 | A contra voucher: moving money between cash and bank. | captured |
 | [49-journal-voucher.png](49-journal-voucher.png) | /vouchers/new/journal | maker | 7 | A journal voucher in the line grid. | captured |
-| 50-voucher-cost-split.png | /vouchers/new/journal (cost split dialog open) | maker | 7 | Splitting a voucher line across cost centres. | not captured: needs journal lines typed by hand (account, amount, cost split); not driven by this script yet |
+| [50-voucher-cost-split.png](50-voucher-cost-split.png) | /vouchers/new/journal (cost split dialog open) | maker | 7 | Splitting a voucher line across cost centres. | captured |
 | [51-all-vouchers.png](51-all-vouchers.png) | /vouchers (menu: Transaction > All Vouchers) | admin | 7 | All Vouchers: every voucher, filtered by status. | captured |
 | [52-sales-invoice-empty.png](52-sales-invoice-empty.png) | /sales/invoices/new | maker | 7 | A new sales invoice, empty. | captured |
 | [53-sales-invoice-filled.png](53-sales-invoice-filled.png) | /sales/invoices/new | maker | 7 | A sales invoice filled in, with totals. | captured |
 | [54-invoice-submitted.png](54-invoice-submitted.png) | /sales/invoices/:id | maker | 7 | An invoice submitted for checking. | captured |
 | [55-invoice-posted.png](55-invoice-posted.png) | /sales/invoices/:id | approver | 7 | A posted invoice with its voucher number. | captured |
-| 56-invoice-reject-reason.png | /sales/invoices/:id (reject dialog open) | checker | 7 | Rejecting an invoice: a reason is required. | not captured: no reject action on invoices in this release: the invoice view offers Check, Approve and Cancel only |
+| 56-invoice-reject-reason.png | /sales/invoices/:id (reject dialog open) | checker | 7 | Rejecting an invoice: a reason is required. | not captured: the invoice view has no Reject button in this release (the server supports rejecting an invoice, the screen does not offer it): a product gap |
 | [57-invoice-print-view.png](57-invoice-print-view.png) | /sales/invoices/:id (print view) | approver | 7 | The printed invoice (print view). | captured |
 | 58-invoice-attachments.png | /sales/invoices/:id (attachments) | maker | 7 | Attachments on an invoice. | not captured: no attachments screen for invoices in this release (attachments are not uploaded yet, per the ledger request screen) |
 | [59-credit-notes.png](59-credit-notes.png) | /sales/credit-notes | maker | 7 | Credit Notes: reductions against sales invoices. | captured |
@@ -99,8 +99,8 @@ Captured: 132 of 155.
 | [89-report-balance-sheet.png](89-report-balance-sheet.png) | /reports (open Balance Sheet) | admin | 9 | Balance Sheet. | captured |
 | [90-report-debtors-ageing.png](90-report-debtors-ageing.png) | /reports (open Debtors Ageing) | admin | 9 | Debtors Ageing: what customers owe, by age. | captured |
 | [91-report-cost-centre-summary.png](91-report-cost-centre-summary.png) | /reports (open Cost Centre Summary) | admin | 9 | Cost Centre Summary. | captured |
-| 92-report-budget-variance.png | /reports (open Budget Variance) | admin | 9 | Budget Variance: budget against actual to date. | not captured: the Budget Variance view is picked inside the Cost Centres and Budgets report (View as); not driven by this script yet |
-| 93-report-drill-down.png | /reports (a figure clicked to drill down) | admin | 9 | Drilling down from a report figure to its vouchers. | not captured: needs a figure clicked inside a run report; not driven by this script yet |
+| 92-report-budget-variance.png | /reports (open Budget Variance) | admin | 9 | Budget Variance: budget against actual to date. | not captured: the Budget button of Cost Centres and Budgets opens the Budgets master, not the Budget Variance view (a product gap in the report menu) |
+| 93-report-drill-down.png | /reports (a figure clicked to drill down) | admin | 9 | Drilling down from a report figure to its vouchers. | not captured: the drill-down needs a ledger row in a run report; the Trial Balance returns no ledger rows in this build (see the product problems) |
 | [94-report-export-menu.png](94-report-export-menu.png) | /reports (a report open with its export controls) | admin | 9 | Exporting a report and printing it. | captured |
 | 95-saved-reports-api.png | terminal: GET /api/v1/reports/saved | admin | 9 | Saved report definitions, read through the API (API-only). | not captured: terminal capture: needs a real PowerShell or Command Prompt window; this script does not drive a terminal, and the output is not faked |
 | [96-user-edit-password-reset.png](96-user-edit-password-reset.png) | /masters/users (Edit user dialog open) | admin | 10 | Resetting another user's password. | captured |
@@ -113,8 +113,8 @@ Captured: 132 of 155.
 | [103-inbox-list.png](103-inbox-list.png) | /admin/integrations/inbox | admin | 11 | Integration Inbox: messages with status, and the reasons for rejected ones. | captured |
 | [104-webhook-create.png](104-webhook-create.png) | /admin/integrations/webhooks (new subscription) | admin | 11 | Creating a webhook subscription: the signing secret is shown once. | captured |
 | [105-webhook-deliveries.png](105-webhook-deliveries.png) | /admin/integrations/webhooks (Deliveries of a subscription) | admin | 11 | Webhook deliveries and their attempts. | captured |
-| 106-error-unbalanced-journal.png | /vouchers/new/journal (after Submit with unequal lines) | maker | 12 | A voucher that does not balance is refused. | not captured: needs two journal lines with unequal totals typed and submitted; not driven by this script yet |
-| 107-error-day-closed.png | /vouchers/new/payment (a date in a closed day) | maker | 12 | Posting to a closed day is refused. | not captured: needs a voucher dated in a closed day; not driven by this script yet |
+| [106-error-unbalanced-journal.png](106-error-unbalanced-journal.png) | /vouchers/new/journal (after Submit with unequal lines) | maker | 12 | A voucher that does not balance is refused. | captured |
+| 107-error-day-closed.png | /vouchers/new/payment (a date in a closed day) | maker | 12 | Posting to a closed day is refused. | not captured: the closed-day message is not reached on the payment form: it first asks for cheque or online details (a product problem, also for a cash ledger); not captured |
 | [108-error-sign-in-locked.png](108-error-sign-in-locked.png) | / (sign-in after repeated failed attempts) | none | 12 | Sign-in is paused after repeated failed attempts. | captured |
 | [109-first-run-welcome.png](109-first-run-welcome.png) | first-run wizard: Welcome (no user exists yet, before sign-in) | none | 5 | First-run wizard, step 1: Welcome. | captured |
 | [110-first-run-organisation.png](110-first-run-organisation.png) | first-run wizard: Organisation (step 3) | none | 5 | First-run wizard: the organisation name. | captured |
@@ -133,7 +133,7 @@ Captured: 132 of 155.
 | [122-gst-payment-challans.png](122-gst-payment-challans.png) | /gst/itc/challans (menu: GST > Payment Challans) | admin | 8 | GST payment challans: record a payment from the credit ledgers and cash. | captured |
 | [123-gst-non-payment.png](123-gst-non-payment.png) | /gst/itc/non-payment (menu: GST > Non-payment (180 days)) | admin | 8 | Non-payment exceptions: purchase credit unpaid after 180 days. | captured |
 | [124-gst-returns.png](124-gst-returns.png) | /gst/returns (menu: GST > GST Returns) | admin | 8 | GST returns: the tie-out checks for a return and period. | captured |
-| 125-gst-return-filed.png | /gst/returns (Mark as filed dialog open) | admin | 8 | Marking a frozen return as filed. | not captured: the Mark as filed dialog opens from a prepared GST return; not driven by this script yet |
+| 125-gst-return-filed.png | /gst/returns (Mark as filed dialog open) | admin | 8 | Marking a frozen return as filed. | not captured: the Mark as filed dialog opens from a GST return that has been prepared; the demo has no prepared return |
 | [126-gst-filing-calendar.png](126-gst-filing-calendar.png) | /gst/calendar (menu: GST > Filing Calendar) | admin | 8 | GST filing calendar: due dates by return and period, with status. | captured |
 | [127-gst-late-fee.png](127-gst-late-fee.png) | /gst/calculators (menu: GST > Late Fee and Interest) | admin | 8 | Late fee and interest calculators. | captured |
 | [128-gstin-check.png](128-gstin-check.png) | /gst/gstin (menu: GST > GSTIN Check) | admin | 8 | GSTIN check: the shape and check character of a GSTIN. | captured |
@@ -158,7 +158,7 @@ Captured: 132 of 155.
 | [147-integration-how-to-connect.png](147-integration-how-to-connect.png) | /admin/integrations/connect (menu: Administration > How to Connect) | admin | 11 | How to Connect: the steps for an integrator, with examples. | captured |
 | [148-saved-reports.png](148-saved-reports.png) | /reports/saved (menu: Reports > Saved Reports) | admin | 9 | Saved Reports: report views kept with their filters. | captured |
 | 149-export-format-options.png | /reports (a report open; Export format dropdown) | admin | 9 | Export formats: CSV, Excel (.xlsx), Print view (HTML) and Print view (PDF). | not captured: the export format choice sits in the save-view dialog; not driven by this script yet |
-| 150-drill-down-statement.png | /sales/statement (a row clicked to drill down) | maker | 9 | Drilling down from a statement row to its voucher lines. | not captured: needs a row of the customer statement opened to drill down; not driven by this script yet |
+| 150-drill-down-statement.png | /sales/statement (a row clicked to drill down) | maker | 9 | Drilling down from a statement row to its voucher lines. | not captured: the customer statement opens for a customer chosen in its filter; the drill-down row is not driven by this script yet |
 | [151-menu-gst-group.png](151-menu-gst-group.png) | / (left menu, Transaction section, GST group expanded) | admin | 6 | The GST group in the Transaction menu. | captured |
 | [152-menu-administration-section.png](152-menu-administration-section.png) | / (left menu, Administration section) | admin | 6 | The Administration section of the menu. | captured |
 | [153-masters-index.png](153-masters-index.png) | /masters (menu: Masters) | admin | 6 | Masters: the master lists of the company. | captured |

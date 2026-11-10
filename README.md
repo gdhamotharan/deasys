@@ -295,7 +295,7 @@ The server runs until you press Ctrl+C. Do not use a console window for daily wo
 
 Settings come from `deasys.conf` and from environment variables. **An environment variable wins over the file.** An unknown key in the file is an error, so a typing mistake is never ignored. Check the effective values with `deasys-server.exe config show` (secrets are masked).
 
-*Screenshot not included in this release: a terminal window is needed and is not driven by the capture script.*
+*Screenshot not included in this release: terminal capture: needs a real PowerShell or Command Prompt window; this script does not drive a terminal, and the output is not faked.*
 *The effective settings (`config show`).*
 
 | File key | Default | Meaning |
@@ -313,7 +313,7 @@ Settings come from `deasys.conf` and from environment variables. **An environmen
 
 `deasys-server.exe service status` shows the service state. The installer registers `DEASys` and `DEASysDB`. Both need an elevated PowerShell to start, stop or change.
 
-*Screenshot not included in this release: a terminal window is needed and is not driven by the capture script.*
+*Screenshot not included in this release: terminal capture: needs a real PowerShell or Command Prompt window; this script does not drive a terminal, and the output is not faked.*
 *Service status.*
 
 ---
@@ -390,7 +390,7 @@ cd "C:\Program Files\DEASys"
 
 It asks the same questions in the same order (organisation name, branch name, administrator name, sign-in name, password typed twice, financial-year start month, base currency).
 
-*Screenshot not included in this release: a terminal window is needed and is not driven by the capture script.*
+*Screenshot not included in this release: terminal capture: needs a real PowerShell or Command Prompt window; this script does not drive a terminal, and the output is not faked.*
 *The `init-admin` prompts.*
 
 ### 5.4 Sign in for the first time
@@ -828,10 +828,10 @@ The **New voucher** group shows these with a short hint each. Receipt, payment a
 ![Journal voucher in the line grid.](docs/images/49-journal-voucher.png)
 *A journal voucher.*
 
-*Screenshot not included in this release: needs journal lines typed by hand (account, amount, cost split); not driven by this script yet.*
+![Splitting a line across cost centres.](docs/images/50-voucher-cost-split.png)
 *The cost split dialog.*
 
-*Screenshot not included in this release: needs two journal lines with unequal totals typed and submitted; not driven by this script yet.*
+![Voucher refused: not balanced.](docs/images/106-error-unbalanced-journal.png)
 *A journal that does not balance is refused.*
 
 **All Vouchers** (menu **Transaction > All Vouchers**, `/vouchers`) lists every voucher with its status and type, and you can filter by status and type.
@@ -918,7 +918,7 @@ Use **Add line** to add a line and the remove control to delete one. The **Total
 
 **Rejecting an invoice.** A checker or approver can reject a submitted or checked invoice. The reason is required. The invoice goes back to Draft; the maker edits and resubmits.
 
-*Screenshot not included in this release: no reject action on invoices in this release: the invoice view offers Check, Approve and Cancel only.*
+*Screenshot not included in this release: the invoice view has no Reject button in this release (the server supports rejecting an invoice, the screen does not offer it): a product gap.*
 *The reject dialog.*
 
 **Cancel invoice.** An unposted invoice can be cancelled without a ledger entry. Cancelling a posted invoice posts a reversing voucher (see [open issues](docs/guide-open-issues.md)).
@@ -942,7 +942,7 @@ Use **Add line** to add a line and the remove control to delete one. The **Total
 ![Customer Statement.](docs/images/68-customer-statement.png)
 *Customer Statement.*
 
-*Screenshot not included in this release: needs a row of the customer statement opened to drill down; not driven by this script yet.*
+*Screenshot not included in this release: the customer statement opens for a customer chosen in its filter; the drill-down row is not driven by this script yet.*
 *Drill-down from a statement row to its voucher lines.*
 
 **Recurring Invoices** (`/sales/recurring`). A template makes a **draft** invoice on each run date, monthly, quarterly or yearly. Nothing is approved or posted by a run.
@@ -1087,7 +1087,7 @@ The GST screens are in the **Transaction > GST** group. They cover the setup (se
 ![GST returns: the tie-out checks.](docs/images/124-gst-returns.png)
 *GST returns: the tie-out checks for a return and period.*
 
-*Screenshot not included in this release: the Mark as filed dialog opens from a prepared GST return; not driven by this script yet.*
+*Screenshot not included in this release: the Mark as filed dialog opens from a GST return that has been prepared; the demo has no prepared return.*
 *Marking a return as filed.*
 
 **GST Filing Calendar** (`/gst/calendar`, menu **GST > Filing Calendar**). The due date of each return and period, with the status of each: not started, data ready, frozen or filed. Overdue items are shown.
@@ -1194,10 +1194,10 @@ TDS is deducted on payments (section 7.1) and recorded as **deductions**. Deposi
 
 For integrators: the same data is available through the API (`GET /api/v1/tds/challans` and `GET /api/v1/tds/returns/26Q?format=csv`).
 
-*Screenshot not included in this release: a terminal window is needed and is not driven by the capture script.*
+*Screenshot not included in this release: terminal capture: needs a real PowerShell or Command Prompt window; this script does not drive a terminal, and the output is not faked.*
 *TDS challans through the API.*
 
-*Screenshot not included in this release: a terminal window is needed and is not driven by the capture script.*
+*Screenshot not included in this release: terminal capture: needs a real PowerShell or Command Prompt window; this script does not drive a terminal, and the output is not faked.*
 *TDS return data through the API.*
 
 ### 8.3 Forex, interest and budgets
@@ -1232,7 +1232,7 @@ To reopen a closed day, use **Reopen** on its row and give the reason.
 
 Posting to a closed day is refused:
 
-*Screenshot not included in this release: needs a voucher dated in a closed day; not driven by this script yet.*
+*Screenshot not included in this release: the closed-day message is not reached on the payment form: it first asks for cheque or online details (a product problem, also for a cash ledger); not captured.*
 *A posting to a closed day is refused.*
 
 **Year-End Close** (`/period/year`, menu **Administration > Year-End Close**). Close a financial year once it has ended and every voucher in it is authorized. The **Close year** button is disabled while vouchers are pending. Reopen a closed year from its row if you must. The screen also carries the **carry-forward** of balances to the next year: preview the balances, then carry them forward. Do this once per year, after the year's last day is closed.
@@ -1297,7 +1297,7 @@ The main reports:
 ![Cost Centre Summary.](docs/images/91-report-cost-centre-summary.png)
 *Cost Centre Summary.*
 
-*Screenshot not included in this release: the Budget Variance view is picked inside the Cost Centres and Budgets report (View as); not driven by this script yet.*
+*Screenshot not included in this release: the Budget button of Cost Centres and Budgets opens the Budgets master, not the Budget Variance view (a product gap in the report menu).*
 *Budget Variance.*
 
 ### 9.2 Running a report
@@ -1313,7 +1313,7 @@ Financial reports also accept a split (by month, quarter, financial year or circ
 
 Click a figure in a report to see the vouchers behind it. The **Vouchers Behind a Figure** screen (`/reports/drill`) lists the voucher lines for that ledger, group or cell. Statements also drill down from a row.
 
-*Screenshot not included in this release: needs a figure clicked inside a run report; not driven by this script yet.*
+*Screenshot not included in this release: the drill-down needs a ledger row in a run report; the Trial Balance returns no ledger rows in this build (see the product problems).*
 *Drill-down from a report figure.*
 
 ### 9.4 Export and print
@@ -1337,7 +1337,7 @@ Every report has an **Export format** choice:
 ![Saved Reports.](docs/images/148-saved-reports.png)
 *Saved Reports.*
 
-*Screenshot not included in this release: a terminal window is needed and is not driven by the capture script.*
+*Screenshot not included in this release: terminal capture: needs a real PowerShell or Command Prompt window; this script does not drive a terminal, and the output is not faked.*
 *Saved report definitions through the API.*
 
 > **Reports that do not run.** A few catalogue rows are served by SQL Server Reporting Services and a few stored-procedure reports are not yet ported. The screen says "Not available yet" for them. Do not rely on them until the release notes say they are available.
@@ -1377,7 +1377,7 @@ Backups are taken from the command line. A backup is a PostgreSQL dump of the da
 - Copy each backup off this computer as well, and restrict access.
 - Back up `deasys.conf` separately. It holds the key and the connection. Without the key, sign-in tokens do not carry over to a restored system.
 
-*Screenshot not included in this release: a terminal window is needed and is not driven by the capture script.*
+*Screenshot not included in this release: terminal capture: needs a real PowerShell or Command Prompt window; this script does not drive a terminal, and the output is not faked.*
 *Taking a backup.*
 
 **Restore** into an empty database:
@@ -1388,7 +1388,7 @@ Backups are taken from the command line. A backup is a PostgreSQL dump of the da
 
 Restore is refused when the database already holds DEASys tables. Use `--force` only when you mean to replace the database. After restoring a dump from an older version, run `migrate`.
 
-*Screenshot not included in this release: a terminal window is needed and is not driven by the capture script.*
+*Screenshot not included in this release: terminal capture: needs a real PowerShell or Command Prompt window; this script does not drive a terminal, and the output is not faked.*
 *Restoring a backup.*
 
 > **Backups and restore are commands in this release.** There is no screen for them yet. Test a restore into a spare database at least once a quarter.
@@ -1397,7 +1397,7 @@ Restore is refused when the database already holds DEASys tables. Use `--force` 
 
 The log is `deasys.log` in the logs folder. It is rotated at 20 MB or at the first write of a new day, and the newest 14 rotated files are kept. Passwords, keys and tokens are never logged; sign-in names and client addresses are. The installer log is `install.log`, and the database log is `postgres.log`.
 
-*Screenshot not included in this release: a terminal window is needed and is not driven by the capture script.*
+*Screenshot not included in this release: terminal capture: needs a real PowerShell or Command Prompt window; this script does not drive a terminal, and the output is not faked.*
 *The log folder.*
 
 ### 10.5 Upgrades and migrations
@@ -1825,7 +1825,7 @@ Every image in this guide, in the order they were added to the manifest (`docs/s
 | 103 | [103-inbox-list.png](docs/images/103-inbox-list.png) | 11 | /admin/integrations/inbox | Integration Inbox: messages with status, and the reasons for rejected ones. |
 | 104 | [104-webhook-create.png](docs/images/104-webhook-create.png) | 11 | /admin/integrations/webhooks (new subscription) | Creating a webhook subscription: the signing secret is shown once. |
 | 105 | [105-webhook-deliveries.png](docs/images/105-webhook-deliveries.png) | 11 | /admin/integrations/webhooks (Deliveries of a subscription) | Webhook deliveries and their attempts. |
-| 106 | 106-error-unbalanced-journal.png (not in this release) | 12 | /vouchers/new/journal (after Submit with unequal lines) | A voucher that does not balance is refused. |
+| 106 | [106-error-unbalanced-journal.png](docs/images/106-error-unbalanced-journal.png) | 12 | /vouchers/new/journal (after Submit with unequal lines) | A voucher that does not balance is refused. |
 | 107 | 107-error-day-closed.png (not in this release) | 12 | /vouchers/new/payment (a date in a closed day) | Posting to a closed day is refused. |
 | 108 | [108-error-sign-in-locked.png](docs/images/108-error-sign-in-locked.png) | 12 | / (sign-in after repeated failed attempts) | Sign-in is paused after repeated failed attempts. |
 | 109 | [109-first-run-welcome.png](docs/images/109-first-run-welcome.png) | 5 | first-run wizard: Welcome (no user exists yet, before sign-in) | First-run wizard, step 1: Welcome. |
