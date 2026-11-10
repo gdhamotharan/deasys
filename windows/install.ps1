@@ -490,7 +490,8 @@ function Read-TermsRecord {
 }
 
 # True when the terms must be shown and accepted: no record, an unreadable record, or a package whose terms version is
-# newer than the recorded one (an unparseable version counts as newer). Equal or older package versions do not ask again.
+# newer than the recorded one, or a different version dated the same day (a revision; an unparseable version counts as newer).
+# Equal or older package versions do not ask again.
 function Test-TermsNeedAccept {
     param([string]$PackageVersion, $Record)
     if ($null -eq $Record -or -not $Record.version) { return $true }
@@ -499,6 +500,7 @@ function Test-TermsNeedAccept {
     $pd = Get-TermsDate -Version $PackageVersion
     $rd = Get-TermsDate -Version $recorded
     if ($null -eq $pd -or $null -eq $rd) { return $true }
+    if ($pd -eq $rd) { return $true }   # a different version on the same day is a revision of the text: ask again
     return ($pd -gt $rd)
 }
 

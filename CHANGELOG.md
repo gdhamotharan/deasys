@@ -21,3 +21,7 @@ First public release of DEASys: the accounting server with its web interface, fo
 - Roles and permissions per screen and action; users; numbering series; audit log (read only).
 - Integrations: API keys with scopes and branch limits; inbox; invoice, voucher and TDS imports; masters reads; signed webhooks; screens under Administration.
 - Command-line tools: init-admin, migrate, backup, restore, set-password, config, service (Windows).
+
+## Unreleased (0.1.0 rebuild)
+- Optional, unticked "tell the author" box on the terms step; off unless `registration_url` is configured. Terms revised (version `2026-11-10-draft-2`, sections 5.2 and 5.3).
+- The installer asks again when the terms text is revised on the same day.

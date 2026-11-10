@@ -2,7 +2,7 @@ DRAFT FOR LEGAL REVIEW - NOT YET APPROVED FOR RELEASE
 =====================================================
 
 DEASYS TERMS AND CONDITIONS
-Version: 2026-11-10-draft
+Version: 2026-11-10-draft-2
 
 DEASys is provided by Creative Global Financial Solutions (the "Licensor", "we"). These terms apply
 to DEASys (the "Software"). Please read all of them before you install or use the Software. The
@@ -85,12 +85,23 @@ accepts them for you.
 5.1 All of your data stays on your own computer or your own server. The Software stores it there.
 
 5.2 The Software does not send your data to the Licensor or to anyone else. It has no telemetry (no
-    usage reporting) and no online licence check. It works without a licence server.
+    usage reporting) and no online licence check. It works without a licence server. The only
+    exception is the optional install registration in section 5.3, which happens only if you tick
+    its box.
 
 5.3 The only network access the Software makes is what you configure: the connection to your
     database, any webhooks you create that send data to addresses you choose, and the one-time
     download of PostgreSQL during installation (only when you choose the bundled database and no
     PostgreSQL programs are present; see section 7).
+
+    Optional install registration: when the person who sets up the Software is shown an unticked box
+    "tell the author that I installed" and ticks it, the Software sends ONE message, once, when the
+    set-up is created. The message contains only: the product name, the version, the operating system
+    and its architecture, the date and time, and a contact e-mail address only if you type one. It
+    never contains the name of your organisation, branch, users, logins, passwords or any accounting
+    data. The box is shown only when the operator has configured an address for it; it is not ticked
+    for you, and the Software works the same whether or not you tick it. You can switch the offer off
+    by leaving that address empty (the default).
 
 5.4 You are responsible for the security of the computer and the database, for who can reach the web
     address, for passwords and keys, for access control between your users, for retention and

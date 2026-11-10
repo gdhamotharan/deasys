@@ -339,7 +339,9 @@ Settings come from `deasys.conf` and from environment variables. **An environmen
 
 **Step 3: Organisation.** Enter the **Organisation name** (for example Harbor Pine Trading Co.). It is printed on invoices and reports.
 
-**Step 2: Terms and conditions.** Read the terms and conditions to the end, or press **I have read it**, then tick **I have read and accept the terms and conditions**. The set-up cannot go on until you accept them.
+**Step 2: Terms and conditions.*
+
+**Optional: tell the author.** DEASys sends nothing about you or your data anywhere. The only exception is an optional box on this step, shown only when the operator has set `registration_url` (an https address) in `deasys.conf`. It is never ticked for you. If you tick it, one message is sent once, when the set-up is created, with only the product name, version, operating system, date and a contact e-mail if you type one. Leave it unticked and DEASys works the same. See section 5 of the terms.* Read the terms and conditions to the end, or press **I have read it**, then tick **I have read and accept the terms and conditions**. The set-up cannot go on until you accept them.
 
 ![Step 2: Terms and conditions.](docs/images/155-first-run-terms.png)
 *Step 2: Terms and conditions.*
