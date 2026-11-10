@@ -38,7 +38,7 @@ Status after the UI update (webtally-ui master daad953, packaging in webtally-co
 11. **Roles seeded with legacy names** (CFO, AGM, Sr.Manager, Senior Accountant, Junior Accountant, Data Entry Level, Audit). No Viewer role and no maker, checker or approver role. The demo users use these roles.
 12. **Next steps is not in the menu.** `/next-steps` is reachable only by its address. Add a menu item or a link from Home.
 13. **Next steps says there is no TDS master screen** ("There is no TDS master screen in this release"). That is now wrong: the TDS Rates, Parameters, Deductor and Deductee Profiles screens exist. Fix the text.
-14. **"Medall" residue.** generic-platform-plan.md lists Medall-specific reports, the weak-password list and bank-file remarks. Check before public release.
+14. **Installation-specific residue (fixed).** The reference installation's company name, bank-file remark, e-mail address, weak-password entries and company-filter alias were removed from the product; the binaries and the package were checked and contain none of them.
 15. **Owner claims not verified:** "130+ reports" was not counted. The summary uses "many reports". Count the report catalogue after the stale rows are removed.
 16. **Customer and vendor form field labels** were not captured in this pass. Check `/sales/customers/new`.
 
