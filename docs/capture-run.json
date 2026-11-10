@@ -1,0 +1,936 @@
+{
+  "base": "http://127.0.0.1:5197",
+  "generatedAt": "2026-11-10T05:35:05.016Z",
+  "results": [
+    {
+      "id": "01-home",
+      "file": "01-home.png",
+      "status": "captured",
+      "route": "/"
+    },
+    {
+      "id": "02-sales-invoices-list",
+      "file": "02-sales-invoices-list.png",
+      "status": "captured",
+      "route": "/sales/invoices"
+    },
+    {
+      "id": "03-payment-voucher-filled",
+      "file": "03-payment-voucher-filled.png",
+      "status": "captured",
+      "route": "/vouchers/new/payment"
+    },
+    {
+      "id": "04-my-task-list",
+      "file": "04-my-task-list.png",
+      "status": "captured",
+      "route": "/tasks"
+    },
+    {
+      "id": "05-bank-reconciliation",
+      "file": "05-bank-reconciliation.png",
+      "status": "captured",
+      "route": "/brs"
+    },
+    {
+      "id": "06-gst-master",
+      "file": "06-gst-master.png",
+      "status": "captured",
+      "route": "/masters/gst"
+    },
+    {
+      "id": "07-reports-menu",
+      "file": "07-reports-menu.png",
+      "status": "captured",
+      "route": "/reports"
+    },
+    {
+      "id": "08-audit-log",
+      "file": "08-audit-log.png",
+      "status": "captured",
+      "route": "/audit"
+    },
+    {
+      "id": "09-roles-permissions",
+      "file": "09-roles-permissions.png",
+      "status": "captured",
+      "route": "/rbac"
+    },
+    {
+      "id": "10-installer-welcome",
+      "file": "10-installer-welcome.png",
+      "status": "not captured",
+      "reason": "the Windows installer wizard is not available in this build (packaging is not in the repository), so there is no screen to capture"
+    },
+    {
+      "id": "11-installer-options",
+      "file": "11-installer-options.png",
+      "status": "not captured",
+      "reason": "the Windows installer wizard is not available in this build (packaging is not in the repository), so there is no screen to capture"
+    },
+    {
+      "id": "12-service-status",
+      "file": "12-service-status.png",
+      "status": "not captured",
+      "reason": "terminal capture: needs a real PowerShell or Command Prompt window; this script does not drive a terminal, and the output is not faked"
+    },
+    {
+      "id": "13-config-show",
+      "file": "13-config-show.png",
+      "status": "not captured",
+      "reason": "terminal capture: needs a real PowerShell or Command Prompt window; this script does not drive a terminal, and the output is not faked"
+    },
+    {
+      "id": "14-init-admin",
+      "file": "14-init-admin.png",
+      "status": "not captured",
+      "reason": "terminal capture: needs a real PowerShell or Command Prompt window; this script does not drive a terminal, and the output is not faked"
+    },
+    {
+      "id": "15-sign-in",
+      "file": "15-sign-in.png",
+      "status": "captured",
+      "route": "/"
+    },
+    {
+      "id": "16-home-first-sign-in",
+      "file": "16-home-first-sign-in.png",
+      "status": "captured",
+      "route": "/"
+    },
+    {
+      "id": "17-change-password",
+      "file": "17-change-password.png",
+      "status": "captured",
+      "route": "/change-password"
+    },
+    {
+      "id": "18-invoice-settings",
+      "file": "18-invoice-settings.png",
+      "status": "captured",
+      "route": "/invoice-settings"
+    },
+    {
+      "id": "19-centre-master",
+      "file": "19-centre-master.png",
+      "status": "captured",
+      "route": "/masters/centres"
+    },
+    {
+      "id": "20-group-master",
+      "file": "20-group-master.png",
+      "status": "captured",
+      "route": "/masters/groups"
+    },
+    {
+      "id": "21-ledger-master",
+      "file": "21-ledger-master.png",
+      "status": "captured",
+      "route": "/masters/ledgers"
+    },
+    {
+      "id": "22-new-ledger-request",
+      "file": "22-new-ledger-request.png",
+      "status": "captured",
+      "route": "/ledger-request/new"
+    },
+    {
+      "id": "23-ledger-approvals",
+      "file": "23-ledger-approvals.png",
+      "status": "captured",
+      "route": "/ledger-approvals"
+    },
+    {
+      "id": "24-financial-year",
+      "file": "24-financial-year.png",
+      "status": "captured",
+      "route": "/period/year"
+    },
+    {
+      "id": "25-user-master",
+      "file": "25-user-master.png",
+      "status": "captured",
+      "route": "/masters/users"
+    },
+    {
+      "id": "26-user-role-mapping",
+      "file": "26-user-role-mapping.png",
+      "status": "captured",
+      "route": "/masters/roles"
+    },
+    {
+      "id": "27-numbering-series",
+      "file": "27-numbering-series.png",
+      "status": "captured",
+      "route": "/numbering"
+    },
+    {
+      "id": "28-bank-master",
+      "file": "28-bank-master.png",
+      "status": "captured",
+      "route": "/masters/banks"
+    },
+    {
+      "id": "29-entity-bank-mapping",
+      "file": "29-entity-bank-mapping.png",
+      "status": "captured",
+      "route": "/masters/entity-bank"
+    },
+    {
+      "id": "30-customers",
+      "file": "30-customers.png",
+      "status": "captured",
+      "route": "/sales/customers"
+    },
+    {
+      "id": "31-customer-form",
+      "file": "31-customer-form.png",
+      "status": "captured",
+      "route": "/sales/customers/new"
+    },
+    {
+      "id": "32-vendors",
+      "file": "32-vendors.png",
+      "status": "captured",
+      "route": "/purchases/vendors"
+    },
+    {
+      "id": "33-cost-categories",
+      "file": "33-cost-categories.png",
+      "status": "captured",
+      "route": "/cost/categories"
+    },
+    {
+      "id": "34-cost-centres",
+      "file": "34-cost-centres.png",
+      "status": "captured",
+      "route": "/cost/centres"
+    },
+    {
+      "id": "35-cost-centre-master",
+      "file": "35-cost-centre-master.png",
+      "status": "captured",
+      "route": "/masters/projects"
+    },
+    {
+      "id": "36-budgets",
+      "file": "36-budgets.png",
+      "status": "captured",
+      "route": "/cost/budgets"
+    },
+    {
+      "id": "37-credit-budget-controls",
+      "file": "37-credit-budget-controls.png",
+      "status": "captured",
+      "route": "/cost/controls"
+    },
+    {
+      "id": "38-currencies",
+      "file": "38-currencies.png",
+      "status": "captured",
+      "route": "/currency"
+    },
+    {
+      "id": "39-gst-master-add",
+      "file": "39-gst-master-add.png",
+      "status": "captured",
+      "route": "/masters/gst"
+    },
+    {
+      "id": "40-tax-ledger-invoice-line",
+      "file": "40-tax-ledger-invoice-line.png",
+      "status": "captured",
+      "route": "/sales/invoices/new"
+    },
+    {
+      "id": "41-tds-payment-panel",
+      "file": "41-tds-payment-panel.png",
+      "status": "captured",
+      "route": "/vouchers/new/payment"
+    },
+    {
+      "id": "42-tds-masters-api",
+      "file": "42-tds-masters-api.png",
+      "status": "not captured",
+      "reason": "terminal capture: needs a real PowerShell or Command Prompt window; this script does not drive a terminal, and the output is not faked"
+    },
+    {
+      "id": "43-cheque-books",
+      "file": "43-cheque-books.png",
+      "status": "captured",
+      "route": "/cheques/books"
+    },
+    {
+      "id": "44-cheque-assign-print",
+      "file": "44-cheque-assign-print.png",
+      "status": "captured",
+      "route": "/cheques/assign"
+    },
+    {
+      "id": "45-post-dated-cheques",
+      "file": "45-post-dated-cheques.png",
+      "status": "captured",
+      "route": "/cheques/post-dated"
+    },
+    {
+      "id": "46-receipt-form-empty",
+      "file": "46-receipt-form-empty.png",
+      "status": "captured",
+      "route": "/vouchers/new/receipt"
+    },
+    {
+      "id": "47-receipt-form-filled",
+      "file": "47-receipt-form-filled.png",
+      "status": "captured",
+      "route": "/vouchers/new/receipt"
+    },
+    {
+      "id": "48-contra-form",
+      "file": "48-contra-form.png",
+      "status": "captured",
+      "route": "/vouchers/new/contra"
+    },
+    {
+      "id": "49-journal-voucher",
+      "file": "49-journal-voucher.png",
+      "status": "captured",
+      "route": "/vouchers/new/journal"
+    },
+    {
+      "id": "50-voucher-cost-split",
+      "file": "50-voucher-cost-split.png",
+      "status": "not captured",
+      "reason": "needs journal lines typed by hand (account, amount, cost split); not driven by this script yet"
+    },
+    {
+      "id": "51-all-vouchers",
+      "file": "51-all-vouchers.png",
+      "status": "captured",
+      "route": "/vouchers"
+    },
+    {
+      "id": "52-sales-invoice-empty",
+      "file": "52-sales-invoice-empty.png",
+      "status": "captured",
+      "route": "/sales/invoices/new"
+    },
+    {
+      "id": "53-sales-invoice-filled",
+      "file": "53-sales-invoice-filled.png",
+      "status": "captured",
+      "route": "/sales/invoices/new"
+    },
+    {
+      "id": "54-invoice-submitted",
+      "file": "54-invoice-submitted.png",
+      "status": "captured",
+      "route": "/sales/invoices/11"
+    },
+    {
+      "id": "55-invoice-posted",
+      "file": "55-invoice-posted.png",
+      "status": "captured",
+      "route": "/sales/invoices/9"
+    },
+    {
+      "id": "56-invoice-reject-reason",
+      "file": "56-invoice-reject-reason.png",
+      "status": "not captured",
+      "reason": "no reject action on invoices in this release: the invoice view offers Check, Approve and Cancel only"
+    },
+    {
+      "id": "57-invoice-print-view",
+      "file": "57-invoice-print-view.png",
+      "status": "captured",
+      "route": "/sales/invoices/9"
+    },
+    {
+      "id": "58-invoice-attachments",
+      "file": "58-invoice-attachments.png",
+      "status": "not captured",
+      "reason": "no attachments screen for invoices in this release (attachments are not uploaded yet, per the ledger request screen)"
+    },
+    {
+      "id": "59-credit-notes",
+      "file": "59-credit-notes.png",
+      "status": "captured",
+      "route": "/sales/credit-notes"
+    },
+    {
+      "id": "60-credit-note-form",
+      "file": "60-credit-note-form.png",
+      "status": "captured",
+      "route": "/sales/invoices/9"
+    },
+    {
+      "id": "61-receipts-allocation",
+      "file": "61-receipts-allocation.png",
+      "status": "captured",
+      "route": "/sales/receipts"
+    },
+    {
+      "id": "62-purchase-bills",
+      "file": "62-purchase-bills.png",
+      "status": "captured",
+      "route": "/purchases/bills"
+    },
+    {
+      "id": "63-purchase-bill-form",
+      "file": "63-purchase-bill-form.png",
+      "status": "captured",
+      "route": "/purchases/bills/new"
+    },
+    {
+      "id": "64-debit-notes",
+      "file": "64-debit-notes.png",
+      "status": "captured",
+      "route": "/purchases/debit-notes"
+    },
+    {
+      "id": "65-vendor-payments",
+      "file": "65-vendor-payments.png",
+      "status": "captured",
+      "route": "/purchases/payments"
+    },
+    {
+      "id": "66-recurring-list",
+      "file": "66-recurring-list.png",
+      "status": "captured",
+      "route": "/sales/recurring"
+    },
+    {
+      "id": "67-recurring-form",
+      "file": "67-recurring-form.png",
+      "status": "captured",
+      "route": "/sales/recurring/new"
+    },
+    {
+      "id": "68-customer-statement",
+      "file": "68-customer-statement.png",
+      "status": "captured",
+      "route": "/sales/statement"
+    },
+    {
+      "id": "69-overdue-reminders",
+      "file": "69-overdue-reminders.png",
+      "status": "captured",
+      "route": "/sales/overdue"
+    },
+    {
+      "id": "70-vendor-statement",
+      "file": "70-vendor-statement.png",
+      "status": "captured",
+      "route": "/purchases/statement"
+    },
+    {
+      "id": "71-my-task-approve",
+      "file": "71-my-task-approve.png",
+      "status": "captured",
+      "route": "/tasks"
+    },
+    {
+      "id": "72-my-requests",
+      "file": "72-my-requests.png",
+      "status": "captured",
+      "route": "/requests"
+    },
+    {
+      "id": "73-my-ledger-requests",
+      "file": "73-my-ledger-requests.png",
+      "status": "captured",
+      "route": "/my-ledger-requests"
+    },
+    {
+      "id": "74-bulk-transaction",
+      "file": "74-bulk-transaction.png",
+      "status": "captured",
+      "route": "/bulk"
+    },
+    {
+      "id": "75-bank-upload",
+      "file": "75-bank-upload.png",
+      "status": "captured",
+      "route": "/bank-upload"
+    },
+    {
+      "id": "76-bank-process",
+      "file": "76-bank-process.png",
+      "status": "captured",
+      "route": "/bank-process"
+    },
+    {
+      "id": "77-bank-file-neft",
+      "file": "77-bank-file-neft.png",
+      "status": "captured",
+      "route": "/bank-file"
+    },
+    {
+      "id": "78-calc",
+      "file": "78-calc.png",
+      "status": "captured",
+      "route": "/calc"
+    },
+    {
+      "id": "79-tds-challans-api",
+      "file": "79-tds-challans-api.png",
+      "status": "not captured",
+      "reason": "terminal capture: needs a real PowerShell or Command Prompt window; this script does not drive a terminal, and the output is not faked"
+    },
+    {
+      "id": "80-tds-returns-api",
+      "file": "80-tds-returns-api.png",
+      "status": "not captured",
+      "reason": "terminal capture: needs a real PowerShell or Command Prompt window; this script does not drive a terminal, and the output is not faked"
+    },
+    {
+      "id": "81-day-close",
+      "file": "81-day-close.png",
+      "status": "captured",
+      "route": "/period/day"
+    },
+    {
+      "id": "82-day-close-reopen",
+      "file": "82-day-close-reopen.png",
+      "status": "captured",
+      "route": "/period/day"
+    },
+    {
+      "id": "83-forex-revaluation",
+      "file": "83-forex-revaluation.png",
+      "status": "captured",
+      "route": "/forex/revaluation"
+    },
+    {
+      "id": "84-interest-settings",
+      "file": "84-interest-settings.png",
+      "status": "captured",
+      "route": "/interest/settings"
+    },
+    {
+      "id": "85-interest-statement",
+      "file": "85-interest-statement.png",
+      "status": "captured",
+      "route": "/interest/statement"
+    },
+    {
+      "id": "86-year-end-close",
+      "file": "86-year-end-close.png",
+      "status": "captured",
+      "route": "/period/year"
+    },
+    {
+      "id": "87-report-trial-balance",
+      "file": "87-report-trial-balance.png",
+      "status": "captured",
+      "route": "/reports"
+    },
+    {
+      "id": "88-report-profit-and-loss",
+      "file": "88-report-profit-and-loss.png",
+      "status": "captured",
+      "route": "/reports"
+    },
+    {
+      "id": "89-report-balance-sheet",
+      "file": "89-report-balance-sheet.png",
+      "status": "captured",
+      "route": "/reports"
+    },
+    {
+      "id": "90-report-debtors-ageing",
+      "file": "90-report-debtors-ageing.png",
+      "status": "captured",
+      "route": "/reports"
+    },
+    {
+      "id": "91-report-cost-centre-summary",
+      "file": "91-report-cost-centre-summary.png",
+      "status": "captured",
+      "route": "/reports"
+    },
+    {
+      "id": "92-report-budget-variance",
+      "file": "92-report-budget-variance.png",
+      "status": "not captured",
+      "reason": "the Budget Variance view is picked inside the Cost Centres and Budgets report (View as); not driven by this script yet"
+    },
+    {
+      "id": "93-report-drill-down",
+      "file": "93-report-drill-down.png",
+      "status": "not captured",
+      "reason": "needs a figure clicked inside a run report; not driven by this script yet"
+    },
+    {
+      "id": "94-report-export-menu",
+      "file": "94-report-export-menu.png",
+      "status": "captured",
+      "route": "/reports"
+    },
+    {
+      "id": "95-saved-reports-api",
+      "file": "95-saved-reports-api.png",
+      "status": "not captured",
+      "reason": "terminal capture: needs a real PowerShell or Command Prompt window; this script does not drive a terminal, and the output is not faked"
+    },
+    {
+      "id": "96-user-edit-password-reset",
+      "file": "96-user-edit-password-reset.png",
+      "status": "captured",
+      "route": "/masters/users"
+    },
+    {
+      "id": "97-backup-terminal",
+      "file": "97-backup-terminal.png",
+      "status": "not captured",
+      "reason": "terminal capture: needs a real PowerShell or Command Prompt window; this script does not drive a terminal, and the output is not faked"
+    },
+    {
+      "id": "98-restore-terminal",
+      "file": "98-restore-terminal.png",
+      "status": "not captured",
+      "reason": "terminal capture: needs a real PowerShell or Command Prompt window; this script does not drive a terminal, and the output is not faked"
+    },
+    {
+      "id": "99-log-folder",
+      "file": "99-log-folder.png",
+      "status": "not captured",
+      "reason": "terminal capture: needs a real PowerShell or Command Prompt window; this script does not drive a terminal, and the output is not faked"
+    },
+    {
+      "id": "100-about",
+      "file": "100-about.png",
+      "status": "captured",
+      "route": "/about"
+    },
+    {
+      "id": "101-api-key-created",
+      "file": "101-api-key-created.png",
+      "status": "captured",
+      "route": "/admin/integrations/keys"
+    },
+    {
+      "id": "102-api-key-list",
+      "file": "102-api-key-list.png",
+      "status": "captured",
+      "route": "/admin/integrations/keys"
+    },
+    {
+      "id": "103-inbox-list",
+      "file": "103-inbox-list.png",
+      "status": "captured",
+      "route": "/admin/integrations/inbox"
+    },
+    {
+      "id": "104-webhook-create",
+      "file": "104-webhook-create.png",
+      "status": "captured",
+      "route": "/admin/integrations/webhooks"
+    },
+    {
+      "id": "105-webhook-deliveries",
+      "file": "105-webhook-deliveries.png",
+      "status": "captured",
+      "route": "/admin/integrations/webhooks"
+    },
+    {
+      "id": "106-error-unbalanced-journal",
+      "file": "106-error-unbalanced-journal.png",
+      "status": "not captured",
+      "reason": "needs two journal lines with unequal totals typed and submitted; not driven by this script yet"
+    },
+    {
+      "id": "107-error-day-closed",
+      "file": "107-error-day-closed.png",
+      "status": "not captured",
+      "reason": "needs a voucher dated in a closed day; not driven by this script yet"
+    },
+    {
+      "id": "109-first-run-welcome",
+      "file": "109-first-run-welcome.png",
+      "status": "captured",
+      "by": "wizard.mjs"
+    },
+    {
+      "id": "110-first-run-organisation",
+      "file": "110-first-run-organisation.png",
+      "status": "captured",
+      "by": "wizard.mjs"
+    },
+    {
+      "id": "111-first-run-branch",
+      "file": "111-first-run-branch.png",
+      "status": "captured",
+      "by": "wizard.mjs"
+    },
+    {
+      "id": "112-first-run-administrator",
+      "file": "112-first-run-administrator.png",
+      "status": "captured",
+      "by": "wizard.mjs"
+    },
+    {
+      "id": "113-first-run-financial-year",
+      "file": "113-first-run-financial-year.png",
+      "status": "captured",
+      "by": "wizard.mjs"
+    },
+    {
+      "id": "114-first-run-review",
+      "file": "114-first-run-review.png",
+      "status": "captured",
+      "by": "wizard.mjs"
+    },
+    {
+      "id": "155-first-run-terms",
+      "file": "155-first-run-terms.png",
+      "status": "captured",
+      "by": "wizard.mjs"
+    },
+    {
+      "id": "115-next-steps",
+      "file": "115-next-steps.png",
+      "status": "captured",
+      "route": "/next-steps"
+    },
+    {
+      "id": "116-gst-setup",
+      "file": "116-gst-setup.png",
+      "status": "captured",
+      "route": "/gst/setup"
+    },
+    {
+      "id": "117-gst-registrations",
+      "file": "117-gst-registrations.png",
+      "status": "captured",
+      "route": "/gst/registrations"
+    },
+    {
+      "id": "118-gst-states",
+      "file": "118-gst-states.png",
+      "status": "captured",
+      "route": "/gst/states"
+    },
+    {
+      "id": "119-gst-tax-ledger-mapping",
+      "file": "119-gst-tax-ledger-mapping.png",
+      "status": "captured",
+      "route": "/gst/tax-ledgers"
+    },
+    {
+      "id": "120-gst-itc-ledgers",
+      "file": "120-gst-itc-ledgers.png",
+      "status": "captured",
+      "route": "/gst/itc"
+    },
+    {
+      "id": "121-gst-itc-reversals",
+      "file": "121-gst-itc-reversals.png",
+      "status": "captured",
+      "route": "/gst/itc/reversals"
+    },
+    {
+      "id": "122-gst-payment-challans",
+      "file": "122-gst-payment-challans.png",
+      "status": "captured",
+      "route": "/gst/itc/challans"
+    },
+    {
+      "id": "123-gst-non-payment",
+      "file": "123-gst-non-payment.png",
+      "status": "captured",
+      "route": "/gst/itc/non-payment"
+    },
+    {
+      "id": "124-gst-returns",
+      "file": "124-gst-returns.png",
+      "status": "captured",
+      "route": "/gst/returns"
+    },
+    {
+      "id": "125-gst-return-filed",
+      "file": "125-gst-return-filed.png",
+      "status": "not captured",
+      "reason": "the Mark as filed dialog opens from a prepared GST return; not driven by this script yet"
+    },
+    {
+      "id": "126-gst-filing-calendar",
+      "file": "126-gst-filing-calendar.png",
+      "status": "captured",
+      "route": "/gst/calendar"
+    },
+    {
+      "id": "127-gst-late-fee",
+      "file": "127-gst-late-fee.png",
+      "status": "captured",
+      "route": "/gst/calculators"
+    },
+    {
+      "id": "128-gstin-check",
+      "file": "128-gstin-check.png",
+      "status": "captured",
+      "route": "/gst/gstin"
+    },
+    {
+      "id": "129-gst-recon-import",
+      "file": "129-gst-recon-import.png",
+      "status": "captured",
+      "route": "/gst/recon"
+    },
+    {
+      "id": "130-gst-recon-results",
+      "file": "130-gst-recon-results.png",
+      "status": "not captured",
+      "reason": "needs a GSTR-2A/2B portal file imported first; the demo holds no portal file"
+    },
+    {
+      "id": "131-einvoice-pending",
+      "file": "131-einvoice-pending.png",
+      "status": "captured",
+      "route": "/gst/einvoice"
+    },
+    {
+      "id": "132-einvoice-payload",
+      "file": "132-einvoice-payload.png",
+      "status": "captured",
+      "route": "/gst/einvoice/9"
+    },
+    {
+      "id": "133-eway-bill",
+      "file": "133-eway-bill.png",
+      "status": "captured",
+      "route": "/gst/einvoice"
+    },
+    {
+      "id": "134-invoice-gst-preview",
+      "file": "134-invoice-gst-preview.png",
+      "status": "captured",
+      "route": "/sales/invoices/new"
+    },
+    {
+      "id": "135-party-gst-profile",
+      "file": "135-party-gst-profile.png",
+      "status": "captured",
+      "route": "/sales/customers/2"
+    },
+    {
+      "id": "136-invoice-irn-block",
+      "file": "136-invoice-irn-block.png",
+      "status": "captured",
+      "route": "/sales/invoices/9"
+    },
+    {
+      "id": "137-tds-rates",
+      "file": "137-tds-rates.png",
+      "status": "captured",
+      "route": "/tds/rates"
+    },
+    {
+      "id": "138-tds-parameters",
+      "file": "138-tds-parameters.png",
+      "status": "captured",
+      "route": "/tds/parameters"
+    },
+    {
+      "id": "139-tds-deductor",
+      "file": "139-tds-deductor.png",
+      "status": "captured",
+      "route": "/tds/deductor"
+    },
+    {
+      "id": "140-tds-deductee-profiles",
+      "file": "140-tds-deductee-profiles.png",
+      "status": "captured",
+      "route": "/tds/deductees"
+    },
+    {
+      "id": "141-tds-deductions",
+      "file": "141-tds-deductions.png",
+      "status": "captured",
+      "route": "/tds/deductions"
+    },
+    {
+      "id": "142-tds-challans",
+      "file": "142-tds-challans.png",
+      "status": "captured",
+      "route": "/tds/challans"
+    },
+    {
+      "id": "143-tds-return-data",
+      "file": "143-tds-return-data.png",
+      "status": "captured",
+      "route": "/tds/returns"
+    },
+    {
+      "id": "144-tds-certificates",
+      "file": "144-tds-certificates.png",
+      "status": "captured",
+      "route": "/tds/certificates"
+    },
+    {
+      "id": "145-tds-summary",
+      "file": "145-tds-summary.png",
+      "status": "captured",
+      "route": "/tds/summary"
+    },
+    {
+      "id": "146-tds-exceptions",
+      "file": "146-tds-exceptions.png",
+      "status": "captured",
+      "route": "/tds/exceptions"
+    },
+    {
+      "id": "147-integration-how-to-connect",
+      "file": "147-integration-how-to-connect.png",
+      "status": "captured",
+      "route": "/admin/integrations/connect"
+    },
+    {
+      "id": "148-saved-reports",
+      "file": "148-saved-reports.png",
+      "status": "captured",
+      "route": "/reports/saved"
+    },
+    {
+      "id": "149-export-format-options",
+      "file": "149-export-format-options.png",
+      "status": "not captured",
+      "reason": "the export format choice sits in the save-view dialog; not driven by this script yet"
+    },
+    {
+      "id": "150-drill-down-statement",
+      "file": "150-drill-down-statement.png",
+      "status": "not captured",
+      "reason": "needs a row of the customer statement opened to drill down; not driven by this script yet"
+    },
+    {
+      "id": "151-menu-gst-group",
+      "file": "151-menu-gst-group.png",
+      "status": "captured",
+      "route": "/"
+    },
+    {
+      "id": "152-menu-administration-section",
+      "file": "152-menu-administration-section.png",
+      "status": "captured",
+      "route": "/"
+    },
+    {
+      "id": "153-masters-index",
+      "file": "153-masters-index.png",
+      "status": "captured",
+      "route": "/masters"
+    },
+    {
+      "id": "154-invoice-post-to-ledger",
+      "file": "154-invoice-post-to-ledger.png",
+      "status": "captured",
+      "route": "/sales/invoices/8"
+    },
+    {
+      "id": "108-error-sign-in-locked",
+      "file": "108-error-sign-in-locked.png",
+      "status": "captured",
+      "route": "/"
+    }
+  ]
+}

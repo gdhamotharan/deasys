@@ -1,7 +1,5 @@
 # DEASys user guide
 
-> **Note:** the screenshots in this guide are being re-captured for the DEASys release. Pictures that are not shown yet will appear in the next update.
-
 *Accounts, under control.*
 
 **DEASys:** free, self-hosted double-entry accounting for any business with branches. It runs on your own Windows or Linux machine, and you use it in your browser.
@@ -87,7 +85,7 @@ DEASys records money movements in a **double-entry** ledger: every entry debits 
 
 **Key ideas**
 
-- **Ledger.** An account, such as "Cash in Hand", "Bayside Hardware Ltd." or "Sales". Ledgers belong to **groups** (for example Cash & Bank Balances, Sundry Debtors, Sales Accounts).
+- **Ledger.** An account, such as "Cash in Hand", "Fennick Foods (Demo)" or "Sales". Ledgers belong to **groups** (for example Cash & Bank Balances, Sundry Debtors, Sales Accounts).
 - **Voucher.** One business event with its debit and credit lines, for example a receipt or a journal. A voucher must balance: the debits equal the credits.
 - **Maker, checker, authorizer.** A voucher is entered by a **maker**, checked by a **checker**, and authorized by an **authorizer**, who posts it to the ledgers. No one can perform two of these steps on the same voucher.
 - **Period.** Each voucher has a date and a centre. A **day close** stops new vouchers for a centre on a date; a **year-end close** finishes a financial year.
@@ -227,10 +225,10 @@ The release may be unsigned. An unsigned build shows a Windows SmartScreen warni
 
 Installer screens (captured when the release is built):
 
-![The Windows installer, first page.](docs/images/10-installer-welcome.png)
+*Screenshot not included in this release: the Windows installer wizard is not available in this build (packaging is not in the repository), so there is no screen to capture.*
 *The Windows installer, first page.*
 
-![Installer options: install folder and service.](docs/images/11-installer-options.png)
+*Screenshot not included in this release: the Windows installer wizard is not available in this build (packaging is not in the repository), so there is no screen to capture.*
 *Installer options.*
 
 The installer's own log is `C:\ProgramData\DEASys\logs\install.log`. It contains no passwords.
@@ -261,7 +259,7 @@ Useful options: `-InstallDir`, `-DataDir`, `-AppPort` (default 8080), `-PgPort` 
 
 ### 4.4 Network access
 
-By default DEASys listens for local use only. To let other computers open it on a private network, use the installer option (section 4.1, step 3) or run `install.ps1 -AllowNetwork` again elevated. **Do not expose DEASys to the internet without a TLS proxy in front of it** (section 10.6).
+By default DEASys listens for local use only. To let other computers open it on a private network, use the installer option (section 4.1, ((((step 7))))) or run `install.ps1 -AllowNetwork` again elevated. **Do not expose DEASys to the internet without a TLS proxy in front of it** (section 10.6).
 
 ### 4.5 Upgrade
 
@@ -297,7 +295,7 @@ The server runs until you press Ctrl+C. Do not use a console window for daily wo
 
 Settings come from `deasys.conf` and from environment variables. **An environment variable wins over the file.** An unknown key in the file is an error, so a typing mistake is never ignored. Check the effective values with `deasys-server.exe config show` (secrets are masked).
 
-![Checking the effective settings (secrets masked).](docs/images/13-config-show.png)
+*Screenshot not included in this release: a terminal window is needed and is not driven by the capture script.*
 *The effective settings (`config show`).*
 
 | File key | Default | Meaning |
@@ -315,7 +313,7 @@ Settings come from `deasys.conf` and from environment variables. **An environmen
 
 `deasys-server.exe service status` shows the service state. The installer registers `DEASys` and `DEASysDB`. Both need an elevated PowerShell to start, stop or change.
 
-![Checking the DEASys service.](docs/images/12-service-status.png)
+*Screenshot not included in this release: a terminal window is needed and is not driven by the capture script.*
 *Service status.*
 
 ---
@@ -332,23 +330,29 @@ Settings come from `deasys.conf` and from environment variables. **An environmen
 ### 5.2 Run the first-run wizard
 
 1. Open `http://localhost:8080` in a browser.
-2. While no user exists, the **first-run wizard** appears before the sign-in page. It has six steps shown with a progress bar: **Welcome**, **Organisation**, **First branch**, **Administrator**, **Financial year and currency**, **Review**.
+2. While no user exists, the **first-run wizard** appears before the sign-in page. It has seven steps shown with a progress bar: **Welcome**, **Terms and conditions**, **Organisation**, **First branch**, **Administrator**, **Financial year and currency**, **Review**.
 3. Use **Next** to move forward and **Back** to change an answer. Nothing is saved until you press **Create** on the last step.
+4. The same terms are accepted by the other two ways to set up DEASys: the Windows installer's I accept button (or the `-AcceptTerms` switch of `windowsinstall.ps1` for an unattended install, which refuses to run without it), and `deasys-server init-admin --accept-terms` on the command line.
 
 ![Step 1: Welcome.](docs/images/109-first-run-welcome.png)
 *Step 1: Welcome.*
 
-**Step 2: Organisation.** Enter the **Organisation name** (for example Harbor Pine Trading Co.). It is printed on invoices and reports.
+**Step 3: Organisation.** Enter the **Organisation name** (for example Harbor Pine Trading Co.). It is printed on invoices and reports.
 
-![Step 2: Organisation.](docs/images/110-first-run-organisation.png)
-*Step 2: Organisation.*
+**Step 2: Terms and conditions.** Read the terms and conditions to the end, or press **I have read it**, then tick **I have read and accept the terms and conditions**. The set-up cannot go on until you accept them.
 
-**Step 3: First branch.** Enter the **Branch name** (for example Head Office). The wizard calls this the first branch; it becomes the first centre. You can add branches later (section 6.2).
+![Step 2: Terms and conditions.](docs/images/155-first-run-terms.png)
+*Step 2: Terms and conditions.*
 
-![Step 3: First branch.](docs/images/111-first-run-branch.png)
-*Step 3: First branch.*
+![Step 3: Organisation.](docs/images/110-first-run-organisation.png)
+*Step 3: Organisation.*
 
-**Step 4: Administrator.** Enter:
+**Step 4: First branch.** Enter the **Branch name** (for example Head Office). The wizard calls this the first branch; it becomes the first centre. You can add branches later (section 6.2).
+
+![Step 4: First branch.](docs/images/111-first-run-branch.png)
+*Step 4: First branch.*
+
+**Step 5: Administrator.** Enter:
 
 | Field | Meaning | Rules |
 |---|---|---|
@@ -358,18 +362,18 @@ Settings come from `deasys.conf` and from environment variables. **An environmen
 
 Password rules: at least 10 characters, with a letter and a digit, not repetitive, not common, and not containing the sign-in name or the employee code.
 
-![Step 4: Administrator and password rules.](docs/images/112-first-run-administrator.png)
-*Step 4: Administrator and password rules.*
+![Step 5: Administrator and password rules.](docs/images/112-first-run-administrator.png)
+*Step 5: Administrator and password rules.*
 
-**Step 5: Financial year and currency.** Choose **Financial year starts in** (the month, default April) and the **Base currency** (default INR).
+**Step 6: Financial year and currency.** Choose **Financial year starts in** (the month, default April) and the **Base currency** (default INR).
 
-![Step 5: Financial year and currency.](docs/images/113-first-run-financial-year.png)
-*Step 5: Financial year and currency.*
+![Step 6: Financial year and currency.](docs/images/113-first-run-financial-year.png)
+*Step 6: Financial year and currency.*
 
-**Step 6: Review.** Check the answers and press **Create**. If a value is wrong, the wizard opens the step with the problem.
+**Step 7: Review.** Check the answers and press **Create**. If a value is wrong, the wizard opens the step with the problem.
 
-![Step 6: Review and Create.](docs/images/114-first-run-review.png)
-*Step 6: Review and Create.*
+![Step 7: Review and Create.](docs/images/114-first-run-review.png)
+*Step 7: Review and Create.*
 
 **What the first run creates, in one transaction.** The company; the first branch (a circle and a centre with it); the administrator with the ADMIN role, which holds every permission; the current financial year; the financial-year and base-currency settings; and an audit entry. If any step fails, all of it is rolled back and you can try again.
 
@@ -386,7 +390,7 @@ cd "C:\Program Files\DEASys"
 
 It asks the same questions in the same order (organisation name, branch name, administrator name, sign-in name, password typed twice, financial-year start month, base currency).
 
-![init-admin: creating the company, branch and administrator.](docs/images/14-init-admin.png)
+*Screenshot not included in this release: a terminal window is needed and is not driven by the capture script.*
 *The `init-admin` prompts.*
 
 ### 5.4 Sign in for the first time
@@ -523,7 +527,7 @@ Menu: **Administration > User Master** (`/masters/users`). Administrators create
 | Centre | The default centre of the user. | Choose from the list. |
 | Status | Active or Inactive. | An inactive user cannot sign in. |
 
-Create a user, give the user a role (step 6.7), and ask the user to change the starting password at the first sign-in.
+Create a user, give the user a role ((step 7).7), and ask the user to change the starting password at the first sign-in.
 
 ### 6.6 Roles and permissions
 
@@ -799,12 +803,12 @@ The **New voucher** group shows these with a short hint each. Receipt, payment a
 |---|---|---|---|
 | Date | The date of the voucher. | 2026-11-09 | Required. The day must be open. |
 | Circle, Centre | The branch the voucher belongs to. | Head Office | Choose from the list. |
-| Received from | The party ledger the money comes from. | Bayside Hardware Ltd. | Required. |
+| Received from | The party ledger the money comes from. | Fennick Foods (Demo) | Required. |
 | Received into | The cash or bank ledger that receives the money. | Demo bank ledger | Required. Cash or bank only. |
 | Amount | The amount received. | 1,180.00 | Greater than zero, at most two decimals. |
 | Mode | Cash, Cheque, UPI, Bank transfer or Card. | Bank transfer | Required. |
 | Cheque number, Cheque date | Shown for a cheque. | 004512 | Both required for a cheque. |
-| Reference, Date of transfer | Shown for a transfer or online payment. | Transfer reference | Required for a transfer. |
+| Reference, Date of transfer | Shown for a transfer or a card payment. | Transfer reference | Required for a transfer. |
 | Narration | What the voucher is for, printed on it. | Part payment of invoice SI1000/00012 | Required. |
 
 **Save Draft** keeps an unfinished voucher. **Submit for Approval** sends it to the checker (section 7.4).
@@ -824,10 +828,10 @@ The **New voucher** group shows these with a short hint each. Receipt, payment a
 ![Journal voucher in the line grid.](docs/images/49-journal-voucher.png)
 *A journal voucher.*
 
-![Splitting a line across cost centres.](docs/images/50-voucher-cost-split.png)
+*Screenshot not included in this release: needs journal lines typed by hand (account, amount, cost split); not driven by this script yet.*
 *The cost split dialog.*
 
-![Voucher refused: not balanced.](docs/images/106-error-unbalanced-journal.png)
+*Screenshot not included in this release: needs two journal lines with unequal totals typed and submitted; not driven by this script yet.*
 *A journal that does not balance is refused.*
 
 **All Vouchers** (menu **Transaction > All Vouchers**, `/vouchers`) lists every voucher with its status and type, and you can filter by status and type.
@@ -914,7 +918,7 @@ Use **Add line** to add a line and the remove control to delete one. The **Total
 
 **Rejecting an invoice.** A checker or approver can reject a submitted or checked invoice. The reason is required. The invoice goes back to Draft; the maker edits and resubmits.
 
-![Rejecting an invoice: a reason is required.](docs/images/56-invoice-reject-reason.png)
+*Screenshot not included in this release: no reject action on invoices in this release: the invoice view offers Check, Approve and Cancel only.*
 *The reject dialog.*
 
 **Cancel invoice.** An unposted invoice can be cancelled without a ledger entry. Cancelling a posted invoice posts a reversing voucher (see [open issues](docs/guide-open-issues.md)).
@@ -928,7 +932,7 @@ Use **Add line** to add a line and the remove control to delete one. The **Total
 
 **Attachments.** Upload a PDF, PNG, JPEG, xlsx, docx or csv file. At most 5 MB per file and 10 files per invoice. Uploading and deleting are allowed while the invoice is a draft; afterwards you need the attach permission. DEASys does not scan attachments for viruses.
 
-![Attachments on an invoice.](docs/images/58-invoice-attachments.png)
+*Screenshot not included in this release: no attachments screen for invoices in this release (attachments are not uploaded yet, per the ledger request screen).*
 *Attachments.*
 
 **E-invoice (IRN) on the invoice.** After posting, the invoice view shows the IRN and the signed QR text the portal returned, once a connector has recorded them (section 8.1). DEASys does not draw the QR image.
@@ -938,7 +942,7 @@ Use **Add line** to add a line and the remove control to delete one. The **Total
 ![Customer Statement.](docs/images/68-customer-statement.png)
 *Customer Statement.*
 
-![Drill-down from a statement row.](docs/images/150-drill-down-statement.png)
+*Screenshot not included in this release: needs a row of the customer statement opened to drill down; not driven by this script yet.*
 *Drill-down from a statement row to its voucher lines.*
 
 **Recurring Invoices** (`/sales/recurring`). A template makes a **draft** invoice on each run date, monthly, quarterly or yearly. Nothing is approved or posted by a run.
@@ -1083,7 +1087,7 @@ The GST screens are in the **Transaction > GST** group. They cover the setup (se
 ![GST returns: the tie-out checks.](docs/images/124-gst-returns.png)
 *GST returns: the tie-out checks for a return and period.*
 
-![Marking a return as filed.](docs/images/125-gst-return-filed.png)
+*Screenshot not included in this release: the Mark as filed dialog opens from a prepared GST return; not driven by this script yet.*
 *Marking a return as filed.*
 
 **GST Filing Calendar** (`/gst/calendar`, menu **GST > Filing Calendar**). The due date of each return and period, with the status of each: not started, data ready, frozen or filed. Overdue items are shown.
@@ -1131,7 +1135,7 @@ The GST screens are in the **Transaction > GST** group. They cover the setup (se
 ![Import the portal file for reconciliation.](docs/images/129-gst-recon-import.png)
 *Import the portal file.*
 
-![Reconciliation results.](docs/images/130-gst-recon-results.png)
+*Screenshot not included in this release: needs a GSTR-2A/2B portal file imported first; the demo holds no portal file.*
 *Reconciliation results, with the match and unmatch actions.*
 
 **E-invoice and e-way bill** (`/gst/einvoice`, menu **GST > E-invoice and E-way Bill**). This is data for a connector, not a portal connection.
@@ -1190,10 +1194,10 @@ TDS is deducted on payments (section 7.1) and recorded as **deductions**. Deposi
 
 For integrators: the same data is available through the API (`GET /api/v1/tds/challans` and `GET /api/v1/tds/returns/26Q?format=csv`).
 
-![TDS challans through the API.](docs/images/79-tds-challans-api.png)
+*Screenshot not included in this release: a terminal window is needed and is not driven by the capture script.*
 *TDS challans through the API.*
 
-![TDS return data through the API.](docs/images/80-tds-returns-api.png)
+*Screenshot not included in this release: a terminal window is needed and is not driven by the capture script.*
 *TDS return data through the API.*
 
 ### 8.3 Forex, interest and budgets
@@ -1228,7 +1232,7 @@ To reopen a closed day, use **Reopen** on its row and give the reason.
 
 Posting to a closed day is refused:
 
-![A voucher on a closed day is refused.](docs/images/107-error-day-closed.png)
+*Screenshot not included in this release: needs a voucher dated in a closed day; not driven by this script yet.*
 *A posting to a closed day is refused.*
 
 **Year-End Close** (`/period/year`, menu **Administration > Year-End Close**). Close a financial year once it has ended and every voucher in it is authorized. The **Close year** button is disabled while vouchers are pending. Reopen a closed year from its row if you must. The screen also carries the **carry-forward** of balances to the next year: preview the balances, then carry them forward. Do this once per year, after the year's last day is closed.
@@ -1293,7 +1297,7 @@ The main reports:
 ![Cost Centre Summary.](docs/images/91-report-cost-centre-summary.png)
 *Cost Centre Summary.*
 
-![Budget Variance.](docs/images/92-report-budget-variance.png)
+*Screenshot not included in this release: the Budget Variance view is picked inside the Cost Centres and Budgets report (View as); not driven by this script yet.*
 *Budget Variance.*
 
 ### 9.2 Running a report
@@ -1309,7 +1313,7 @@ Financial reports also accept a split (by month, quarter, financial year or circ
 
 Click a figure in a report to see the vouchers behind it. The **Vouchers Behind a Figure** screen (`/reports/drill`) lists the voucher lines for that ledger, group or cell. Statements also drill down from a row.
 
-![Drilling down from a report figure.](docs/images/93-report-drill-down.png)
+*Screenshot not included in this release: needs a figure clicked inside a run report; not driven by this script yet.*
 *Drill-down from a report figure.*
 
 ### 9.4 Export and print
@@ -1320,7 +1324,7 @@ Every report has an **Export format** choice:
 - **Excel (.xlsx)**, with **Export Excel**.
 - **Print view (HTML)** and **Print view (PDF)**, with **Print**.
 
-![Export formats.](docs/images/149-export-format-options.png)
+*Screenshot not included in this release: the export format choice sits in the save-view dialog; not driven by this script yet.*
 *The export formats.*
 
 ![Exporting and printing a report.](docs/images/94-report-export-menu.png)
@@ -1333,7 +1337,7 @@ Every report has an **Export format** choice:
 ![Saved Reports.](docs/images/148-saved-reports.png)
 *Saved Reports.*
 
-![Saved report definitions through the API.](docs/images/95-saved-reports-api.png)
+*Screenshot not included in this release: a terminal window is needed and is not driven by the capture script.*
 *Saved report definitions through the API.*
 
 > **Reports that do not run.** A few catalogue rows are served by SQL Server Reporting Services and a few stored-procedure reports are not yet ported. The screen says "Not available yet" for them. Do not rely on them until the release notes say they are available.
@@ -1373,7 +1377,7 @@ Backups are taken from the command line. A backup is a PostgreSQL dump of the da
 - Copy each backup off this computer as well, and restrict access.
 - Back up `deasys.conf` separately. It holds the key and the connection. Without the key, sign-in tokens do not carry over to a restored system.
 
-![Taking a backup.](docs/images/97-backup-terminal.png)
+*Screenshot not included in this release: a terminal window is needed and is not driven by the capture script.*
 *Taking a backup.*
 
 **Restore** into an empty database:
@@ -1384,7 +1388,7 @@ Backups are taken from the command line. A backup is a PostgreSQL dump of the da
 
 Restore is refused when the database already holds DEASys tables. Use `--force` only when you mean to replace the database. After restoring a dump from an older version, run `migrate`.
 
-![Restoring a backup.](docs/images/98-restore-terminal.png)
+*Screenshot not included in this release: a terminal window is needed and is not driven by the capture script.*
 *Restoring a backup.*
 
 > **Backups and restore are commands in this release.** There is no screen for them yet. Test a restore into a spare database at least once a quarter.
@@ -1393,7 +1397,7 @@ Restore is refused when the database already holds DEASys tables. Use `--force` 
 
 The log is `deasys.log` in the logs folder. It is rotated at 20 MB or at the first write of a new day, and the newest 14 rotated files are kept. Passwords, keys and tokens are never logged; sign-in names and client addresses are. The installer log is `install.log`, and the database log is `postgres.log`.
 
-![The log folder.](docs/images/99-log-folder.png)
+*Screenshot not included in this release: a terminal window is needed and is not driven by the capture script.*
 *The log folder.*
 
 ### 10.5 Upgrades and migrations
@@ -1634,24 +1638,24 @@ This example uses the fictional demo company **Harbor Pine Trading Co.**, a trad
 
 | Name | Sign-in | Role | What they do |
 |---|---|---|---|
-| Asha Menon | admin | ADMIN | Administers the system |
-| Maya Rao | maya.rao | Junior Accountant | Makes vouchers and invoices |
-| Dev Iyer | dev.iyer | Senior Accountant | Checks them |
-| Priya Nair | priya.nair | CFO | Approves and authorizes |
-| Sam Patel | sam.patel | Audit | Reads reports (check the role's permissions first) |
+| Demo Admin | demo.admin | ADMIN | Administers the system |
+| Maker One | maker.one | Data Entry Level | Makes vouchers and invoices |
+| Checker One | checker.one | Senior Accountant | Checks them |
+| Approver One | approver.one | CFO | Approves and authorizes |
+| Viewer One | viewer.one | Audit | Reads reports (check the role's permissions first) |
 
-**Demo parties:** Bayside Hardware Ltd. (customer); Coastal Paper Supplies (vendor).
+**Demo parties:** Fennick Foods (Demo) (customer); Coastal Paper Supplies (vendor).
 
 **Walkthrough: from nothing to a paid invoice**
 
 1. **Install.** Run the installer (section 4.1). Open `http://localhost:8080`.
-2. **Bootstrap.** In the first-run wizard enter Harbor Pine Trading Co., Head Office, Asha Menon, admin, April, INR. Create (section 5.2). Sign in and change the password.
-3. **Set up.** Work through section 6: Invoice Settings (company GSTIN); GST Setup, GSTIN Registrations, Tax Ledger Mapping and HSN and SAC Rates (section 6.13); the chart of accounts; the users and their roles; numbering; the bank accounts; the customer Bayside Hardware Ltd.
-4. **Raise an invoice.** Maya Rao opens **Transaction > Sales Invoices > New**. Customer Bayside Hardware Ltd.; invoice date 2026-11-09; one line, "Office paper, A4, 80 gsm", quantity 2, rate 500.00, tax 18 per cent with the output tax ledger. The totals show 1,000.00 taxable and 180.00 tax, 1,180.00 in total. **Save draft**, then **Submit**.
-5. **Check.** Dev Iyer opens **My Task** and presses **Check**. To send one back, Dev gives a reason and rejects; the invoice returns to Draft.
-6. **Approve and post.** Priya Nair presses **Approve**, then **Post to ledger**. The invoice is Posted and has a voucher number.
-7. **Print and send.** Priya opens **Print view**, then **Mark as sent** after she sends it from her mail.
-8. **Receive payment.** Maya opens **Transaction > Receipts**, chooses Bayside Hardware Ltd., enters 1,180.00 into the bank ledger by bank transfer with the reference, and allocates it to the invoice. The invoice becomes Paid. Dev checks and Priya authorizes the receipt (note the second approval round in section 7.7).
+2. **Bootstrap.** In the first-run wizard enter Harbor Pine Trading Co., Head Office, Demo Admin, admin, April, INR. Create (section 5.2). Sign in and change the password.
+3. **Set up.** Work through section 6: Invoice Settings (company GSTIN); GST Setup, GSTIN Registrations, Tax Ledger Mapping and HSN and SAC Rates (section 6.13); the chart of accounts; the users and their roles; numbering; the bank accounts; the customer Fennick Foods (Demo)
+4. **Raise an invoice.** Maker One opens **Transaction > Sales Invoices > New**. Customer Fennick Foods (Demo); invoice date 2026-11-09; one line, "Office paper, A4, 80 gsm", quantity 2, rate 500.00, tax 18 per cent with the output tax ledger. The totals show 1,000.00 taxable and 180.00 tax, 1,180.00 in total. **Save draft**, then **Submit**.
+5. **Check.** Checker One opens **My Task** and presses **Check**. To send one back, Checker One gives a reason and rejects; the invoice returns to Draft.
+6. **Approve and post.** Approver One presses **Approve**, then **Post to ledger**. The invoice is Posted and has a voucher number.
+7. **Print and send.** Approver One opens **Print view**, then **Mark as sent** after she sends it from her mail.
+8. **Receive payment.** Maker One opens **Transaction > Receipts**, chooses Fennick Foods (Demo), enters 1,180.00 into the bank ledger by bank transfer with the reference, and allocates it to the invoice. The invoice becomes Paid. Checker One checks and Approver One authorizes the receipt (note the second approval round in section 7.7).
 9. **GST.** At month end, open **GST Returns**, pick the registration and the period, check the tie-out, and freeze. File at the portal, then **Mark as filed** (section 8.1). Reconcile the supplier file in **GSTR-2A/2B Reconciliation**.
 10. **Month end.** Upload the bank statement, process it and check the BRS (section 7.5). Run the trial balance and the debtors ageing (section 9).
 
@@ -1725,11 +1729,11 @@ Every image in this guide, in the order they were added to the manifest (`docs/s
 | 7 | [07-reports-menu.png](docs/images/07-reports-menu.png) | 2 | /reports | Reports: the report families, by group. |
 | 8 | [08-audit-log.png](docs/images/08-audit-log.png) | 2 | /audit | Audit Log: who changed what, newest first. |
 | 9 | [09-roles-permissions.png](docs/images/09-roles-permissions.png) | 2 | /rbac | Roles and Permissions: tick what each role may do. |
-| 10 | [10-installer-welcome.png](docs/images/10-installer-welcome.png) | 4 | Windows installer: first page | The Windows installer, first page. |
-| 11 | [11-installer-options.png](docs/images/11-installer-options.png) | 4 | Windows installer: install folder and service option | Choosing the install folder and running DEASys as a Windows service. |
-| 12 | [12-service-status.png](docs/images/12-service-status.png) | 4 | terminal: deasys-server service status | Checking the DEASys service from an elevated PowerShell window. |
-| 13 | [13-config-show.png](docs/images/13-config-show.png) | 4 | terminal: deasys-server config show | Checking the effective settings. Secrets are masked. |
-| 14 | [14-init-admin.png](docs/images/14-init-admin.png) | 5 | terminal: deasys-server init-admin | Creating the company, first branch and administrator from the command line. |
+| 10 | 10-installer-welcome.png (not in this release) | 4 | Windows installer: first page | The Windows installer, first page. |
+| 11 | 11-installer-options.png (not in this release) | 4 | Windows installer: install folder and service option | Choosing the install folder and running DEASys as a Windows service. |
+| 12 | 12-service-status.png (not in this release) | 4 | terminal: deasys-server service status | Checking the DEASys service from an elevated PowerShell window. |
+| 13 | 13-config-show.png (not in this release) | 4 | terminal: deasys-server config show | Checking the effective settings. Secrets are masked. |
+| 14 | 14-init-admin.png (not in this release) | 5 | terminal: deasys-server init-admin | Creating the company, first branch and administrator from the command line. |
 | 15 | [15-sign-in.png](docs/images/15-sign-in.png) | 5 | / (not signed in) | The sign-in page. |
 | 16 | [16-home-first-sign-in.png](docs/images/16-home-first-sign-in.png) | 5 | / | The home screen after the first sign-in. |
 | 17 | [17-change-password.png](docs/images/17-change-password.png) | 5 | /change-password | Changing your password. |
@@ -1757,23 +1761,23 @@ Every image in this guide, in the order they were added to the manifest (`docs/s
 | 39 | [39-gst-master-add.png](docs/images/39-gst-master-add.png) | 6 | /masters/gst (Add dialog open) | Adding a GST rate for an HSN or SAC code. |
 | 40 | [40-tax-ledger-invoice-line.png](docs/images/40-tax-ledger-invoice-line.png) | 6 | /sales/invoices/new | The tax ledger on an invoice line. |
 | 41 | [41-tds-payment-panel.png](docs/images/41-tds-payment-panel.png) | 6 | /vouchers/new/payment | The TDS panel on a payment voucher. |
-| 42 | [42-tds-masters-api.png](docs/images/42-tds-masters-api.png) | 6 | terminal: GET /api/v1/tds/sections and /api/v1/tds/deductors | TDS sections and the deductor, read through the API (API-only in this release). |
+| 42 | 42-tds-masters-api.png (not in this release) | 6 | terminal: GET /api/v1/tds/sections and /api/v1/tds/deductors | TDS sections and the deductor, read through the API (API-only in this release). |
 | 43 | [43-cheque-books.png](docs/images/43-cheque-books.png) | 6 | /cheques/books | Cheque Books: the cheque leaves of each bank account. |
 | 44 | [44-cheque-assign-print.png](docs/images/44-cheque-assign-print.png) | 6 | /cheques/assign | Cheque Assign and Print: issue a cheque number and print the cheque. |
 | 45 | [45-post-dated-cheques.png](docs/images/45-post-dated-cheques.png) | 6 | /cheques/post-dated | Post-dated Cheques: cheques waiting to clear. |
 | 46 | [46-receipt-form-empty.png](docs/images/46-receipt-form-empty.png) | 7 | /vouchers/new/receipt | A new receipt voucher, empty. |
-| 47 | [47-receipt-form-filled.png](docs/images/47-receipt-form-filled.png) | 7 | /vouchers/new/receipt | The receipt filled in: Bayside Hardware Ltd. pays into the bank. |
+| 47 | [47-receipt-form-filled.png](docs/images/47-receipt-form-filled.png) | 7 | /vouchers/new/receipt | The receipt filled in: Fennick Foods (Demo) pays into the bank. |
 | 48 | [48-contra-form.png](docs/images/48-contra-form.png) | 7 | /vouchers/new/contra | A contra voucher: moving money between cash and bank. |
 | 49 | [49-journal-voucher.png](docs/images/49-journal-voucher.png) | 7 | /vouchers/new/journal | A journal voucher in the line grid. |
-| 50 | [50-voucher-cost-split.png](docs/images/50-voucher-cost-split.png) | 7 | /vouchers/new/journal (cost split dialog open) | Splitting a voucher line across cost centres. |
+| 50 | 50-voucher-cost-split.png (not in this release) | 7 | /vouchers/new/journal (cost split dialog open) | Splitting a voucher line across cost centres. |
 | 51 | [51-all-vouchers.png](docs/images/51-all-vouchers.png) | 7 | /vouchers (menu: Transaction > All Vouchers) | All Vouchers: every voucher, filtered by status. |
 | 52 | [52-sales-invoice-empty.png](docs/images/52-sales-invoice-empty.png) | 7 | /sales/invoices/new | A new sales invoice, empty. |
 | 53 | [53-sales-invoice-filled.png](docs/images/53-sales-invoice-filled.png) | 7 | /sales/invoices/new | A sales invoice filled in, with totals. |
 | 54 | [54-invoice-submitted.png](docs/images/54-invoice-submitted.png) | 7 | /sales/invoices/:id | An invoice submitted for checking. |
 | 55 | [55-invoice-posted.png](docs/images/55-invoice-posted.png) | 7 | /sales/invoices/:id | A posted invoice with its voucher number. |
-| 56 | [56-invoice-reject-reason.png](docs/images/56-invoice-reject-reason.png) | 7 | /sales/invoices/:id (reject dialog open) | Rejecting an invoice: a reason is required. |
+| 56 | 56-invoice-reject-reason.png (not in this release) | 7 | /sales/invoices/:id (reject dialog open) | Rejecting an invoice: a reason is required. |
 | 57 | [57-invoice-print-view.png](docs/images/57-invoice-print-view.png) | 7 | /sales/invoices/:id (print view) | The printed invoice (print view). |
-| 58 | [58-invoice-attachments.png](docs/images/58-invoice-attachments.png) | 7 | /sales/invoices/:id (attachments) | Attachments on an invoice. |
+| 58 | 58-invoice-attachments.png (not in this release) | 7 | /sales/invoices/:id (attachments) | Attachments on an invoice. |
 | 59 | [59-credit-notes.png](docs/images/59-credit-notes.png) | 7 | /sales/credit-notes | Credit Notes: reductions against sales invoices. |
 | 60 | [60-credit-note-form.png](docs/images/60-credit-note-form.png) | 7 | /sales/credit-notes (New credit note dialog open) | A new credit note against an invoice. |
 | 61 | [61-receipts-allocation.png](docs/images/61-receipts-allocation.png) | 7 | /sales/receipts | Receipts: money received, set against invoices. |
@@ -1794,8 +1798,8 @@ Every image in this guide, in the order they were added to the manifest (`docs/s
 | 76 | [76-bank-process.png](docs/images/76-bank-process.png) | 7 | /bank-process | Bank Process: match uploaded lines to ledger entries. |
 | 77 | [77-bank-file-neft.png](docs/images/77-bank-file-neft.png) | 7 | /bank-file | Bank File: NEFT payments for the bank's upload file. |
 | 78 | [78-calc.png](docs/images/78-calc.png) | 7 | /calc | Calc: a quick calculator for amounts. |
-| 79 | [79-tds-challans-api.png](docs/images/79-tds-challans-api.png) | 8 | terminal: GET /api/v1/tds/challans | TDS challans recorded for the quarter (API-only in this release). |
-| 80 | [80-tds-returns-api.png](docs/images/80-tds-returns-api.png) | 8 | terminal: GET /api/v1/tds/returns/26Q?format=csv | TDS return data for review (API-only; not a filing file). |
+| 79 | 79-tds-challans-api.png (not in this release) | 8 | terminal: GET /api/v1/tds/challans | TDS challans recorded for the quarter (API-only in this release). |
+| 80 | 80-tds-returns-api.png (not in this release) | 8 | terminal: GET /api/v1/tds/returns/26Q?format=csv | TDS return data for review (API-only; not a filing file). |
 | 81 | [81-day-close.png](docs/images/81-day-close.png) | 8 | /period/day | Day Close: close a branch's day so that nothing more posts to it. |
 | 82 | [82-day-close-reopen.png](docs/images/82-day-close-reopen.png) | 8 | /period/day (Reopen day dialog open) | Reopening a closed day. |
 | 83 | [83-forex-revaluation.png](docs/images/83-forex-revaluation.png) | 8 | /forex/revaluation | Forex Revaluation: the gain or loss on foreign balances as of a date. |
@@ -1807,29 +1811,30 @@ Every image in this guide, in the order they were added to the manifest (`docs/s
 | 89 | [89-report-balance-sheet.png](docs/images/89-report-balance-sheet.png) | 9 | /reports (open Balance Sheet) | Balance Sheet. |
 | 90 | [90-report-debtors-ageing.png](docs/images/90-report-debtors-ageing.png) | 9 | /reports (open Debtors Ageing) | Debtors Ageing: what customers owe, by age. |
 | 91 | [91-report-cost-centre-summary.png](docs/images/91-report-cost-centre-summary.png) | 9 | /reports (open Cost Centre Summary) | Cost Centre Summary. |
-| 92 | [92-report-budget-variance.png](docs/images/92-report-budget-variance.png) | 9 | /reports (open Budget Variance) | Budget Variance: budget against actual to date. |
-| 93 | [93-report-drill-down.png](docs/images/93-report-drill-down.png) | 9 | /reports (a figure clicked to drill down) | Drilling down from a report figure to its vouchers. |
+| 92 | 92-report-budget-variance.png (not in this release) | 9 | /reports (open Budget Variance) | Budget Variance: budget against actual to date. |
+| 93 | 93-report-drill-down.png (not in this release) | 9 | /reports (a figure clicked to drill down) | Drilling down from a report figure to its vouchers. |
 | 94 | [94-report-export-menu.png](docs/images/94-report-export-menu.png) | 9 | /reports (a report open with its export controls) | Exporting a report and printing it. |
-| 95 | [95-saved-reports-api.png](docs/images/95-saved-reports-api.png) | 9 | terminal: GET /api/v1/reports/saved | Saved report definitions, read through the API (API-only). |
+| 95 | 95-saved-reports-api.png (not in this release) | 9 | terminal: GET /api/v1/reports/saved | Saved report definitions, read through the API (API-only). |
 | 96 | [96-user-edit-password-reset.png](docs/images/96-user-edit-password-reset.png) | 10 | /masters/users (Edit user dialog open) | Resetting another user's password. |
-| 97 | [97-backup-terminal.png](docs/images/97-backup-terminal.png) | 10 | terminal: deasys-server backup | Taking a backup of the database. |
-| 98 | [98-restore-terminal.png](docs/images/98-restore-terminal.png) | 10 | terminal: deasys-server restore | Restoring a backup into an empty database. |
-| 99 | [99-log-folder.png](docs/images/99-log-folder.png) | 10 | terminal: log folder listing | The log folder: deasys.log and the rotated files. |
+| 97 | 97-backup-terminal.png (not in this release) | 10 | terminal: deasys-server backup | Taking a backup of the database. |
+| 98 | 98-restore-terminal.png (not in this release) | 10 | terminal: deasys-server restore | Restoring a backup into an empty database. |
+| 99 | 99-log-folder.png (not in this release) | 10 | terminal: log folder listing | The log folder: deasys.log and the rotated files. |
 | 100 | [100-about.png](docs/images/100-about.png) | 10 | /about | About DEASys: the version and the licence. |
 | 101 | [101-api-key-created.png](docs/images/101-api-key-created.png) | 11 | /admin/integrations/keys (Create an integration key, then the key shown once) | Creating an integration key: the secret is shown once. |
 | 102 | [102-api-key-list.png](docs/images/102-api-key-list.png) | 11 | /admin/integrations/keys | Integration Keys: prefix, source system, status; the secret is never shown again. |
 | 103 | [103-inbox-list.png](docs/images/103-inbox-list.png) | 11 | /admin/integrations/inbox | Integration Inbox: messages with status, and the reasons for rejected ones. |
 | 104 | [104-webhook-create.png](docs/images/104-webhook-create.png) | 11 | /admin/integrations/webhooks (new subscription) | Creating a webhook subscription: the signing secret is shown once. |
 | 105 | [105-webhook-deliveries.png](docs/images/105-webhook-deliveries.png) | 11 | /admin/integrations/webhooks (Deliveries of a subscription) | Webhook deliveries and their attempts. |
-| 106 | [106-error-unbalanced-journal.png](docs/images/106-error-unbalanced-journal.png) | 12 | /vouchers/new/journal (after Submit with unequal lines) | A voucher that does not balance is refused. |
-| 107 | [107-error-day-closed.png](docs/images/107-error-day-closed.png) | 12 | /vouchers/new/payment (a date in a closed day) | Posting to a closed day is refused. |
+| 106 | 106-error-unbalanced-journal.png (not in this release) | 12 | /vouchers/new/journal (after Submit with unequal lines) | A voucher that does not balance is refused. |
+| 107 | 107-error-day-closed.png (not in this release) | 12 | /vouchers/new/payment (a date in a closed day) | Posting to a closed day is refused. |
 | 108 | [108-error-sign-in-locked.png](docs/images/108-error-sign-in-locked.png) | 12 | / (sign-in after repeated failed attempts) | Sign-in is paused after repeated failed attempts. |
 | 109 | [109-first-run-welcome.png](docs/images/109-first-run-welcome.png) | 5 | first-run wizard: Welcome (no user exists yet, before sign-in) | First-run wizard, step 1: Welcome. |
-| 110 | [110-first-run-organisation.png](docs/images/110-first-run-organisation.png) | 5 | first-run wizard: Organisation (step 2) | First-run wizard: the organisation name. |
-| 111 | [111-first-run-branch.png](docs/images/111-first-run-branch.png) | 5 | first-run wizard: First branch (step 3) | First-run wizard: the first branch (centre). |
-| 112 | [112-first-run-administrator.png](docs/images/112-first-run-administrator.png) | 5 | first-run wizard: Administrator (step 4) | First-run wizard: the administrator and the password rules. |
-| 113 | [113-first-run-financial-year.png](docs/images/113-first-run-financial-year.png) | 5 | first-run wizard: Financial year and currency (step 5) | First-run wizard: financial-year start and base currency. |
-| 114 | [114-first-run-review.png](docs/images/114-first-run-review.png) | 5 | first-run wizard: Review (step 6) | First-run wizard: review, then Create. |
+| 110 | [110-first-run-organisation.png](docs/images/110-first-run-organisation.png) | 5 | first-run wizard: Organisation (step 3) | First-run wizard: the organisation name. |
+| 155 | [155-first-run-terms.png](docs/images/155-first-run-terms.png) | 5 | first-run wizard: Terms and conditions (step 2) |  The first-run wizard: the terms and conditions, which must be read and accepted before the set-up continues. |
+| 111 | [111-first-run-branch.png](docs/images/111-first-run-branch.png) | 5 | first-run wizard: First branch (step 4) | First-run wizard: the first branch (centre). |
+| 112 | [112-first-run-administrator.png](docs/images/112-first-run-administrator.png) | 5 | first-run wizard: Administrator (step 5) | First-run wizard: the administrator and the password rules. |
+| 113 | [113-first-run-financial-year.png](docs/images/113-first-run-financial-year.png) | 5 | first-run wizard: Financial year and currency (step 6) | First-run wizard: financial-year start and base currency. |
+| 114 | [114-first-run-review.png](docs/images/114-first-run-review.png) | 5 | first-run wizard: Review (step 7) | First-run wizard: review, then Create. |
 | 115 | [115-next-steps.png](docs/images/115-next-steps.png) | 6 | /next-steps (opened by URL in this release; no menu item yet) | Next steps: the setup checklist after the first start, each item opens its screen. |
 | 116 | [116-gst-setup.png](docs/images/116-gst-setup.png) | 6 | /gst/setup (menu: Transaction > GST > GST Setup) | GST setup: turn GST on for the company and set the round-off rule. |
 | 117 | [117-gst-registrations.png](docs/images/117-gst-registrations.png) | 6 | /gst/registrations (menu: GST > GSTIN Registrations) | GSTIN registrations: the GSTIN of the company and its branches, with the period each is valid. |
@@ -1840,12 +1845,12 @@ Every image in this guide, in the order they were added to the manifest (`docs/s
 | 122 | [122-gst-payment-challans.png](docs/images/122-gst-payment-challans.png) | 8 | /gst/itc/challans (menu: GST > Payment Challans) | GST payment challans: record a payment from the credit ledgers and cash. |
 | 123 | [123-gst-non-payment.png](docs/images/123-gst-non-payment.png) | 8 | /gst/itc/non-payment (menu: GST > Non-payment (180 days)) | Non-payment exceptions: purchase credit unpaid after 180 days. |
 | 124 | [124-gst-returns.png](docs/images/124-gst-returns.png) | 8 | /gst/returns (menu: GST > GST Returns) | GST returns: the tie-out checks for a return and period. |
-| 125 | [125-gst-return-filed.png](docs/images/125-gst-return-filed.png) | 8 | /gst/returns (Mark as filed dialog open) | Marking a frozen return as filed. |
+| 125 | 125-gst-return-filed.png (not in this release) | 8 | /gst/returns (Mark as filed dialog open) | Marking a frozen return as filed. |
 | 126 | [126-gst-filing-calendar.png](docs/images/126-gst-filing-calendar.png) | 8 | /gst/calendar (menu: GST > Filing Calendar) | GST filing calendar: due dates by return and period, with status. |
 | 127 | [127-gst-late-fee.png](docs/images/127-gst-late-fee.png) | 8 | /gst/calculators (menu: GST > Late Fee and Interest) | Late fee and interest calculators. |
 | 128 | [128-gstin-check.png](docs/images/128-gstin-check.png) | 8 | /gst/gstin (menu: GST > GSTIN Check) | GSTIN check: the shape and check character of a GSTIN. |
 | 129 | [129-gst-recon-import.png](docs/images/129-gst-recon-import.png) | 8 | /gst/recon (menu: GST > GSTR-2A/2B Reconciliation): Import the portal file | GSTR-2A or 2B reconciliation: import the portal JSON. |
-| 130 | [130-gst-recon-results.png](docs/images/130-gst-recon-results.png) | 8 | /gst/recon (Results and Match to a purchase bill) | GSTR-2A and 2B reconciliation results, with a match to a purchase bill. |
+| 130 | 130-gst-recon-results.png (not in this release) | 8 | /gst/recon (Results and Match to a purchase bill) | GSTR-2A and 2B reconciliation results, with a match to a purchase bill. |
 | 131 | [131-einvoice-pending.png](docs/images/131-einvoice-pending.png) | 8 | /gst/einvoice (menu: GST > E-invoice and E-way Bill): E-invoice pending | E-invoice pending: sales invoices that need an IRN, with the problems that stop them. |
 | 132 | [132-einvoice-payload.png](docs/images/132-einvoice-payload.png) | 8 | /gst/einvoice/:invoiceId (E-invoice for an invoice) | E-invoice payload and IRN result for one invoice. |
 | 133 | [133-eway-bill.png](docs/images/133-eway-bill.png) | 8 | /gst/einvoice (E-way bill section) | E-way bill: payload and the result from the connector. |
@@ -1864,8 +1869,8 @@ Every image in this guide, in the order they were added to the manifest (`docs/s
 | 146 | [146-tds-exceptions.png](docs/images/146-tds-exceptions.png) | 8 | /tds/exceptions (menu: Transaction > TDS Exceptions) | TDS exceptions: late or short deposits to check before filing. |
 | 147 | [147-integration-how-to-connect.png](docs/images/147-integration-how-to-connect.png) | 11 | /admin/integrations/connect (menu: Administration > How to Connect) | How to Connect: the steps for an integrator, with examples. |
 | 148 | [148-saved-reports.png](docs/images/148-saved-reports.png) | 9 | /reports/saved (menu: Reports > Saved Reports) | Saved Reports: report views kept with their filters. |
-| 149 | [149-export-format-options.png](docs/images/149-export-format-options.png) | 9 | /reports (a report open; Export format dropdown) | Export formats: CSV, Excel (.xlsx), Print view (HTML) and Print view (PDF). |
-| 150 | [150-drill-down-statement.png](docs/images/150-drill-down-statement.png) | 9 | /sales/statement (a row clicked to drill down) | Drilling down from a statement row to its voucher lines. |
+| 149 | 149-export-format-options.png (not in this release) | 9 | /reports (a report open; Export format dropdown) | Export formats: CSV, Excel (.xlsx), Print view (HTML) and Print view (PDF). |
+| 150 | 150-drill-down-statement.png (not in this release) | 9 | /sales/statement (a row clicked to drill down) | Drilling down from a statement row to its voucher lines. |
 | 151 | [151-menu-gst-group.png](docs/images/151-menu-gst-group.png) | 6 | / (left menu, Transaction section, GST group expanded) | The GST group in the Transaction menu. |
 | 152 | [152-menu-administration-section.png](docs/images/152-menu-administration-section.png) | 6 | / (left menu, Administration section) | The Administration section of the menu. |
 | 153 | [153-masters-index.png](docs/images/153-masters-index.png) | 6 | /masters (menu: Masters) | Masters: the master lists of the company. |

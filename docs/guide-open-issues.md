@@ -31,9 +31,9 @@ Status after the UI update (webtally-ui master daad953, packaging in webtally-co
 4. **Receipts and credit and debit notes take a second approval round.** Notes and receipts still post a Draft voucher at approval (unfinished-features.md item 11). Make it one authorize step.
 5. **Cancelling a posted invoice** posts a draft reversal that goes through the voucher workflow again (item 12).
 6. **Audit gaps.** Not logged: entity-bank mapping, GST rate changes, ledger request approve and reject. Drafts are not logged, by design.
-7. **Attachments have no antivirus scan** (server README). Block external uploads until a scanner is in place.
+7. **Attachments have no antivirus scan** (server README). Block external uploads until antivirus protection is in place.
 8. **Reports marked "Not available yet"** (SSRS rows and unported stored procedures). unfinished-features.md items 2 to 5 say to hide them. Not verified in this pass whether they are still listed.
-9. **"Others" voucher type (voucher_type 5)** has no menu entry.
+9. **The voucher type numbered 5 (voucher_type 5)** has no menu entry.
 10. **Two kinds of voucher forms.** Receipt, payment and contra have purpose-built forms; the other types use the line grid. Explain on screen which to use.
 11. **Roles seeded with legacy names** (CFO, AGM, Sr.Manager, Senior Accountant, Junior Accountant, Data Entry Level, Audit). No Viewer role and no maker, checker or approver role. The demo users use these roles.
 12. **Next steps is not in the menu.** `/next-steps` is reachable only by its address. Add a menu item or a link from Home.

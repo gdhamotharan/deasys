@@ -6,7 +6,7 @@
     "Capture from a fresh install loaded with the fictional demo company only. Never capture from a real database.",
     "Output folder: docs/images/. File names are stable; the README embeds them as docs/images/NN-name.png.",
     "A user value 'terminal' means a terminal capture (PowerShell or Command Prompt window, the command and its output visible). Do not fake output.",
-    "Demo users (see docs/guide/demo-data in the README, section 13): admin = ADMIN role (Asha Menon, login admin); maker = Junior Accountant (Maya Rao); checker = Senior Accountant (Dev Iyer); approver = CFO (Priya Nair); viewer = Audit role (Sam Patel) with read-only permissions. Verify the viewer's permissions before capture.",
+    "Demo users (see docs/guide/demo-data in the README, section 13): admin = ADMIN role (Demo Admin, login admin); maker = Data Entry Level (Maker One); checker = Senior Accountant (Checker One); approver = CFO (Approver One); viewer = Audit role (Viewer One) with read-only permissions. Verify the viewer's permissions before capture.",
     "Entries marked 'API-only' have no screen in this release: capture the terminal output of the command shown in the notes.",
     "Entries whose screen does not exist or is not reachable are listed in docs/guide-open-issues.md; capture them only if the screen exists when you run this."
   ],
@@ -288,7 +288,7 @@
       "user": "maker",
       "section": 6,
       "caption": "New customer: name, GSTIN, addresses and payment terms.",
-      "notes": "Bayside Hardware Ltd. entered. Show the GSTIN and payment-terms fields."
+      "notes": "Fennick Foods (Demo) entered. Show the GSTIN and payment-terms fields."
     },
     {
       "id": "32-vendors",
@@ -431,7 +431,7 @@
       "screen": "/vouchers/new/receipt",
       "user": "maker",
       "section": 7,
-      "caption": "The receipt filled in: Bayside Hardware Ltd. pays into the bank.",
+      "caption": "The receipt filled in: Fennick Foods (Demo) pays into the bank.",
       "notes": "Mode Bank transfer or Cheque; reference filled; narration filled."
     },
     {
@@ -486,7 +486,7 @@
       "user": "maker",
       "section": 7,
       "caption": "A sales invoice filled in, with totals.",
-      "notes": "Customer Bayside Hardware Ltd.; one line 2 nos at 500.00 with an 18 per cent tax ledger; Totals box shows 1,180.00."
+      "notes": "Customer Fennick Foods (Demo); one line 2 nos at 500.00 with an 18 per cent tax ledger; Totals box shows 1,180.00."
     },
     {
       "id": "54-invoice-submitted",
@@ -990,12 +990,12 @@
       "user": "none",
       "section": 5,
       "caption": "First-run wizard, step 1: Welcome.",
-      "notes": "Step 1 of 6 with the progress bar. Start button visible."
+      "notes": "Step 1 of 7 with the progress bar. Start button visible."
     },
     {
       "id": "110-first-run-organisation",
       "file": "110-first-run-organisation.png",
-      "screen": "first-run wizard: Organisation (step 2)",
+      "screen": "first-run wizard: Organisation (step 3)",
       "user": "none",
       "section": 5,
       "caption": "First-run wizard: the organisation name.",
@@ -1004,7 +1004,7 @@
     {
       "id": "111-first-run-branch",
       "file": "111-first-run-branch.png",
-      "screen": "first-run wizard: First branch (step 3)",
+      "screen": "first-run wizard: First branch (step 4)",
       "user": "none",
       "section": 5,
       "caption": "First-run wizard: the first branch (centre).",
@@ -1013,7 +1013,7 @@
     {
       "id": "112-first-run-administrator",
       "file": "112-first-run-administrator.png",
-      "screen": "first-run wizard: Administrator (step 4)",
+      "screen": "first-run wizard: Administrator (step 5)",
       "user": "none",
       "section": 5,
       "caption": "First-run wizard: the administrator and the password rules.",
@@ -1022,7 +1022,7 @@
     {
       "id": "113-first-run-financial-year",
       "file": "113-first-run-financial-year.png",
-      "screen": "first-run wizard: Financial year and currency (step 5)",
+      "screen": "first-run wizard: Financial year and currency (step 6)",
       "user": "none",
       "section": 5,
       "caption": "First-run wizard: financial-year start and base currency.",
@@ -1031,11 +1031,20 @@
     {
       "id": "114-first-run-review",
       "file": "114-first-run-review.png",
-      "screen": "first-run wizard: Review (step 6)",
+      "screen": "first-run wizard: Review (step 7)",
       "user": "none",
       "section": 5,
       "caption": "First-run wizard: review, then Create.",
       "notes": "Nothing is saved until Create is pressed; the Create button visible."
+    },
+    {
+      "id": "155-first-run-terms",
+      "file": "155-first-run-terms.png",
+      "screen": "first-run wizard: Terms and conditions (step 2, read and accepted with the checkbox)",
+      "user": "none",
+      "section": 5,
+      "caption": "The first-run wizard: the terms and conditions, which must be read and accepted before the set-up continues.",
+      "notes": "Terms text with the checkbox ticked, Back and Next buttons visible. Captured by tools/screenshots/wizard.mjs."
     },
     {
       "id": "115-next-steps",
@@ -1224,7 +1233,7 @@
       "user": "maker",
       "section": 6,
       "caption": "Customer GST profile: GSTIN, registration type and place of supply.",
-      "notes": "The GST tab open for Bayside Hardware Ltd."
+      "notes": "The GST tab open for Fennick Foods (Demo)"
     },
     {
       "id": "136-invoice-irn-block",
