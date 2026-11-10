@@ -1,0 +1,14 @@
+# Local configuration and secrets (never publish)
+deasys.conf
+*.conf
+!docs/**/*.conf
+
+# Backups, logs and build output (the release files in bin/ are published on purpose)
+*.dump
+*.log
+logs/
+dist-release/
+
+# OS noise
+.DS_Store
+Thumbs.db

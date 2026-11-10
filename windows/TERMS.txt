@@ -1,0 +1,192 @@
+DRAFT FOR LEGAL REVIEW - NOT YET APPROVED FOR RELEASE
+=====================================================
+
+DEASYS TERMS AND CONDITIONS
+Version: 2026-11-10-draft
+
+DEASys is provided by Creative Global Financial Solutions (the "Licensor", "we"). These terms apply
+to DEASys (the "Software"). Please read all of them before you install or use the Software. The
+Software is also licensed under the DEASys Freeware Licence in LICENSE.txt, which forms part of
+these terms. If the two ever conflict on a point of licence, the Freeware Licence governs that
+point. Everything else in these terms applies in addition to it.
+
+The first-run screen and the installer ask you to accept these terms. Nothing else in the Software
+accepts them for you.
+
+
+1. ACCEPTANCE
+
+1.1 By installing or using the Software you agree to these terms.
+
+1.2 If you do not agree to these terms, do not install or use the Software. Uninstall it if you have
+    already installed it (see the uninstall section of README-FIRST.txt).
+
+1.3 The person who completes the first-run set-up or the console set-up (init-admin) accepts these
+    terms for the organisation that will use the Software. That person must have the authority to do
+    so.
+
+1.4 The Software records each acceptance: the version of these terms, the date and time (UTC), the
+    sign-in name of the administrator, and how the acceptance was given. The record is kept in the
+    database and in the audit log.
+
+1.5 When the version of these terms changes, you will be asked to accept the new version. See
+    section 10.
+
+
+2. LICENCE
+
+2.1 You may use the Software free of charge, including for commercial use in your own business, as
+    set out in LICENSE.txt, section 2.
+
+2.2 You receive the Software in binary (compiled) form only. Source code is not supplied and is not
+    part of this licence.
+
+2.3 You may copy the Software and pass it on to others, free of charge, only if you keep it complete
+    and unmodified and pass on these terms and the notices in LICENSE.txt, section 7.
+
+2.4 The Licensor keeps all rights not granted here.
+
+
+3. RESTRICTIONS
+
+3.1 You must not:
+    (a) change, adapt or create a derivative of the Software, or combine it with other software so
+        as to change it, except where the law allows despite this restriction;
+    (b) reverse engineer, decompile or disassemble the Software, or try to get its source code,
+        except where the law allows despite this restriction;
+    (c) remove or change any copyright, licence or attribution notice;
+    (d) rent, lease, lend or sell the Software, or run it as a hosted service for third parties for
+        a fee, without a separate written agreement with the Licensor;
+    (e) remove the product name or the Licensor's name, or present a changed copy as the Software.
+
+3.2 The full list is in LICENSE.txt, section 3. If there is any difference, LICENSE.txt governs.
+
+
+4. NOT ACCOUNTING, TAX OR LEGAL ADVICE
+
+4.1 The Software is a tool. It is not accounting, tax, payroll or legal advice, and it does not
+    replace a qualified professional.
+
+4.2 Tax rates, thresholds, due dates, section numbers, forms and file formats used for GST, TDS,
+    TCS, e-invoice, e-way bill and return data are supplied as editable defaults. They may be out of
+    date or wrong for your case. You must check every one of them with a qualified adviser before
+    you rely on it.
+
+4.3 Return data and JSON files that the Software produces are for your review. They are not
+    validated by any government portal, and the Software does not file anything for you.
+
+4.4 Filings, payments and other statutory compliance remain your responsibility. Check every output
+    against the law, against your records and with your adviser before you file, pay or sign
+    anything.
+
+
+5. YOUR DATA AND PRIVACY
+
+5.1 All of your data stays on your own computer or your own server. The Software stores it there.
+
+5.2 The Software does not send your data to the Licensor or to anyone else. It has no telemetry (no
+    usage reporting) and no online licence check. It works without a licence server.
+
+5.3 The only network access the Software makes is what you configure: the connection to your
+    database, any webhooks you create that send data to addresses you choose, and the one-time
+    download of PostgreSQL during installation (only when you choose the bundled database and no
+    PostgreSQL programs are present; see section 7).
+
+5.4 You are responsible for the security of the computer and the database, for who can reach the web
+    address, for passwords and keys, for access control between your users, for retention and
+    deletion of data, and for complying with data protection and privacy law where you operate.
+
+5.5 If you allow other computers to reach the Software, you are responsible for protecting that
+    access (for example with a TLS proxy). The Software does not encrypt the web connection itself.
+
+
+6. BACKUPS AND LOSS OF DATA
+
+6.1 You are responsible for backing up your data, for storing backups safely and for testing that
+    you can restore them. The Software provides a backup command and the installer backs up the
+    database before an upgrade, but these do not replace your own backup routine.
+
+6.2 Backups contain your data, password hashes and the audit trail. Keep them private.
+
+6.3 Data can be lost through hardware failure, software errors, mistakes by users, malware, or other
+    causes. The Licensor is not responsible for data that is lost, damaged or not recoverable.
+
+
+7. THIRD-PARTY SOFTWARE
+
+7.1 The Software includes or uses third-party software. Each part stays under its own licence, and
+    that licence applies to that part. The main ones are listed in LICENSE.txt, section 7, with
+    their licence text or summary:
+    (a) PostgreSQL database server (PostgreSQL Licence): https://www.postgresql.org/about/licence/
+    (b) the Go programming language and standard library (BSD 3-Clause): https://go.dev/LICENSE
+    (c) Go modules and libraries used by the server, including jackc/pgx (MIT) and golang-jwt (MIT)
+    (d) the web interface libraries, including React, Vite and Tailwind CSS (mostly MIT)
+
+7.2 The bundled PostgreSQL is downloaded once during installation, from the address stated in the
+    installer configuration, and its checksum is checked before use. It is then run on your computer
+    under its own licence.
+
+7.3 Nothing in these terms limits any right you have under a third-party licence.
+
+7.4 Microsoft Windows, Inno Setup and PowerShell are the property of their owners and are not
+    supplied with the Software.
+
+
+8. NO WARRANTY
+
+8.1 The Software is provided "AS IS", without warranty of any kind, express or implied, including
+    warranties of merchantability, fitness for a particular purpose and non-infringement. This is
+    the same as LICENSE.txt, section 4.
+
+8.2 The Licensor does not promise that the Software is free of errors, that it will meet your needs,
+    or that its calculations (including tax, GST, TDS and return data) are correct for your
+    circumstances.
+
+
+9. LIMITATION OF LIABILITY
+
+9.1 To the maximum extent the law allows, the Licensor is not liable for loss of data, profit,
+    business, goodwill or revenue, or for indirect, incidental, special, consequential or punitive
+    loss, arising from the use of or inability to use the Software.
+
+9.2 Where liability cannot be excluded by law, the Licensor's total liability is limited to the
+    amount in LICENSE.txt, section 5 (INR 1,000).
+
+9.3 [LEGAL REVIEW: confirm the cap, whether it is enforceable for the intended users, any carve-outs
+    the law requires, and the courts that hear claims. Do not release until this is settled.]
+
+
+10. UPDATES AND CHANGES
+
+10.1 The Licensor may publish new versions of the Software and of these terms. Each version of these
+     terms has a version number, shown at the top of this text.
+
+10.2 When the version of these terms changes, the Software asks the administrator to read and accept
+     the new version before the next installation, upgrade or first-run set-up that needs an
+     acceptance. Using a version you have already accepted does not change that.
+
+10.3 A copy of these terms you received stays valid for the version it names.
+
+
+11. TERMINATION
+
+11.1 Your licence ends automatically if you break these terms. When it ends you must stop using the
+     Software and remove all copies of it that you hold.
+
+11.2 You may end your licence at any time by uninstalling the Software and destroying your copies.
+
+11.3 Sections 4, 5, 6, 8, 9, 12 and 13 continue to apply after your licence ends.
+
+
+12. GOVERNING LAW
+
+12.1 [LEGAL REVIEW: placeholder. The governing law and the courts or arbitration that apply are to
+     be decided by the lawyer. LICENSE.txt, section 8 currently names the laws of India; confirm
+     it.]
+
+
+13. CONTACT
+
+13.1 [PLACEHOLDER: the Licensor's postal address, email address for legal notices and support
+     address go here before release. Creative Global Financial Solutions.]
+

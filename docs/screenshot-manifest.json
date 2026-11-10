@@ -1,0 +1,1401 @@
+{
+  "product": "DEASys",
+  "version": "0.1.0",
+  "demoCompany": "Harbor Pine Trading Co. (fictional)",
+  "rules": [
+    "Capture from a fresh install loaded with the fictional demo company only. Never capture from a real database.",
+    "Output folder: docs/images/. File names are stable; the README embeds them as docs/images/NN-name.png.",
+    "A user value 'terminal' means a terminal capture (PowerShell or Command Prompt window, the command and its output visible). Do not fake output.",
+    "Demo users (see docs/guide/demo-data in the README, section 13): admin = ADMIN role (Asha Menon, login admin); maker = Junior Accountant (Maya Rao); checker = Senior Accountant (Dev Iyer); approver = CFO (Priya Nair); viewer = Audit role (Sam Patel) with read-only permissions. Verify the viewer's permissions before capture.",
+    "Entries marked 'API-only' have no screen in this release: capture the terminal output of the command shown in the notes.",
+    "Entries whose screen does not exist or is not reachable are listed in docs/guide-open-issues.md; capture them only if the screen exists when you run this."
+  ],
+  "screenshots": [
+    {
+      "id": "01-home",
+      "file": "01-home.png",
+      "screen": "/",
+      "user": "admin",
+      "section": 2,
+      "caption": "The home screen: your waiting work, notices and quick links.",
+      "notes": "Greeting with the user's name, the Notices card, Your profile and Quick links cards visible."
+    },
+    {
+      "id": "02-sales-invoices-list",
+      "file": "02-sales-invoices-list.png",
+      "screen": "/sales/invoices",
+      "user": "maker",
+      "section": 2,
+      "caption": "Sales Invoices: the register with status badges.",
+      "notes": "Rows in at least three statuses (Draft, Posted, Part paid or Paid). Filter bar and Search visible."
+    },
+    {
+      "id": "03-payment-voucher-filled",
+      "file": "03-payment-voucher-filled.png",
+      "screen": "/vouchers/new/payment",
+      "user": "maker",
+      "section": 2,
+      "caption": "A payment voucher, filled in before saving.",
+      "notes": "Paid to, Paid from, Amount, Mode, Date, Narration and the Save Draft / Submit for Approval buttons visible."
+    },
+    {
+      "id": "04-my-task-list",
+      "file": "04-my-task-list.png",
+      "screen": "/tasks",
+      "user": "checker",
+      "section": 2,
+      "caption": "My Task: the vouchers waiting for your action.",
+      "notes": "At least two rows with different waiting states; the list header shows the Status filter."
+    },
+    {
+      "id": "05-bank-reconciliation",
+      "file": "05-bank-reconciliation.png",
+      "screen": "/brs",
+      "user": "admin",
+      "section": 2,
+      "caption": "Bank Reconciliation (BRS): cleared and not-yet-reflected entries.",
+      "notes": "A bank ledger chosen, a date range, and at least one cleared and one not-yet-reflected entry."
+    },
+    {
+      "id": "06-gst-master",
+      "file": "06-gst-master.png",
+      "screen": "/masters/gst (menu: Transaction > GST > HSN and SAC Rates)",
+      "user": "admin",
+      "section": 2,
+      "caption": "HSN and SAC Rates: codes with their rates by effective period.",
+      "notes": "The GST rates card with several rows, one of them obsolete."
+    },
+    {
+      "id": "07-reports-menu",
+      "file": "07-reports-menu.png",
+      "screen": "/reports",
+      "user": "admin",
+      "section": 2,
+      "caption": "Reports: the report families, by group.",
+      "notes": "Group headings and family titles visible. Search box visible."
+    },
+    {
+      "id": "08-audit-log",
+      "file": "08-audit-log.png",
+      "screen": "/audit",
+      "user": "admin",
+      "section": 2,
+      "caption": "Audit Log: who changed what, newest first.",
+      "notes": "Entries for a voucher submit, a user change and a ledger change; the filter fields visible."
+    },
+    {
+      "id": "09-roles-permissions",
+      "file": "09-roles-permissions.png",
+      "screen": "/rbac",
+      "user": "admin",
+      "section": 2,
+      "caption": "Roles and Permissions: tick what each role may do.",
+      "notes": "A role selected in the Roles list; permissions list with ticks; the Recent changes card below."
+    },
+    {
+      "id": "10-installer-welcome",
+      "file": "10-installer-welcome.png",
+      "screen": "Windows installer: first page",
+      "user": "admin",
+      "section": 4,
+      "caption": "The Windows installer, first page.",
+      "notes": "Installer from the release (packaging\\windows). If the installer is not ready when you capture, capture the zip route instead (terminal, extracting the zip) and note it in the open issues."
+    },
+    {
+      "id": "11-installer-options",
+      "file": "11-installer-options.png",
+      "screen": "Windows installer: install folder and service option",
+      "user": "admin",
+      "section": 4,
+      "caption": "Choosing the install folder and running DEASys as a Windows service.",
+      "notes": "Install folder shown; service option visible. Same caveat as 10."
+    },
+    {
+      "id": "12-service-status",
+      "file": "12-service-status.png",
+      "screen": "terminal: deasys-server service status",
+      "user": "admin",
+      "section": 4,
+      "caption": "Checking the DEASys service from an elevated PowerShell window.",
+      "notes": "terminal. Command typed in an Administrator PowerShell; output shows the service state."
+    },
+    {
+      "id": "13-config-show",
+      "file": "13-config-show.png",
+      "screen": "terminal: deasys-server config show",
+      "user": "admin",
+      "section": 4,
+      "caption": "Checking the effective settings. Secrets are masked.",
+      "notes": "terminal. The database password must show as **** and the key as its length."
+    },
+    {
+      "id": "14-init-admin",
+      "file": "14-init-admin.png",
+      "screen": "terminal: deasys-server init-admin",
+      "user": "admin",
+      "section": 5,
+      "caption": "Creating the company, first branch and administrator from the command line.",
+      "notes": "Command-line alternative to the first-run wizard. terminal. Prompts visible: organisation name, branch, administrator name, sign-in name, password (not echoed), financial-year start, base currency."
+    },
+    {
+      "id": "15-sign-in",
+      "file": "15-sign-in.png",
+      "screen": "/ (not signed in)",
+      "user": "admin",
+      "section": 5,
+      "caption": "The sign-in page.",
+      "notes": "When no user exists the first-run wizard shows here instead (see 109 to 114). This is the sign-in page once users exist."
+    },
+    {
+      "id": "16-home-first-sign-in",
+      "file": "16-home-first-sign-in.png",
+      "screen": "/",
+      "user": "admin",
+      "section": 5,
+      "caption": "The home screen after the first sign-in.",
+      "notes": "Admin's name, role ADMIN, and the Admin section in the left menu."
+    },
+    {
+      "id": "17-change-password",
+      "file": "17-change-password.png",
+      "screen": "/change-password",
+      "user": "admin",
+      "section": 5,
+      "caption": "Changing your password.",
+      "notes": "Current password, New password and Repeat new password fields."
+    },
+    {
+      "id": "18-invoice-settings",
+      "file": "18-invoice-settings.png",
+      "screen": "/invoice-settings",
+      "user": "admin",
+      "section": 6,
+      "caption": "Invoice Settings: the company block printed on invoices, GSTIN, write-off and numbering.",
+      "notes": "Company GSTIN and the company name/address fields; write-off threshold visible."
+    },
+    {
+      "id": "19-centre-master",
+      "file": "19-centre-master.png",
+      "screen": "/masters/centres",
+      "user": "admin",
+      "section": 6,
+      "caption": "Centre Master: the branches of the company (read only in this release).",
+      "notes": "Head Office and at least one more branch of the demo company."
+    },
+    {
+      "id": "20-group-master",
+      "file": "20-group-master.png",
+      "screen": "/masters/groups",
+      "user": "admin",
+      "section": 6,
+      "caption": "Group Master: the account groups that make up the chart of accounts.",
+      "notes": "Groups with their nature (asset, liability, income, expense) visible."
+    },
+    {
+      "id": "21-ledger-master",
+      "file": "21-ledger-master.png",
+      "screen": "/masters/ledgers",
+      "user": "admin",
+      "section": 6,
+      "caption": "Ledger Master: every ledger, its group and its status.",
+      "notes": "Search box and columns Id, Ledger, Group, Category, Bill-wise, Status."
+    },
+    {
+      "id": "22-new-ledger-request",
+      "file": "22-new-ledger-request.png",
+      "screen": "/ledger-request/new",
+      "user": "maker",
+      "section": 6,
+      "caption": "New Ledger Request: asking for a new ledger.",
+      "notes": "Form filled with a demo ledger (for example Freight Outward under Indirect Expenses)."
+    },
+    {
+      "id": "23-ledger-approvals",
+      "file": "23-ledger-approvals.png",
+      "screen": "/ledger-approvals",
+      "user": "admin",
+      "section": 6,
+      "caption": "Waiting for Ledger Approval: requests waiting for the administrator.",
+      "notes": "At least one pending request with approve and reject actions visible."
+    },
+    {
+      "id": "24-financial-year",
+      "file": "24-financial-year.png",
+      "screen": "/period/year",
+      "user": "admin",
+      "section": 6,
+      "caption": "Year-End Close: the financial years and their status.",
+      "notes": "Current year with its Close year button; earlier years listed."
+    },
+    {
+      "id": "25-user-master",
+      "file": "25-user-master.png",
+      "screen": "/masters/users",
+      "user": "admin",
+      "section": 6,
+      "caption": "User Master: the people who can sign in.",
+      "notes": "Login, Name, Emp code, Role, Centre and Status columns."
+    },
+    {
+      "id": "26-user-role-mapping",
+      "file": "26-user-role-mapping.png",
+      "screen": "/masters/roles",
+      "user": "admin",
+      "section": 6,
+      "caption": "User Role Mapping (menu: Administration > User Role Mapping).",
+      "notes": "Menu label is 'User Role mapping'; the page shows the mapping of users to roles."
+    },
+    {
+      "id": "27-numbering-series",
+      "file": "27-numbering-series.png",
+      "screen": "/numbering",
+      "user": "admin",
+      "section": 6,
+      "caption": "Numbering Series: how each voucher type numbers its vouchers.",
+      "notes": "At least one automatic series with a prefix and a start number."
+    },
+    {
+      "id": "28-bank-master",
+      "file": "28-bank-master.png",
+      "screen": "/masters/banks (menu: Masters > Bank Master)",
+      "user": "admin",
+      "section": 6,
+      "caption": "Bank Master: the banks and their accounts (read only in this release).",
+      "notes": "Bank, branch, IFSC, account and ledger columns."
+    },
+    {
+      "id": "29-entity-bank-mapping",
+      "file": "29-entity-bank-mapping.png",
+      "screen": "/masters/entity-bank",
+      "user": "admin",
+      "section": 6,
+      "caption": "Entity - Bank Mapping: which bank account each branch uses for which purpose.",
+      "notes": "Centre, Bank and Purpose columns with at least two rows."
+    },
+    {
+      "id": "30-customers",
+      "file": "30-customers.png",
+      "screen": "/sales/customers",
+      "user": "maker",
+      "section": 6,
+      "caption": "Customers: the people and businesses you sell to.",
+      "notes": "A search box, a role filter or Status filter; New customer button."
+    },
+    {
+      "id": "31-customer-form",
+      "file": "31-customer-form.png",
+      "screen": "/sales/customers/new",
+      "user": "maker",
+      "section": 6,
+      "caption": "New customer: name, GSTIN, addresses and payment terms.",
+      "notes": "Bayside Hardware Ltd. entered. Show the GSTIN and payment-terms fields."
+    },
+    {
+      "id": "32-vendors",
+      "file": "32-vendors.png",
+      "screen": "/purchases/vendors",
+      "user": "maker",
+      "section": 6,
+      "caption": "Vendors: the businesses you buy from.",
+      "notes": "Coastal Paper Supplies in the list."
+    },
+    {
+      "id": "33-cost-categories",
+      "file": "33-cost-categories.png",
+      "screen": "/cost/categories",
+      "user": "admin",
+      "section": 6,
+      "caption": "Cost Categories: the groupings for cost centres.",
+      "notes": "Parent and child categories if present."
+    },
+    {
+      "id": "34-cost-centres",
+      "file": "34-cost-centres.png",
+      "screen": "/cost/centres",
+      "user": "admin",
+      "section": 6,
+      "caption": "Cost Centres: where income and expense is tracked.",
+      "notes": "Code, name, category and status columns."
+    },
+    {
+      "id": "35-cost-centre-master",
+      "file": "35-cost-centre-master.png",
+      "screen": "/masters/projects",
+      "user": "admin",
+      "section": 6,
+      "caption": "Cost Centre Master: the single-level cost centre list.",
+      "notes": "Menu label 'Cost Centre Master'. Page title in Masters index is 'Project Master' (see open issues)."
+    },
+    {
+      "id": "36-budgets",
+      "file": "36-budgets.png",
+      "screen": "/cost/budgets",
+      "user": "admin",
+      "section": 6,
+      "caption": "Budgets: planned amounts by ledger or group, per month or per year.",
+      "notes": "A budget with monthly amounts and the financial-year selector."
+    },
+    {
+      "id": "37-credit-budget-controls",
+      "file": "37-credit-budget-controls.png",
+      "screen": "/cost/controls",
+      "user": "admin",
+      "section": 6,
+      "caption": "Credit & Budget Controls: warn or block a voucher that goes over.",
+      "notes": "At least one control in each mode if demo data allows: ignore, warn, block."
+    },
+    {
+      "id": "38-currencies",
+      "file": "38-currencies.png",
+      "screen": "/currency",
+      "user": "admin",
+      "section": 6,
+      "caption": "Currencies: the base currency and the foreign currencies with their rates.",
+      "notes": "INR marked as base; one foreign currency with rates."
+    },
+    {
+      "id": "39-gst-master-add",
+      "file": "39-gst-master-add.png",
+      "screen": "/masters/gst (Add dialog open)",
+      "user": "admin",
+      "section": 6,
+      "caption": "Adding a GST rate for an HSN or SAC code.",
+      "notes": "The Add GST rate dialog with HSN / SAC code, rates and Effective from filled."
+    },
+    {
+      "id": "40-tax-ledger-invoice-line",
+      "file": "40-tax-ledger-invoice-line.png",
+      "screen": "/sales/invoices/new",
+      "user": "maker",
+      "section": 6,
+      "caption": "The tax ledger on an invoice line.",
+      "notes": "A line with a rate and the Tax ledger field filled. Use the line table, not the header."
+    },
+    {
+      "id": "41-tds-payment-panel",
+      "file": "41-tds-payment-panel.png",
+      "screen": "/vouchers/new/payment",
+      "user": "maker",
+      "section": 6,
+      "caption": "The TDS panel on a payment voucher.",
+      "notes": "Deductor, Section and TDS to deduct shown after Calculate. The panel is hidden until a deductor exists (see open issues)."
+    },
+    {
+      "id": "42-tds-masters-api",
+      "file": "42-tds-masters-api.png",
+      "screen": "terminal: GET /api/v1/tds/sections and /api/v1/tds/deductors",
+      "user": "admin",
+      "section": 6,
+      "caption": "TDS sections and the deductor, read through the API (API-only in this release).",
+      "notes": "Optional. The same masters have screens now (137 to 140). Keep this terminal capture only as an API example."
+    },
+    {
+      "id": "43-cheque-books",
+      "file": "43-cheque-books.png",
+      "screen": "/cheques/books",
+      "user": "admin",
+      "section": 6,
+      "caption": "Cheque Books: the cheque leaves of each bank account.",
+      "notes": "A book with used and unused leaves; Create book control visible."
+    },
+    {
+      "id": "44-cheque-assign-print",
+      "file": "44-cheque-assign-print.png",
+      "screen": "/cheques/assign",
+      "user": "admin",
+      "section": 6,
+      "caption": "Cheque Assign and Print: issue a cheque number and print the cheque.",
+      "notes": "Bank, leaf status and the Print preview visible."
+    },
+    {
+      "id": "45-post-dated-cheques",
+      "file": "45-post-dated-cheques.png",
+      "screen": "/cheques/post-dated",
+      "user": "admin",
+      "section": 6,
+      "caption": "Post-dated Cheques: cheques waiting to clear.",
+      "notes": "Rows with pending, cleared and bounced statuses; the status filter."
+    },
+    {
+      "id": "46-receipt-form-empty",
+      "file": "46-receipt-form-empty.png",
+      "screen": "/vouchers/new/receipt",
+      "user": "maker",
+      "section": 7,
+      "caption": "A new receipt voucher, empty.",
+      "notes": "Date, Circle and Centre selectors, Received from, Received into, Amount, Mode, Narration."
+    },
+    {
+      "id": "47-receipt-form-filled",
+      "file": "47-receipt-form-filled.png",
+      "screen": "/vouchers/new/receipt",
+      "user": "maker",
+      "section": 7,
+      "caption": "The receipt filled in: Bayside Hardware Ltd. pays into the bank.",
+      "notes": "Mode Bank transfer or Cheque; reference filled; narration filled."
+    },
+    {
+      "id": "48-contra-form",
+      "file": "48-contra-form.png",
+      "screen": "/vouchers/new/contra",
+      "user": "maker",
+      "section": 7,
+      "caption": "A contra voucher: moving money between cash and bank.",
+      "notes": "From account and To account chosen; amount and date entered."
+    },
+    {
+      "id": "49-journal-voucher",
+      "file": "49-journal-voucher.png",
+      "screen": "/vouchers/new/journal",
+      "user": "maker",
+      "section": 7,
+      "caption": "A journal voucher in the line grid.",
+      "notes": "Debit and credit lines, the Balanced indicator, and the narration field."
+    },
+    {
+      "id": "50-voucher-cost-split",
+      "file": "50-voucher-cost-split.png",
+      "screen": "/vouchers/new/journal (cost split dialog open)",
+      "user": "maker",
+      "section": 7,
+      "caption": "Splitting a voucher line across cost centres.",
+      "notes": "The cost split dialog with two cost centres and amounts that add up to the line."
+    },
+    {
+      "id": "51-all-vouchers",
+      "file": "51-all-vouchers.png",
+      "screen": "/vouchers (menu: Transaction > All Vouchers)",
+      "user": "admin",
+      "section": 7,
+      "caption": "All Vouchers: every voucher, filtered by status.",
+      "notes": "Status and voucher-type filters; rows from Draft to Authorized."
+    },
+    {
+      "id": "52-sales-invoice-empty",
+      "file": "52-sales-invoice-empty.png",
+      "screen": "/sales/invoices/new",
+      "user": "maker",
+      "section": 7,
+      "caption": "A new sales invoice, empty.",
+      "notes": "Customer, Invoice date, Due date, Reference, Currency, Narration, the line table with Add line."
+    },
+    {
+      "id": "53-sales-invoice-filled",
+      "file": "53-sales-invoice-filled.png",
+      "screen": "/sales/invoices/new",
+      "user": "maker",
+      "section": 7,
+      "caption": "A sales invoice filled in, with totals.",
+      "notes": "Customer Bayside Hardware Ltd.; one line 2 nos at 500.00 with an 18 per cent tax ledger; Totals box shows 1,180.00."
+    },
+    {
+      "id": "54-invoice-submitted",
+      "file": "54-invoice-submitted.png",
+      "screen": "/sales/invoices/:id",
+      "user": "maker",
+      "section": 7,
+      "caption": "An invoice submitted for checking.",
+      "notes": "Status badge SUBMITTED or Waiting for checker; Submit for Approval action done; history panel visible."
+    },
+    {
+      "id": "55-invoice-posted",
+      "file": "55-invoice-posted.png",
+      "screen": "/sales/invoices/:id",
+      "user": "approver",
+      "section": 7,
+      "caption": "A posted invoice with its voucher number.",
+      "notes": "Status Posted; voucher number, posted by and posted date visible. The action button before posting is \"Post to ledger\" (see 154)."
+    },
+    {
+      "id": "56-invoice-reject-reason",
+      "file": "56-invoice-reject-reason.png",
+      "screen": "/sales/invoices/:id (reject dialog open)",
+      "user": "checker",
+      "section": 7,
+      "caption": "Rejecting an invoice: a reason is required.",
+      "notes": "The reject dialog with the reason box empty or filled; Reject action visible."
+    },
+    {
+      "id": "57-invoice-print-view",
+      "file": "57-invoice-print-view.png",
+      "screen": "/sales/invoices/:id (print view)",
+      "user": "approver",
+      "section": 7,
+      "caption": "The printed invoice (print view).",
+      "notes": "Company block, bill-to, lines, totals, amount in words."
+    },
+    {
+      "id": "58-invoice-attachments",
+      "file": "58-invoice-attachments.png",
+      "screen": "/sales/invoices/:id (attachments)",
+      "user": "maker",
+      "section": 7,
+      "caption": "Attachments on an invoice.",
+      "notes": "A PDF attachment listed; Upload control visible on a draft."
+    },
+    {
+      "id": "59-credit-notes",
+      "file": "59-credit-notes.png",
+      "screen": "/sales/credit-notes",
+      "user": "maker",
+      "section": 7,
+      "caption": "Credit Notes: reductions against sales invoices.",
+      "notes": "Rows with statuses; New credit note button."
+    },
+    {
+      "id": "60-credit-note-form",
+      "file": "60-credit-note-form.png",
+      "screen": "/sales/credit-notes (New credit note dialog open)",
+      "user": "maker",
+      "section": 7,
+      "caption": "A new credit note against an invoice.",
+      "notes": "Invoice chosen, line amounts within the limit, reason."
+    },
+    {
+      "id": "61-receipts-allocation",
+      "file": "61-receipts-allocation.png",
+      "screen": "/sales/receipts",
+      "user": "maker",
+      "section": 7,
+      "caption": "Receipts: money received, set against invoices.",
+      "notes": "Customer chosen, outstanding invoices with Allocate amounts, Allocate oldest first button."
+    },
+    {
+      "id": "62-purchase-bills",
+      "file": "62-purchase-bills.png",
+      "screen": "/purchases/bills",
+      "user": "maker",
+      "section": 7,
+      "caption": "Purchase Bills: bills received from vendors.",
+      "notes": "Rows with statuses; New bill button."
+    },
+    {
+      "id": "63-purchase-bill-form",
+      "file": "63-purchase-bill-form.png",
+      "screen": "/purchases/bills/new",
+      "user": "maker",
+      "section": 7,
+      "caption": "A new purchase bill.",
+      "notes": "Vendor, bill date, due date, reference and lines."
+    },
+    {
+      "id": "64-debit-notes",
+      "file": "64-debit-notes.png",
+      "screen": "/purchases/debit-notes",
+      "user": "maker",
+      "section": 7,
+      "caption": "Debit Notes: reductions of what we owe a vendor.",
+      "notes": "Rows and New debit note button."
+    },
+    {
+      "id": "65-vendor-payments",
+      "file": "65-vendor-payments.png",
+      "screen": "/purchases/payments",
+      "user": "maker",
+      "section": 7,
+      "caption": "Payments to vendors, set against bills.",
+      "notes": "Vendor chosen, outstanding bills, amount and mode."
+    },
+    {
+      "id": "66-recurring-list",
+      "file": "66-recurring-list.png",
+      "screen": "/sales/recurring",
+      "user": "maker",
+      "section": 7,
+      "caption": "Recurring Invoices: templates that bill on a schedule.",
+      "notes": "Rows with frequency, next run and status (Active or Paused)."
+    },
+    {
+      "id": "67-recurring-form",
+      "file": "67-recurring-form.png",
+      "screen": "/sales/recurring/new",
+      "user": "maker",
+      "section": 7,
+      "caption": "A new recurring template.",
+      "notes": "Customer, frequency, start date, the lines each run copies."
+    },
+    {
+      "id": "68-customer-statement",
+      "file": "68-customer-statement.png",
+      "screen": "/sales/statement",
+      "user": "maker",
+      "section": 7,
+      "caption": "Customer Statement: invoices, notes and receipts with a running balance.",
+      "notes": "A customer chosen; Opening, Closing and running balance visible."
+    },
+    {
+      "id": "69-overdue-reminders",
+      "file": "69-overdue-reminders.png",
+      "screen": "/sales/overdue",
+      "user": "maker",
+      "section": 7,
+      "caption": "Overdue and Reminders: who is late, and the reminder letter.",
+      "notes": "Customers past due; a letter preview for one customer (Preview only)."
+    },
+    {
+      "id": "70-vendor-statement",
+      "file": "70-vendor-statement.png",
+      "screen": "/purchases/statement",
+      "user": "maker",
+      "section": 7,
+      "caption": "Vendor Statement.",
+      "notes": "A vendor chosen with bills, payments and balance."
+    },
+    {
+      "id": "71-my-task-approve",
+      "file": "71-my-task-approve.png",
+      "screen": "/tasks (a voucher open)",
+      "user": "approver",
+      "section": 7,
+      "caption": "My Task: approving a voucher.",
+      "notes": "Voucher detail with the Approve and Reject actions and the status timeline."
+    },
+    {
+      "id": "72-my-requests",
+      "file": "72-my-requests.png",
+      "screen": "/requests (menu: Transaction > My Requests)",
+      "user": "maker",
+      "section": 7,
+      "caption": "My Requests: vouchers you sent that are still moving.",
+      "notes": "Rows you created with their current step."
+    },
+    {
+      "id": "73-my-ledger-requests",
+      "file": "73-my-ledger-requests.png",
+      "screen": "/my-ledger-requests (menu: Ledger Request > My Ledger Requests)",
+      "user": "maker",
+      "section": 7,
+      "caption": "My Ledger Requests: your ledger requests and their status.",
+      "notes": "Rows with Waiting, Approved and Rejected states."
+    },
+    {
+      "id": "74-bulk-transaction",
+      "file": "74-bulk-transaction.png",
+      "screen": "/bulk (menu: Transaction > Bulk Transaction)",
+      "user": "approver",
+      "section": 7,
+      "caption": "Bulk Transaction: move several vouchers one step at a time.",
+      "notes": "Rows selected; the move action visible."
+    },
+    {
+      "id": "75-bank-upload",
+      "file": "75-bank-upload.png",
+      "screen": "/bank-upload",
+      "user": "admin",
+      "section": 7,
+      "caption": "Bank Upload: load a bank statement file.",
+      "notes": "File chosen (.xlsx or .xls), bank ledger chosen, and the upload result."
+    },
+    {
+      "id": "76-bank-process",
+      "file": "76-bank-process.png",
+      "screen": "/bank-process",
+      "user": "admin",
+      "section": 7,
+      "caption": "Bank Process: match uploaded lines to ledger entries.",
+      "notes": "An uploaded session with matched and unmatched lines."
+    },
+    {
+      "id": "77-bank-file-neft",
+      "file": "77-bank-file-neft.png",
+      "screen": "/bank-file",
+      "user": "admin",
+      "section": 7,
+      "caption": "Bank File: NEFT payments for the bank's upload file.",
+      "notes": "Filters (cheques dated in range), the NEFT payments list and the upload report."
+    },
+    {
+      "id": "78-calc",
+      "file": "78-calc.png",
+      "screen": "/calc",
+      "user": "viewer",
+      "section": 7,
+      "caption": "Calc: a quick calculator for amounts.",
+      "notes": "The calculator screen with an example entry."
+    },
+    {
+      "id": "79-tds-challans-api",
+      "file": "79-tds-challans-api.png",
+      "screen": "terminal: GET /api/v1/tds/challans",
+      "user": "admin",
+      "section": 8,
+      "caption": "TDS challans recorded for the quarter (API-only in this release).",
+      "notes": "terminal. API view of the same challans shown on /tds/challans (142). Optional."
+    },
+    {
+      "id": "80-tds-returns-api",
+      "file": "80-tds-returns-api.png",
+      "screen": "terminal: GET /api/v1/tds/returns/26Q?format=csv",
+      "user": "admin",
+      "section": 8,
+      "caption": "TDS return data for review (API-only; not a filing file).",
+      "notes": "terminal. API view of the return data shown on /tds/returns (143). Output is CSV review data, not a filing file."
+    },
+    {
+      "id": "81-day-close",
+      "file": "81-day-close.png",
+      "screen": "/period/day",
+      "user": "admin",
+      "section": 8,
+      "caption": "Day Close: close a branch's day so that nothing more posts to it.",
+      "notes": "Date and branch chosen, the check result, and the Closed days list."
+    },
+    {
+      "id": "82-day-close-reopen",
+      "file": "82-day-close-reopen.png",
+      "screen": "/period/day (Reopen day dialog open)",
+      "user": "admin",
+      "section": 8,
+      "caption": "Reopening a closed day.",
+      "notes": "The Reopen day dialog with its reason field."
+    },
+    {
+      "id": "83-forex-revaluation",
+      "file": "83-forex-revaluation.png",
+      "screen": "/forex/revaluation",
+      "user": "admin",
+      "section": 8,
+      "caption": "Forex Revaluation: the gain or loss on foreign balances as of a date.",
+      "notes": "Currency and As of date chosen, preview table, Save as draft action."
+    },
+    {
+      "id": "84-interest-settings",
+      "file": "84-interest-settings.png",
+      "screen": "/interest/settings",
+      "user": "admin",
+      "section": 8,
+      "caption": "Interest Settings: rates and rules for charging interest on overdue balances.",
+      "notes": "A setting with rate percent, day basis and grace days."
+    },
+    {
+      "id": "85-interest-statement",
+      "file": "85-interest-statement.png",
+      "screen": "/interest/statement",
+      "user": "admin",
+      "section": 8,
+      "caption": "Interest Statement: the interest computed for a period.",
+      "notes": "From and To dates, the statement rows and the total."
+    },
+    {
+      "id": "86-year-end-close",
+      "file": "86-year-end-close.png",
+      "screen": "/period/year (Close year dialog open)",
+      "user": "admin",
+      "section": 8,
+      "caption": "Closing a financial year.",
+      "notes": "Close year dialog with the warning that every voucher must be authorized."
+    },
+    {
+      "id": "87-report-trial-balance",
+      "file": "87-report-trial-balance.png",
+      "screen": "/reports (open the Trial Balance family)",
+      "user": "admin",
+      "section": 9,
+      "caption": "Trial Balance run with data.",
+      "notes": "From and To dates set; Print and Export CSV buttons visible. Table with debit and credit totals."
+    },
+    {
+      "id": "88-report-profit-and-loss",
+      "file": "88-report-profit-and-loss.png",
+      "screen": "/reports (open Profit and Loss)",
+      "user": "admin",
+      "section": 9,
+      "caption": "Profit and Loss statement.",
+      "notes": "Income and expense groups with a net result."
+    },
+    {
+      "id": "89-report-balance-sheet",
+      "file": "89-report-balance-sheet.png",
+      "screen": "/reports (open Balance Sheet)",
+      "user": "admin",
+      "section": 9,
+      "caption": "Balance Sheet.",
+      "notes": "Liabilities and assets with totals equal."
+    },
+    {
+      "id": "90-report-debtors-ageing",
+      "file": "90-report-debtors-ageing.png",
+      "screen": "/reports (open Debtors Ageing)",
+      "user": "admin",
+      "section": 9,
+      "caption": "Debtors Ageing: what customers owe, by age.",
+      "notes": "Age buckets as columns; customers as rows."
+    },
+    {
+      "id": "91-report-cost-centre-summary",
+      "file": "91-report-cost-centre-summary.png",
+      "screen": "/reports (open Cost Centre Summary)",
+      "user": "admin",
+      "section": 9,
+      "caption": "Cost Centre Summary.",
+      "notes": "Cost centres as rows with amounts."
+    },
+    {
+      "id": "92-report-budget-variance",
+      "file": "92-report-budget-variance.png",
+      "screen": "/reports (open Budget Variance)",
+      "user": "admin",
+      "section": 9,
+      "caption": "Budget Variance: budget against actual to date.",
+      "notes": "Budget, actual and variance columns."
+    },
+    {
+      "id": "93-report-drill-down",
+      "file": "93-report-drill-down.png",
+      "screen": "/reports (a figure clicked to drill down)",
+      "user": "admin",
+      "section": 9,
+      "caption": "Drilling down from a report figure to its vouchers.",
+      "notes": "The list of vouchers behind one cell of a report."
+    },
+    {
+      "id": "94-report-export-menu",
+      "file": "94-report-export-menu.png",
+      "screen": "/reports (a report open with its export controls)",
+      "user": "admin",
+      "section": 9,
+      "caption": "Exporting a report and printing it.",
+      "notes": "The Export format dropdown open or the report toolbar: CSV, Excel (.xlsx), Print view (HTML), Print view (PDF)."
+    },
+    {
+      "id": "95-saved-reports-api",
+      "file": "95-saved-reports-api.png",
+      "screen": "terminal: GET /api/v1/reports/saved",
+      "user": "admin",
+      "section": 9,
+      "caption": "Saved report definitions, read through the API (API-only).",
+      "notes": "terminal. API view. The screen is /reports/saved (148)."
+    },
+    {
+      "id": "96-user-edit-password-reset",
+      "file": "96-user-edit-password-reset.png",
+      "screen": "/masters/users (Edit user dialog open)",
+      "user": "admin",
+      "section": 10,
+      "caption": "Resetting another user's password.",
+      "notes": "Edit user dialog with the password reset action (if the screen has no reset, capture the set-password terminal output instead: see open issues)."
+    },
+    {
+      "id": "97-backup-terminal",
+      "file": "97-backup-terminal.png",
+      "screen": "terminal: deasys-server backup",
+      "user": "admin",
+      "section": 10,
+      "caption": "Taking a backup of the database.",
+      "notes": "terminal. Shows the command, the new file name and exit 0."
+    },
+    {
+      "id": "98-restore-terminal",
+      "file": "98-restore-terminal.png",
+      "screen": "terminal: deasys-server restore",
+      "user": "admin",
+      "section": 10,
+      "caption": "Restoring a backup into an empty database.",
+      "notes": "terminal. Shows the refusal when the database is not empty, and the success line on an empty one."
+    },
+    {
+      "id": "99-log-folder",
+      "file": "99-log-folder.png",
+      "screen": "terminal: log folder listing",
+      "user": "admin",
+      "section": 10,
+      "caption": "The log folder: deasys.log and the rotated files.",
+      "notes": "terminal. Directory listing of log_dir."
+    },
+    {
+      "id": "100-about",
+      "file": "100-about.png",
+      "screen": "/about",
+      "user": "admin",
+      "section": 10,
+      "caption": "About DEASys: the version and the licence.",
+      "notes": "Version, build and company line visible. Opened from the (i) button in the header."
+    },
+    {
+      "id": "101-api-key-created",
+      "file": "101-api-key-created.png",
+      "screen": "/admin/integrations/keys (Create an integration key, then the key shown once)",
+      "user": "admin",
+      "section": 11,
+      "caption": "Creating an integration key: the secret is shown once.",
+      "notes": "Use a demo key, then revoke it. Menu: Administration > Integration Keys."
+    },
+    {
+      "id": "102-api-key-list",
+      "file": "102-api-key-list.png",
+      "screen": "/admin/integrations/keys",
+      "user": "admin",
+      "section": 11,
+      "caption": "Integration Keys: prefix, source system, status; the secret is never shown again.",
+      "notes": "Keys list with at least one active and one revoked key."
+    },
+    {
+      "id": "103-inbox-list",
+      "file": "103-inbox-list.png",
+      "screen": "/admin/integrations/inbox",
+      "user": "admin",
+      "section": 11,
+      "caption": "Integration Inbox: messages with status, and the reasons for rejected ones.",
+      "notes": "Filter bar and at least one rejected row with its reasons."
+    },
+    {
+      "id": "104-webhook-create",
+      "file": "104-webhook-create.png",
+      "screen": "/admin/integrations/webhooks (new subscription)",
+      "user": "admin",
+      "section": 11,
+      "caption": "Creating a webhook subscription: the signing secret is shown once.",
+      "notes": "Menu: Administration > Webhooks. Use a test URL."
+    },
+    {
+      "id": "105-webhook-deliveries",
+      "file": "105-webhook-deliveries.png",
+      "screen": "/admin/integrations/webhooks (Deliveries of a subscription)",
+      "user": "admin",
+      "section": 11,
+      "caption": "Webhook deliveries and their attempts.",
+      "notes": "Status per delivery (delivered, retrying, failed)."
+    },
+    {
+      "id": "106-error-unbalanced-journal",
+      "file": "106-error-unbalanced-journal.png",
+      "screen": "/vouchers/new/journal (after Submit with unequal lines)",
+      "user": "maker",
+      "section": 12,
+      "caption": "A voucher that does not balance is refused.",
+      "notes": "The Not balanced indicator and the message shown on Submit."
+    },
+    {
+      "id": "107-error-day-closed",
+      "file": "107-error-day-closed.png",
+      "screen": "/vouchers/new/payment (a date in a closed day)",
+      "user": "maker",
+      "section": 12,
+      "caption": "Posting to a closed day is refused.",
+      "notes": "The message the screen shows. If the screen shows no message, capture the refusal from the API in terminal instead."
+    },
+    {
+      "id": "108-error-sign-in-locked",
+      "file": "108-error-sign-in-locked.png",
+      "screen": "/ (sign-in after repeated failed attempts)",
+      "user": "none",
+      "section": 12,
+      "caption": "Sign-in is paused after repeated failed attempts.",
+      "notes": "The error text from the sign-in page after five failed attempts within 15 minutes. Use a demo account."
+    },
+    {
+      "id": "109-first-run-welcome",
+      "file": "109-first-run-welcome.png",
+      "screen": "first-run wizard: Welcome (no user exists yet, before sign-in)",
+      "user": "none",
+      "section": 5,
+      "caption": "First-run wizard, step 1: Welcome.",
+      "notes": "Step 1 of 6 with the progress bar. Start button visible."
+    },
+    {
+      "id": "110-first-run-organisation",
+      "file": "110-first-run-organisation.png",
+      "screen": "first-run wizard: Organisation (step 2)",
+      "user": "none",
+      "section": 5,
+      "caption": "First-run wizard: the organisation name.",
+      "notes": "Organisation name field, Back and Next buttons."
+    },
+    {
+      "id": "111-first-run-branch",
+      "file": "111-first-run-branch.png",
+      "screen": "first-run wizard: First branch (step 3)",
+      "user": "none",
+      "section": 5,
+      "caption": "First-run wizard: the first branch (centre).",
+      "notes": "Branch name field filled with Head Office."
+    },
+    {
+      "id": "112-first-run-administrator",
+      "file": "112-first-run-administrator.png",
+      "screen": "first-run wizard: Administrator (step 4)",
+      "user": "none",
+      "section": 5,
+      "caption": "First-run wizard: the administrator and the password rules.",
+      "notes": "Full name, sign-in name, password, confirm password; the password rules list ticks as they are met."
+    },
+    {
+      "id": "113-first-run-financial-year",
+      "file": "113-first-run-financial-year.png",
+      "screen": "first-run wizard: Financial year and currency (step 5)",
+      "user": "none",
+      "section": 5,
+      "caption": "First-run wizard: financial-year start and base currency.",
+      "notes": "Month selector (April) and base currency INR."
+    },
+    {
+      "id": "114-first-run-review",
+      "file": "114-first-run-review.png",
+      "screen": "first-run wizard: Review (step 6)",
+      "user": "none",
+      "section": 5,
+      "caption": "First-run wizard: review, then Create.",
+      "notes": "Nothing is saved until Create is pressed; the Create button visible."
+    },
+    {
+      "id": "115-next-steps",
+      "file": "115-next-steps.png",
+      "screen": "/next-steps (opened by URL in this release; no menu item yet)",
+      "user": "admin",
+      "section": 6,
+      "caption": "Next steps: the setup checklist after the first start, each item opens its screen.",
+      "notes": "Sections: Chart of accounts, Users and roles, Voucher numbering, Bank accounts, Parties, GST, TDS, Invoice settings."
+    },
+    {
+      "id": "116-gst-setup",
+      "file": "116-gst-setup.png",
+      "screen": "/gst/setup (menu: Transaction > GST > GST Setup)",
+      "user": "admin",
+      "section": 6,
+      "caption": "GST setup: turn GST on for the company and set the round-off rule.",
+      "notes": "The GST on switch, round-off option and the parameters table."
+    },
+    {
+      "id": "117-gst-registrations",
+      "file": "117-gst-registrations.png",
+      "screen": "/gst/registrations (menu: GST > GSTIN Registrations)",
+      "user": "admin",
+      "section": 6,
+      "caption": "GSTIN registrations: the GSTIN of the company and its branches, with the period each is valid.",
+      "notes": "Live and obsolete rows; the add or edit dialog with the GSTIN field."
+    },
+    {
+      "id": "118-gst-states",
+      "file": "118-gst-states.png",
+      "screen": "/gst/states (menu: GST > State Codes)",
+      "user": "admin",
+      "section": 6,
+      "caption": "State codes: the seeded table read by the GSTIN and place-of-supply rules.",
+      "notes": "Read only."
+    },
+    {
+      "id": "119-gst-tax-ledger-mapping",
+      "file": "119-gst-tax-ledger-mapping.png",
+      "screen": "/gst/tax-ledgers (menu: GST > Tax Ledger Mapping)",
+      "user": "admin",
+      "section": 6,
+      "caption": "Tax ledger mapping: which ledger each tax amount posts to, by head and side.",
+      "notes": "Registration chosen; CGST, SGST, IGST, UTGST and Cess cells filled."
+    },
+    {
+      "id": "120-gst-itc-ledgers",
+      "file": "120-gst-itc-ledgers.png",
+      "screen": "/gst/itc (menu: GST > ITC Ledgers)",
+      "user": "admin",
+      "section": 8,
+      "caption": "ITC ledgers: the electronic credit, cash and liability balances of a registration.",
+      "notes": "Balances table and the entries list."
+    },
+    {
+      "id": "121-gst-itc-reversals",
+      "file": "121-gst-itc-reversals.png",
+      "screen": "/gst/itc/reversals (menu: GST > ITC Reversals)",
+      "user": "admin",
+      "section": 8,
+      "caption": "ITC reversals: credit given back, with the reason.",
+      "notes": "At least one reversal row; Record ITC reversal dialog optional."
+    },
+    {
+      "id": "122-gst-payment-challans",
+      "file": "122-gst-payment-challans.png",
+      "screen": "/gst/itc/challans (menu: GST > Payment Challans)",
+      "user": "admin",
+      "section": 8,
+      "caption": "GST payment challans: record a payment from the credit ledgers and cash.",
+      "notes": "Record GST payment challan dialog with tax heads and set-off preview."
+    },
+    {
+      "id": "123-gst-non-payment",
+      "file": "123-gst-non-payment.png",
+      "screen": "/gst/itc/non-payment (menu: GST > Non-payment (180 days))",
+      "user": "admin",
+      "section": 8,
+      "caption": "Non-payment exceptions: purchase credit unpaid after 180 days.",
+      "notes": "Bills past the period listed."
+    },
+    {
+      "id": "124-gst-returns",
+      "file": "124-gst-returns.png",
+      "screen": "/gst/returns (menu: GST > GST Returns)",
+      "user": "admin",
+      "section": 8,
+      "caption": "GST returns: the tie-out checks for a return and period.",
+      "notes": "Return and period chosen; green and red check rows; Freeze button."
+    },
+    {
+      "id": "125-gst-return-filed",
+      "file": "125-gst-return-filed.png",
+      "screen": "/gst/returns (Mark as filed dialog open)",
+      "user": "admin",
+      "section": 8,
+      "caption": "Marking a frozen return as filed.",
+      "notes": "Filed-on date and the Mark as filed button; the forced-freeze reason if shown."
+    },
+    {
+      "id": "126-gst-filing-calendar",
+      "file": "126-gst-filing-calendar.png",
+      "screen": "/gst/calendar (menu: GST > Filing Calendar)",
+      "user": "admin",
+      "section": 8,
+      "caption": "GST filing calendar: due dates by return and period, with status.",
+      "notes": "Rows with Not started, Data ready, Frozen or Filed."
+    },
+    {
+      "id": "127-gst-late-fee",
+      "file": "127-gst-late-fee.png",
+      "screen": "/gst/calculators (menu: GST > Late Fee and Interest)",
+      "user": "admin",
+      "section": 8,
+      "caption": "Late fee and interest calculators.",
+      "notes": "Late fee on a return and interest on late tax, with the Calculate buttons."
+    },
+    {
+      "id": "128-gstin-check",
+      "file": "128-gstin-check.png",
+      "screen": "/gst/gstin (menu: GST > GSTIN Check)",
+      "user": "admin",
+      "section": 8,
+      "caption": "GSTIN check: the shape and check character of a GSTIN.",
+      "notes": "Format valid or not valid; text says a live portal lookup is not part of this server."
+    },
+    {
+      "id": "129-gst-recon-import",
+      "file": "129-gst-recon-import.png",
+      "screen": "/gst/recon (menu: GST > GSTR-2A/2B Reconciliation): Import the portal file",
+      "user": "admin",
+      "section": 8,
+      "caption": "GSTR-2A or 2B reconciliation: import the portal JSON.",
+      "notes": "Period, source (2A or 2B) and the file chosen; the Upload and import button."
+    },
+    {
+      "id": "130-gst-recon-results",
+      "file": "130-gst-recon-results.png",
+      "screen": "/gst/recon (Results and Match to a purchase bill)",
+      "user": "admin",
+      "section": 8,
+      "caption": "GSTR-2A and 2B reconciliation results, with a match to a purchase bill.",
+      "notes": "Results table with statuses and the Match and Unmatch actions."
+    },
+    {
+      "id": "131-einvoice-pending",
+      "file": "131-einvoice-pending.png",
+      "screen": "/gst/einvoice (menu: GST > E-invoice and E-way Bill): E-invoice pending",
+      "user": "admin",
+      "section": 8,
+      "caption": "E-invoice pending: sales invoices that need an IRN, with the problems that stop them.",
+      "notes": "Rows with and without problems."
+    },
+    {
+      "id": "132-einvoice-payload",
+      "file": "132-einvoice-payload.png",
+      "screen": "/gst/einvoice/:invoiceId (E-invoice for an invoice)",
+      "user": "admin",
+      "section": 8,
+      "caption": "E-invoice payload and IRN result for one invoice.",
+      "notes": "INV-01 payload, the problems list, and the IRN result fields."
+    },
+    {
+      "id": "133-eway-bill",
+      "file": "133-eway-bill.png",
+      "screen": "/gst/einvoice (E-way bill section)",
+      "user": "admin",
+      "section": 8,
+      "caption": "E-way bill: payload and the result from the connector.",
+      "notes": "Transport mode, distance and the e-way bill payload."
+    },
+    {
+      "id": "134-invoice-gst-preview",
+      "file": "134-invoice-gst-preview.png",
+      "screen": "/sales/invoices/new (GST preview)",
+      "user": "maker",
+      "section": 7,
+      "caption": "A sales invoice with the live GST preview.",
+      "notes": "Taxable, CGST, SGST, IGST and Total in the GST preview box."
+    },
+    {
+      "id": "135-party-gst-profile",
+      "file": "135-party-gst-profile.png",
+      "screen": "/sales/customers/:id (GST tab)",
+      "user": "maker",
+      "section": 6,
+      "caption": "Customer GST profile: GSTIN, registration type and place of supply.",
+      "notes": "The GST tab open for Bayside Hardware Ltd."
+    },
+    {
+      "id": "136-invoice-irn-block",
+      "file": "136-invoice-irn-block.png",
+      "screen": "/sales/invoices/:id (E-invoice (IRN) block)",
+      "user": "approver",
+      "section": 7,
+      "caption": "A posted invoice with its IRN and signed QR text.",
+      "notes": "IRN block visible; \"No IRN yet\" text on a non-generated invoice in a second capture if needed."
+    },
+    {
+      "id": "137-tds-rates",
+      "file": "137-tds-rates.png",
+      "screen": "/tds/rates (menu: Administration > TDS Rates)",
+      "user": "admin",
+      "section": 6,
+      "caption": "TDS Rates: the rate of each section and deductee type, with the period.",
+      "notes": "Section filter; at least two rows for one section."
+    },
+    {
+      "id": "138-tds-parameters",
+      "file": "138-tds-parameters.png",
+      "screen": "/tds/parameters (menu: Administration > TDS Parameters)",
+      "user": "admin",
+      "section": 6,
+      "caption": "TDS Parameters: surcharge, cess, the no-PAN rate and interest percentages.",
+      "notes": "Parameter codes with values and effective dates."
+    },
+    {
+      "id": "139-tds-deductor",
+      "file": "139-tds-deductor.png",
+      "screen": "/tds/deductor (menu: Administration > TDS Deductor)",
+      "user": "admin",
+      "section": 6,
+      "caption": "TDS Deductor: the company or branch that deducts, with its TAN and payable ledger.",
+      "notes": "One live deductor; payable ledger map section."
+    },
+    {
+      "id": "140-tds-deductee-profiles",
+      "file": "140-tds-deductee-profiles.png",
+      "screen": "/tds/deductees (menu: Administration > Deductee Profiles)",
+      "user": "admin",
+      "section": 6,
+      "caption": "Deductee profiles: PAN, deductee type and default section.",
+      "notes": "Rows and the edit dialog open."
+    },
+    {
+      "id": "141-tds-deductions",
+      "file": "141-tds-deductions.png",
+      "screen": "/tds/deductions (menu: Transaction > TDS Deductions)",
+      "user": "admin",
+      "section": 8,
+      "caption": "TDS deductions: each deduction with its tax and deposit status.",
+      "notes": "Filters for financial year and quarter; deposited and pending rows."
+    },
+    {
+      "id": "142-tds-challans",
+      "file": "142-tds-challans.png",
+      "screen": "/tds/challans (menu: Transaction > Challans)",
+      "user": "admin",
+      "section": 8,
+      "caption": "TDS challans: deposits and the deductions each one pays for.",
+      "notes": "Challan rows and the allocation view."
+    },
+    {
+      "id": "143-tds-return-data",
+      "file": "143-tds-return-data.png",
+      "screen": "/tds/returns (menu: Transaction > TDS Return Data)",
+      "user": "admin",
+      "section": 8,
+      "caption": "TDS return data (26Q, 27Q, 27EQ) for review.",
+      "notes": "Form choice, financial year and quarter; deductee rows; the review note."
+    },
+    {
+      "id": "144-tds-certificates",
+      "file": "144-tds-certificates.png",
+      "screen": "/tds/certificates (menu: Transaction > Certificates (16A, 27D))",
+      "user": "admin",
+      "section": 8,
+      "caption": "Certificates: Form 16A and 27D view for one deductee.",
+      "notes": "Deductee chosen; certificate view."
+    },
+    {
+      "id": "145-tds-summary",
+      "file": "145-tds-summary.png",
+      "screen": "/tds/summary (menu: Transaction > TDS by Section)",
+      "user": "admin",
+      "section": 8,
+      "caption": "TDS by Section: payable, deposited and pending per section.",
+      "notes": "Section rows with totals."
+    },
+    {
+      "id": "146-tds-exceptions",
+      "file": "146-tds-exceptions.png",
+      "screen": "/tds/exceptions (menu: Transaction > TDS Exceptions)",
+      "user": "admin",
+      "section": 8,
+      "caption": "TDS exceptions: late or short deposits to check before filing.",
+      "notes": "Rows with interest shown on selection."
+    },
+    {
+      "id": "147-integration-how-to-connect",
+      "file": "147-integration-how-to-connect.png",
+      "screen": "/admin/integrations/connect (menu: Administration > How to Connect)",
+      "user": "admin",
+      "section": 11,
+      "caption": "How to Connect: the steps for an integrator, with examples.",
+      "notes": "Section headings 1 to 6 visible."
+    },
+    {
+      "id": "148-saved-reports",
+      "file": "148-saved-reports.png",
+      "screen": "/reports/saved (menu: Reports > Saved Reports)",
+      "user": "admin",
+      "section": 9,
+      "caption": "Saved Reports: report views kept with their filters.",
+      "notes": "Saved views list; the Open action."
+    },
+    {
+      "id": "149-export-format-options",
+      "file": "149-export-format-options.png",
+      "screen": "/reports (a report open; Export format dropdown)",
+      "user": "admin",
+      "section": 9,
+      "caption": "Export formats: CSV, Excel (.xlsx), Print view (HTML) and Print view (PDF).",
+      "notes": "The dropdown open on a report with data."
+    },
+    {
+      "id": "150-drill-down-statement",
+      "file": "150-drill-down-statement.png",
+      "screen": "/sales/statement (a row clicked to drill down)",
+      "user": "maker",
+      "section": 9,
+      "caption": "Drilling down from a statement row to its voucher lines.",
+      "notes": "The Voucher lines view for one entry."
+    },
+    {
+      "id": "151-menu-gst-group",
+      "file": "151-menu-gst-group.png",
+      "screen": "/ (left menu, Transaction section, GST group expanded)",
+      "user": "admin",
+      "section": 6,
+      "caption": "The GST group in the Transaction menu.",
+      "notes": "Group heading GST and its items visible."
+    },
+    {
+      "id": "152-menu-administration-section",
+      "file": "152-menu-administration-section.png",
+      "screen": "/ (left menu, Administration section)",
+      "user": "admin",
+      "section": 6,
+      "caption": "The Administration section of the menu.",
+      "notes": "Section switcher showing Administration; group headings Costs and budgets, Tax (TDS and TCS), Integrations."
+    },
+    {
+      "id": "153-masters-index",
+      "file": "153-masters-index.png",
+      "screen": "/masters (menu: Masters)",
+      "user": "admin",
+      "section": 6,
+      "caption": "Masters: the master lists of the company.",
+      "notes": "Bank Master, Centre Master and Centre Ledger Mapping links."
+    },
+    {
+      "id": "154-invoice-post-to-ledger",
+      "file": "154-invoice-post-to-ledger.png",
+      "screen": "/sales/invoices/:id (Post to ledger button)",
+      "user": "approver",
+      "section": 7,
+      "caption": "An approved invoice with the Post to ledger button.",
+      "notes": "Status Approved; the Post to ledger button visible."
+    }
+  ]
+}

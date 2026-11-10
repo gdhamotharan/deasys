@@ -1,0 +1,100 @@
+DRAFT FOR LEGAL REVIEW - NOT YET APPROVED FOR RELEASE
+========================================================
+
+DEASYS FREEWARE LICENCE (draft)
+
+Product:   DEASys (the "Software")
+Licensor:  Creative Global Financial Solutions (the "Licensor", "we")
+
+This licence is part of the DEASys Terms and Conditions (TERMS.txt), which you must accept before you install or use
+the Software. The terms refer to this licence, and this licence is the licence of record: if the two conflict on a point
+of licence, this licence governs that point.
+
+1. WHAT THIS IS
+   The Software is double-entry accounting software that you run on your own computer or server. It is supplied to you
+   in binary (compiled) form only. The source code is not part of this licence and is not supplied.
+
+2. WHAT YOU MAY DO
+   You may, free of charge:
+   (a) install and use the Software for any lawful purpose, including commercial use in your own business, for as many
+       computers and users as you need;
+   (b) make copies of the Software and give them to others, provided that you pass on this licence and the notices in
+       section 7 unchanged, and that every copy is complete and unmodified.
+
+3. WHAT YOU MAY NOT DO
+   You may not:
+   (a) modify, adapt or create a derivative of the Software, or combine it with other software so as to change it, except
+       as the law allows despite this restriction;
+   (b) reverse engineer, decompile or disassemble the Software, or attempt to obtain its source code, except to the extent
+       that the law permits this despite this restriction (for example, to achieve interoperability of an independently
+       created program, where the law gives that right);
+   (c) remove, alter or obscure any copyright, licence or attribution notice;
+   (d) rent, lease, lend or sell the Software, or offer it as a hosted service to third parties for a fee, without a
+       separate written agreement with the Licensor;
+   (e) remove the product name or the Licensor's name from the Software, or present a modified build as the Software.
+
+4. NO WARRANTY
+   The Software is provided "AS IS", without warranty of any kind, express or implied, including but not limited to the
+   warranties of merchantability, fitness for a particular purpose and non-infringement. The Licensor does not warrant that
+   the Software is free of errors, that it will meet your requirements, or that its calculations (including tax, GST,
+   TDS and statutory-return data) are correct for your circumstances. You are responsible for checking every output
+   against the law and against your records, and for taking your own professional advice.
+
+5. LIMITATION OF LIABILITY
+   To the maximum extent permitted by law, the Licensor is not liable for any loss of data, profit, business, goodwill
+   or revenue, or for any indirect, incidental, special, consequential or punitive damages, arising from the use of or
+   inability to use the Software. Where liability cannot be excluded by law, the Licensor's total liability is limited
+   to INR 1,000 (one thousand Indian rupees). [Legal: confirm the cap and the governing-law clause.]
+
+6. BACKUPS AND DATA
+   The Software stores your data on storage you control. You are responsible for backups, for the security of the
+   computer and the database, and for the confidentiality of passwords and keys.
+
+7. THIRD-PARTY SOFTWARE NOTICES
+   The Software includes or uses the following third-party components. Each remains under its own licence, and that
+   licence applies to that component:
+
+   a) PostgreSQL (database server, bundled as the optional "bundled PostgreSQL" database)
+      Licence: PostgreSQL License (a permissive licence similar to the MIT and BSD licences).
+      Copyright (c) 1996-2026, PostgreSQL Global Development Group. Copyright (c) 1994, The Regents of the University
+      of California. Permission to use, copy, modify and distribute this software and its documentation for any purpose,
+      without fee, and without a written agreement is hereby granted, provided that the above copyright notice and this
+      paragraph and the following two paragraphs appear in all copies. IN NO EVENT SHALL THE UNIVERSITY OF CALIFORNIA BE
+      LIABLE TO ANY PARTY FOR DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OF
+      THIS SOFTWARE AND ITS DOCUMENTATION, EVEN IF THE UNIVERSITY OF CALIFORNIA HAS BEEN ADVISED OF THE POSSIBILITY OF
+      SUCH DAMAGE. THE UNIVERSITY OF CALIFORNIA SPECIFICALLY DISCLAIMS ANY WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+      IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE SOFTWARE PROVIDED HEREUNDER IS ON AN
+      "AS IS" BASIS, AND THE UNIVERSITY OF CALIFORNIA HAS NO OBLIGATIONS TO PROVIDE MAINTENANCE, SUPPORT, UPDATES,
+      ENHANCEMENTS, OR MODIFICATIONS.
+
+   b) The Go programming language standard library and the Go toolchain
+      Licence: BSD 3-Clause. Copyright (c) 2009 The Go Authors. All rights reserved.
+      Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
+      following conditions are met: redistributions of source code must retain the above copyright notice, this list of
+      conditions and the following disclaimer; redistributions in binary form must reproduce the above copyright notice,
+      this list of conditions and the following disclaimer in the documentation and/or other materials provided with the
+      distribution; neither the name of Google LLC nor the names of its contributors may be used to endorse or promote
+      products derived from this software without specific prior written permission. THIS SOFTWARE IS PROVIDED BY THE
+      COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES ARE DISCLAIMED.
+
+   c) Go modules used by the server (golang.org/x/sys, golang.org/x/term, golang.org/x/crypto, golang.org/x/sync,
+      golang.org/x/text): Licence BSD 3-Clause, Copyright The Go Authors.
+
+   d) github.com/jackc/pgx (PostgreSQL driver) and its helper modules: Licence MIT. Copyright (c) 2012 Jack Christensen.
+
+   e) github.com/golang-jwt/jwt: Licence MIT. Copyright (c) 2012 Dave Grijalva, 2021 golang-jwt maintainers.
+
+   f) The web interface (React, React DOM, React Router, Vite, Tailwind CSS, TypeScript and their dependencies): Licence
+      MIT (and the other permissive licences listed in the dependency metadata). Copyright the respective authors.
+
+   [Release engineer: regenerate this list from the exact versions shipped (go-licenses, npm licenses) before release.]
+
+   Microsoft Windows, Windows Service Manager, Inno Setup (if used to build the installer) and PowerShell are the property
+   of their owners and are not distributed with the Software.
+
+8. GENERAL
+   This licence is governed by the laws of India. [Legal: confirm the governing law and the courts.] If any part of it is
+   unenforceable, the rest stays in force. The Licensor may publish a new version of this licence; a copy you received
+   stays valid for that copy. No other rights are granted.
+
+Copyright (c) 2026 Creative Global Financial Solutions. All rights reserved except as stated in this licence.
