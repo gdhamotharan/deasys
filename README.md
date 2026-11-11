@@ -247,7 +247,9 @@ Keep `deasys.conf`, the backups and the superuser secret private. Only administr
 
 ### 4.3 Install from the zip (scripted or portable)
 
-Extract the zip and run `install.ps1` in an **elevated** PowerShell window from the extracted folder:
+Extract the whole zip, then either double-click **`Install DEASys.cmd`** (it asks Windows for permission and keeps the window open), or run `install.ps1` in an **elevated** PowerShell window from the extracted folder. The program file `deasys-server-windows-amd64.exe` on its own is not the installer: it needs a PostgreSQL database, and `INSTALL.md` has the steps to create one and the complete connection string.
+
+Manual way:
 
 ```powershell
 .\install.ps1                      # bundled PostgreSQL, local access only

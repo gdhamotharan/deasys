@@ -6,7 +6,9 @@ DEASys is one program with its screens built in. It runs on your own computer an
 
 1. Download **`bin/DEASys-0.1.0-win64.zip`** and check it against **`bin/SHA256SUMS.txt`**
    (PowerShell: `Get-FileHash .\DEASys-0.1.0-win64.zip -Algorithm SHA256`).
-2. Unzip it, open **PowerShell as Administrator** in the unzipped folder and run:
+2. Unzip it (the whole folder). The easy way: **double-click `Install DEASys.cmd`** and answer Windows' permission question.
+   It runs the installer and keeps the window open so you can read every message. Or, the manual way: open
+   **PowerShell as Administrator** in the unzipped folder and run:
 
    ```powershell
    Set-ExecutionPolicy -Scope Process Bypass
@@ -40,11 +42,53 @@ schema changes and starts the service. If the new version fails to start, it put
 `.\uninstall.ps1` removes the services and the program and **keeps your data and backups**. To delete the data too:
 `.\uninstall.ps1 -RemoveData` (you must type the confirmation phrase).
 
+## Using your own PostgreSQL (or running the program file on its own)
+
+Use this if you run the `.exe` or the Linux file by itself, or chose "existing PostgreSQL" in the installer. You need PostgreSQL 13 or newer. DEASys builds its own tables, so the database starts empty.
+
+**1. Create a user and an empty database.** Open `psql` as the PostgreSQL administrator and run:
+
+```
+psql -U postgres -h localhost
+CREATE ROLE deasys LOGIN PASSWORD 'choose-a-strong-password';
+CREATE DATABASE deasys OWNER deasys ENCODING 'UTF8';
+exit
+```
+
+Use your own password. The user must **own** the database. No extensions are needed.
+
+**2. The connection string.** The form is `postgres://USER:PASSWORD@HOST:PORT/DATABASE`. With the names above, the complete string is:
+
+```
+postgres://deasys:choose-a-strong-password@localhost:5432/deasys
+```
+
+- A password with special characters must be URL-encoded: `@` is `%40`, `:` is `%3A`, `/` is `%2F`, `#` is `%23`, `?` is `%3F`.
+- For a server on another computer that requires TLS, add `?sslmode=require` at the end.
+
+**3. Save the settings** (this also creates the secret signing key and keeps the file private):
+
+```
+deasys-server.exe config init --database-url postgres://deasys:choose-a-strong-password@localhost:5432/deasys
+```
+
+The settings file `deasys.conf` is created next to the program. You can instead set the environment variable `DEASYS_DATABASE_URL` to the connection string.
+
+**4. Start DEASys:**
+
+```
+deasys-server.exe run
+```
+
+The first start builds the tables. Open `http://localhost:8080/` and complete the first-run set-up (read and accept the terms, name the organisation and first branch, create the administrator). On Linux use `./deasys-server-linux-amd64` with the same commands.
+
+If you start the program before doing this, it prints these same steps instead of closing silently.
+
 ## Other files in `bin/`
 
 | File | What it is |
 |---|---|
-| `deasys-server-windows-amd64.exe` | The program on its own (for people who set up the database themselves). Run `deasys-server.exe config init`, then `migrate`, `init-admin`, `run`. |
+| `deasys-server-windows-amd64.exe` | The program on its own. It is **not the installer**: it needs a PostgreSQL database that you create yourself (see the next section). If you just want DEASys working, use the zip above. |
 | `deasys-server-linux-amd64` | The same program for Linux. |
 | `SHA256SUMS.txt` | Checksums of all files above. |
 

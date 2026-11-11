@@ -25,3 +25,5 @@ First public release of DEASys: the accounting server with its web interface, fo
 ## Unreleased (0.1.0 rebuild)
 - Optional, unticked "tell the author" box on the terms step; off unless `registration_url` is configured. Terms revised (version `2026-11-10-draft-2`, sections 5.2 and 5.3).
 - The installer asks again when the terms text is revised on the same day.
+- Starting `deasys-server.exe` with no database configured now prints the steps to create the PostgreSQL database, the complete connection string and the commands to save the settings and start (it no longer prints one terse line). `config init --database-url` writes the database address and the signing key in one step.
+- New double-click installer wrapper `Install DEASys.cmd` (asks for administrator rights, keeps the window open). INSTALL.md and README explain that the `.exe` alone is not the installer.

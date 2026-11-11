@@ -17,6 +17,12 @@ TERMS AND CONDITIONS
     install or upgrade and in the browser. An older or the same version does not ask again.
   - An unattended install (-Unattended) works only with -AcceptTerms: that switch is your acceptance.
 
+HOW TO START THE INSTALL
+  Unzip the WHOLE package, then double-click "Install DEASys.cmd" and answer Windows' permission question. It runs the
+  installer and keeps the window open so every message can be read. (deasys-server.exe alone is NOT the installer: it is
+  the program, and it needs a PostgreSQL database. If you start it without one it prints the steps to create the database
+  and the complete connection string.) To use your own PostgreSQL, choose "existing" when the installer asks.
+
 BEFORE ANYTHING IS CHANGED
   The installer runs these checks first. If one fails, it stops, says why and changes nothing:
   - it runs with administrator rights (except in -Portable test mode);
