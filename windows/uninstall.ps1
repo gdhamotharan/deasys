@@ -47,7 +47,7 @@ function Show-UninstallPlan {
     }
     Write-Host "  - the program files in $InstallDir : deasys-server.exe, ui, previous, postgresql (the bundled PostgreSQL"
     Write-Host '    programs; a reinstall brings them back from the downloads folder or the package), the scripts,'
-    Write-Host '    TERMS.txt, postgres-pin.psd1, LICENSE.txt, README-FIRST.txt, VERSION.txt and deasys.iss'
+    Write-Host '    TERMS.txt, LICENSE.txt, README-FIRST.txt, VERSION.txt and deasys.iss'
     Write-Host ''
     Write-Host 'KEPT:'
     Write-Host "  - the data folder $DataDir : the database (pgdata), backups, deasys.conf (settings and secrets),"

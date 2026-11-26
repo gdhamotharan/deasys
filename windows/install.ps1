@@ -1,22 +1,24 @@
 # Installs, upgrades or repairs DEASys on Windows (64-bit). Run from the extracted release folder, or let the installer run it.
 #
-#   Fresh install (elevated PowerShell, bundled PostgreSQL 16 from the package):
+#   Fresh install (elevated PowerShell). PostgreSQL 13 or later must already run; the installer asks for its connection
+#   (host, port, database, login, hidden password) and tests it before it writes anything:
 #       .\install.ps1
-#   Fresh install against an existing PostgreSQL server (prompts for the connection; the password is typed hidden):
-#       .\install.ps1 -DbMode existing
+#   Unattended (the connection from DEASYS_DB_HOST, _PORT, _NAME, _USER, _SSLMODE; the password from DEASYS_DB_PASSWORD or
+#   the file named in DEASYS_DB_PASSWORD_FILE):
+#       .\install.ps1 -Portable -DbMode existing -Unattended -AcceptTerms
 #   Network access for other computers (opens a private-network firewall rule, listens on all addresses):
 #       .\install.ps1 -AllowNetwork
 #   Upgrade: run the same script from a newer package. The database is backed up first; on a failed health check the
 #   previous program files and database are put back.
 #   Test mode without administrator rights (no service, no firewall, no shortcuts; ports and folders are yours):
-#       .\install.ps1 -Portable -InstallDir <folder> -DataDir <folder> -PgBin C:\PostgreSQL\13\bin -PgPort 5439 -AppPort 8089
+#       .\install.ps1 -Portable -InstallDir <folder> -DataDir <folder> -AppPort 8089
 #
 # Terms and conditions: TERMS.txt next to this script is shown first. The operator types ACCEPT, or a script passes
 # -AcceptTerms (the Inno Setup wizard does, after its I accept button). -Unattended needs -AcceptTerms. The acceptance is
 # recorded in DataDir\terms-accepted.json. The terms are asked again only when the package's terms version is newer.
 #
-# Before anything is changed: pre-flight checks (administrator rights, free disk space, free ports, conflicting services,
-# the PostgreSQL download address when it is needed), then a summary of what will be changed, then "Continue? (Y)".
+# Before anything is changed: the PostgreSQL connection is tested (check-db), then pre-flight checks (administrator rights,
+# free ports, conflicting services), then a summary of what will be changed, then "Continue? (Y)".
 #
 # Phases (used by the Inno Setup installer, which copies its files before it runs the last phase):
 #   Prepare  upgrade only: stop the service, back up the database, keep the previous program files in InstallDir\previous
@@ -50,31 +52,8 @@ $pkg = $PSScriptRoot
 
 $ServiceApp = 'DEASys'
 $ServiceDb = 'DEASysDB'
-$DbUser = 'DEASysDb'          # local account that runs the bundled PostgreSQL service (not an administrator)
-$AppDb = 'deasys'             # application role and database
 $exeName = 'deasys-server.exe'
 
-# Unpacks only the parts of the PostgreSQL zip that DEASys needs (bin, lib, share). The official zip also holds pgAdmin, the documentation,
-# the headers and debug symbols (over 1 GB in all), which the product does not use. Entries outside the destination are refused.
-function Expand-PgSubset {
-    param([string]$Zip, [string]$Dest, [string]$Top, [string[]]$Keep)
-    Add-Type -AssemblyName System.IO.Compression.FileSystem
-    $archive = [IO.Compression.ZipFile]::OpenRead($Zip)
-    try {
-        $destFull = [IO.Path]::GetFullPath($Dest).TrimEnd('\') + '\'
-        foreach ($entry in $archive.Entries) {
-            $name = $entry.FullName.Replace('\', '/')
-            if ($name.EndsWith('/')) { continue }
-            $wanted = $false
-            foreach ($k in $Keep) { if ($name.StartsWith("$Top/$k/", [StringComparison]::OrdinalIgnoreCase)) { $wanted = $true; break } }
-            if (-not $wanted) { continue }
-            $target = [IO.Path]::GetFullPath((Join-Path $Dest ($name.Replace('/', '\'))))
-            if (-not $target.StartsWith($destFull, [StringComparison]::OrdinalIgnoreCase)) { throw "unsafe path in the zip: $name" }
-            New-Item -ItemType Directory -Force -Path ([IO.Path]::GetDirectoryName($target)) | Out-Null
-            [IO.Compression.ZipFileExtensions]::ExtractToFile($entry, $target, $true)
-        }
-    } finally { $archive.Dispose() }
-}
 
 # Moves a folder, retrying when antivirus or the indexer still holds files in it (a freshly unpacked tree is often scanned for a few
 # seconds); falls back to copying. Used for the PostgreSQL programs.
@@ -178,10 +157,15 @@ function Invoke-PrepareUpgrade {
     $stamp = Get-Date -Format 'yyyyMMdd-HHmmss'
     $backup = Join-Path $paths.Backups "deasys-$stamp.dump"
     $env:DEASYS_CONFIG = $paths.Conf
+    # -PgBin reaches the backup now (the configuration is written later in the install): the same PostgreSQL bin folder as the server
+    if ($PgBin) { $env:DEASYS_PG_BIN = $PgBin }
     try {
         if ($DbMode -eq 'bundled' -or (Get-DEASysServiceState -Name $ServiceDb) -ne 'absent') { Start-BundledDb -paths $paths }
         $r = Invoke-DEASysProcess -FilePath $paths.Exe -ArgumentList @('backup', $backup)
-    } finally { Remove-Item Env:\DEASYS_CONFIG -ErrorAction SilentlyContinue }
+    } finally {
+        Remove-Item Env:\DEASYS_CONFIG -ErrorAction SilentlyContinue
+        Remove-Item Env:\DEASYS_PG_BIN -ErrorAction SilentlyContinue
+    }
     if ($r.ExitCode -ne 0) { throw ('the database backup failed; the upgrade is not applied: ' + ($r.Output -join ' ')) }
     Write-DEASysLog "database backed up to $backup"
     $script:BackupFile = $backup
@@ -212,14 +196,9 @@ function Copy-PackageFiles {
         if (Test-Path $paths.Ui) { Remove-Item -LiteralPath $paths.Ui -Recurse -Force }
         Copy-Item -LiteralPath (Join-Path $pkg 'ui') -Destination $InstallDir -Recurse -Force
     }
-    foreach ($f in 'install.ps1', 'uninstall.ps1', 'deasys-common.ps1', 'LICENSE.txt', 'README-FIRST.txt', 'VERSION.txt', 'TERMS.txt', 'postgres-pin.psd1') {
+    foreach ($f in 'install.ps1', 'uninstall.ps1', 'deasys-common.ps1', 'LICENSE.txt', 'README-FIRST.txt', 'VERSION.txt', 'TERMS.txt') {
         $src = Join-Path $pkg $f
         if (Test-Path $src) { Copy-Item -LiteralPath $src -Destination $InstallDir -Force }
-    }
-    $pgSrc = Join-Path $pkg 'postgresql'
-    if ((-not $Portable) -and (Test-Path $pgSrc) -and -not (Test-Path (Join-Path $InstallDir 'postgresql\bin\initdb.exe'))) {
-        Write-DEASysLog 'copying the bundled PostgreSQL programs (a one-time copy; later upgrades keep them)'
-        Copy-Item -LiteralPath $pgSrc -Destination $InstallDir -Recurse -Force
     }
 }
 
@@ -231,48 +210,6 @@ function Resolve-PgBin {
     return $null
 }
 
-# When the package has no postgresql folder (the small package), download the pinned PostgreSQL binaries from the official
-# source named in postgres-pin.psd1, check their SHA-256, and unpack them into InstallDir\postgresql. Needs internet access once.
-function Get-PgOnline {
-    $pinFile = Join-Path $pkg 'postgres-pin.psd1'
-    if (-not (Test-Path $pinFile)) { return $null }
-    $pin = Import-PowerShellDataFile -Path $pinFile
-    if ($pin.Sha256 -notmatch '^[0-9a-fA-F]{64}$') { return $null }
-    $dl = Join-Path $DataDir 'downloads'
-    New-Item -ItemType Directory -Force -Path $dl | Out-Null
-    $zip = Join-Path $dl $pin.FileName
-    $ok = $false
-    if (Test-Path $zip) { $ok = ((Get-FileHash -Algorithm SHA256 -LiteralPath $zip).Hash -eq $pin.Sha256.ToUpper()) }
-    if (-not $ok) {
-        Write-DEASysLog -Level STEP -Message "downloading PostgreSQL $($pin.Version) (about 330 MB, one time) from $($pin.Url)"
-        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-        $old = $ProgressPreference; $ProgressPreference = 'SilentlyContinue'
-        try { Invoke-WebRequest -Uri $pin.Url -OutFile $zip -UseBasicParsing } finally { $ProgressPreference = $old }
-        $actual = (Get-FileHash -Algorithm SHA256 -LiteralPath $zip).Hash
-        if ($actual -ne $pin.Sha256.ToUpper()) {
-            Remove-Item -LiteralPath $zip -Force -ErrorAction SilentlyContinue
-            Fail "the downloaded PostgreSQL does not match the expected SHA-256 (expected $($pin.Sha256), got $actual). It was deleted and not used."
-        }
-        Write-DEASysLog 'PostgreSQL download verified (SHA-256)'
-    }
-    $target = Join-Path $InstallDir 'postgresql'
-    $tmp = Join-Path $dl ('extract-' + [guid]::NewGuid().ToString('N'))
-    New-Item -ItemType Directory -Force -Path $tmp | Out-Null
-    try {
-        Write-DEASysLog -Level STEP -Message 'unpacking PostgreSQL'
-        $old = $ProgressPreference; $ProgressPreference = 'SilentlyContinue'
-        try {
-            # the .NET unzip is many times faster than Expand-Archive on a package with thousands of files
-            Expand-PgSubset -Zip $zip -Dest $tmp -Top $pin.TopFolder -Keep @('bin', 'lib', 'share')
-        } finally { $ProgressPreference = $old }
-        if (Test-Path $target) { Remove-Item -LiteralPath $target -Recurse -Force }
-        Move-FolderWithRetry -From (Join-Path $tmp $pin.TopFolder) -To $target
-    } finally {
-        Remove-Item -LiteralPath $tmp -Recurse -Force -ErrorAction SilentlyContinue
-    }
-    if (-not (Test-Path (Join-Path $target 'bin\initdb.exe'))) { Fail 'the downloaded PostgreSQL package has no bin\initdb.exe' }
-    return (Join-Path $target 'bin')
-}
 
 # Starts the bundled database (service DEASysDB, or pg_ctl for test mode) if it is not running.
 function Start-BundledDb {
@@ -303,93 +240,6 @@ function Start-BundledDb {
     Write-DEASysLog 'bundled database started'
 }
 
-# Bundled PostgreSQL: initdb (once), settings for loopback only, service registration, application role and database.
-function Initialize-BundledDb {
-    param($paths, [string]$AppPassword, [string]$SuperPassword)
-    $pgBinDir = $script:PgBinDir
-    $initdb = Join-Path $pgBinDir 'initdb.exe'
-    $isNew = -not (Test-Path (Join-Path $paths.PgData 'PG_VERSION'))
-    New-Item -ItemType Directory -Force -Path $paths.PgData | Out-Null
-    New-Item -ItemType Directory -Force -Path $paths.Logs | Out-Null
-    $runAs = $null
-    if (-not $Portable -and -not $NoService) {
-        # PostgreSQL refuses to run as Administrator: the service and initdb run as a dedicated local account
-        $secure = ConvertTo-SecureString -String (New-DEASysSecret -Length 40) -AsPlainText -Force
-        if (-not (Get-LocalUser -Name $DbUser -ErrorAction SilentlyContinue)) {
-            New-LocalUser -Name $DbUser -Password $secure -PasswordNeverExpires -UserMayNotChangePassword `
-                -Description 'Runs the DEASys bundled database service. Created by the DEASys installer.' | Out-Null
-            Write-DEASysLog "local account $DbUser created (no sign-in rights are granted beyond the service)"
-        }
-        $script:DbUserSecret = $secure
-        $runAs = $DbUser
-    }
-    if ($isNew) {
-        Write-DEASysLog -Level STEP -Message 'creating the bundled database cluster (initdb)'
-        New-Item -ItemType Directory -Force -Path $paths.Tmp | Out-Null
-        $pwFile = Join-Path $paths.Tmp ('pw-' + [guid]::NewGuid().ToString('N') + '.txt')
-        [System.IO.File]::WriteAllText($pwFile, $SuperPassword, (New-Object System.Text.UTF8Encoding($false)))
-        try {
-            if ($runAs) {
-                Set-DEASysRestrictedAcl -Path $pwFile -ReadSids @() -FullSids @()
-                & icacls.exe $pwFile /grant "${DbUser}:R" | Out-Null
-                & icacls.exe $paths.PgData /grant "${DbUser}:(OI)(CI)F" | Out-Null
-                $cred = New-Object System.Management.Automation.PSCredential -ArgumentList $DbUser, $script:DbUserSecret
-                $code = Invoke-DEASysProcessAsUser -FilePath $initdb -Credential $cred -LogFile (Join-Path $paths.Logs 'initdb.log') `
-                    -ArgumentList @('-D', $paths.PgData, '-U', 'postgres', '--pwfile', $pwFile, '-E', 'UTF8', '--locale=C', '-A', 'scram-sha-256')
-                $cred = $null
-            } else {
-                $r = Invoke-DEASysProcess -FilePath $initdb -ArgumentList @('-D', $paths.PgData, '-U', 'postgres', '--pwfile', $pwFile, '-E', 'UTF8', '--locale=C', '-A', 'scram-sha-256')
-                $code = $r.ExitCode
-                Set-Content -LiteralPath (Join-Path $paths.Logs 'initdb.log') -Value $r.Output -Encoding UTF8
-            }
-        } finally { Remove-Item -LiteralPath $pwFile -Force -ErrorAction SilentlyContinue }
-        if ($code -ne 0) { throw 'initdb failed (see logs\initdb.log)' }
-        # listen on loopback only, on the chosen port (appended: the last setting wins)
-        Add-Content -LiteralPath (Join-Path $paths.PgData 'postgresql.conf') -Value @(
-            '',
-            '# DEASys: loopback only, dedicated port',
-            "listen_addresses = '127.0.0.1'",
-            "port = $PgPort"
-        ) -Encoding ASCII
-    }
-    if ($runAs) {
-        & icacls.exe $paths.PgData /grant "${DbUser}:(OI)(CI)F" | Out-Null
-    }
-    if (-not $Portable -and -not $NoService) {
-        if ((Get-DEASysServiceState -Name $ServiceDb) -eq 'absent') {
-            Write-DEASysLog -Level STEP -Message "registering the database service $ServiceDb"
-            $plain = $null
-            $bstr = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($script:DbUserSecret)
-            try { $plain = [Runtime.InteropServices.Marshal]::PtrToStringBSTR($bstr) } finally { [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($bstr) }
-            $r = Invoke-DEASysProcess -FilePath (Join-Path $pgBinDir 'pg_ctl.exe') -ArgumentList @('register', '-N', $ServiceDb, '-D', $paths.PgData, '-S', 'auto', '-U', ".\$DbUser", '-P', $plain, '-w')
-            $plain = $null
-            if ($r.ExitCode -ne 0) { throw 'pg_ctl could not register the database service' }
-        }
-        Start-BundledDb -paths $paths
-    } else {
-        Start-BundledDb -paths $paths
-    }
-
-    # application role and database (idempotent; the SQL is sent on standard input, never on the command line)
-    $sql = @"
-do `$`$ begin
-  if not exists (select 1 from pg_roles where rolname = '$AppDb') then
-    create role $AppDb login password '$AppPassword';
-  else
-    alter role $AppDb with login password '$AppPassword';
-  end if;
-end `$`$;
-select 'create database $AppDb owner $AppDb encoding ''UTF8'' template template0'
-  where not exists (select 1 from pg_database where datname = '$AppDb') \gexec
-"@
-    $env:PGPASSWORD = $SuperPassword
-    try {
-        $r = Invoke-DEASysProcessWithInput -FilePath (Join-Path $pgBinDir 'psql.exe') -InputText $sql `
-            -ArgumentList @('-X', '-q', '-v', 'ON_ERROR_STOP=1', '-h', '127.0.0.1', '-p', "$PgPort", '-U', 'postgres', '-d', 'postgres')
-    } finally { Remove-Item Env:\PGPASSWORD -ErrorAction SilentlyContinue }
-    if ($r.ExitCode -ne 0) { throw 'could not create the application role and database' }
-    Write-DEASysLog "application role $AppDb and database $AppDb are in place"
-}
 
 function Get-ConfText {
     param([string]$Key, [hashtable]$Conf)
@@ -397,37 +247,125 @@ function Get-ConfText {
     return ''
 }
 
-# Database connection for a bundled install (loopback only).
-function New-BundledUrl {
-    param([string]$Password)
-    return "postgres://${AppDb}:$Password@127.0.0.1:${PgPort}/${AppDb}?sslmode=disable"
-}
 
-function Read-ExistingDbConnection {
-    if ($Unattended -or $env:DEASYS_DB_PASSWORD) {
-        $h = $env:DEASYS_DB_HOST; if (-not $h) { $h = 'localhost' }
-        $p = $env:DEASYS_DB_PORT; if (-not $p) { $p = '5432' }
-        $d = $env:DEASYS_DB_NAME; if (-not $d) { $d = 'deasys' }
-        $u = $env:DEASYS_DB_USER; if (-not $u) { $u = 'deasys' }
-        $s = $env:DEASYS_DB_SSLMODE; if (-not $s) { $s = 'prefer' }
-        $pw = $env:DEASYS_DB_PASSWORD
-        if (-not $pw) { throw 'DEASYS_DB_PASSWORD must be set for an unattended existing-server install' }
+# The connection values of the existing PostgreSQL server. Unattended: from DEASYS_DB_* environment variables; the password comes
+# from DEASYS_DB_PASSWORD or from the file named in DEASYS_DB_PASSWORD_FILE (never from the command line). Interactive: prompts,
+# the password typed hidden. The SSL mode defaults to prefer for this computer and to require for any other host.
+function Read-DbConnectionValues {
+    if ($Unattended) {
+        $v = @{ Host = $env:DEASYS_DB_HOST; Port = $env:DEASYS_DB_PORT; Name = $env:DEASYS_DB_NAME; User = $env:DEASYS_DB_USER; SslMode = $env:DEASYS_DB_SSLMODE; Password = $env:DEASYS_DB_PASSWORD }
+        if (-not $v.Password -and $env:DEASYS_DB_PASSWORD_FILE) {
+            if (-not (Test-Path -LiteralPath $env:DEASYS_DB_PASSWORD_FILE)) { throw 'DEASYS_DB_PASSWORD_FILE names a file that does not exist' }
+            $v.Password = (Get-Content -LiteralPath $env:DEASYS_DB_PASSWORD_FILE -Raw).TrimEnd("`r", "`n")
+        }
+        if (-not $v.Password) { throw 'an unattended install needs the database password: set DEASYS_DB_PASSWORD or DEASYS_DB_PASSWORD_FILE' }
+        if (-not $v.Name -or -not $v.User) { throw 'an unattended install needs DEASYS_DB_NAME and DEASYS_DB_USER' }
     } else {
-        Write-Host 'Connection to the existing PostgreSQL server (the database must exist; DEASys creates its tables).'
-        $h = Read-Host 'Host (default localhost)'; if (-not $h) { $h = 'localhost' }
-        $p = Read-Host 'Port (default 5432)'; if (-not $p) { $p = '5432' }
+        Write-Host ''
+        Write-Host 'PostgreSQL connection. The database and the login must already exist (DEASys creates only its tables).' -ForegroundColor Cyan
+        $h = Read-Host 'Host (default localhost)'
+        $p = Read-Host 'Port (default 5432)'
         $d = Read-Host 'Database name'
-        $u = Read-Host 'User name'
+        $u = Read-Host 'User name (login)'
         $sec = Read-Host 'Password (hidden)' -AsSecureString
         $bstr = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($sec)
         try { $pw = [Runtime.InteropServices.Marshal]::PtrToStringBSTR($bstr) } finally { [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($bstr) }
-        $s = Read-Host 'SSL mode: prefer, require or disable (default prefer)'; if (-not $s) { $s = 'prefer' }
+        $s = Read-Host 'SSL mode: prefer, require or disable (default: prefer here, require for another host)'
+        $v = @{ Host = $h; Port = $p; Name = $d; User = $u; SslMode = $s; Password = $pw }
     }
-    if (-not $d -or -not $u) { throw 'database name and user name are required' }
-    if ($s -notin @('disable', 'allow', 'prefer', 'require', 'verify-ca', 'verify-full')) { throw 'the SSL mode is not one of the allowed values' }
-    $url = 'postgres://' + [Uri]::EscapeDataString($u) + ':' + [Uri]::EscapeDataString($pw) + '@' + $h + ':' + $p + '/' + $d + '?sslmode=' + $s
-    Write-DEASysLog "existing database: $h`:$p/$d as $u (sslmode $s); the password is not logged"
-    return $url
+    if (-not $v.Host) { $v.Host = 'localhost' }
+    if (-not $v.Port) { $v.Port = '5432' }
+    if ($v.Port -notmatch '^\d+$' -or [int]$v.Port -lt 1 -or [int]$v.Port -gt 65535) { throw 'the port must be a number from 1 to 65535' }
+    if (-not $v.Name -or -not $v.User) { throw 'the database name and the user name are required' }
+    if (-not $v.SslMode) { $v.SslMode = $(if ($v.Host -in @('localhost', '127.0.0.1', '::1')) { 'prefer' } else { 'require' }) }
+    if ($v.SslMode -notin @('disable', 'allow', 'prefer', 'require', 'verify-ca', 'verify-full')) { throw 'the SSL mode is not one of the allowed values' }
+    return $v
+}
+
+# The connection string for the values. User, password and database name are percent-encoded, so @ : / # % spaces and quotes in them
+# are read as text. An IPv6 host address is written in brackets.
+function ConvertTo-DbUrl {
+    param([hashtable]$Values)
+    $hostName = if ($Values.Host -match ':') { '[' + $Values.Host + ']' } else { $Values.Host }
+    return 'postgres://' + [Uri]::EscapeDataString($Values.User) + ':' + [Uri]::EscapeDataString($Values.Password) + '@' + $hostName + ':' + $Values.Port +
+        '/' + [Uri]::EscapeDataString($Values.Name) + '?sslmode=' + $Values.SslMode
+}
+
+# The prerequisite check: the server answers, the password is accepted, the database exists, the version is supported and the
+# role can create the tables. It runs the server's check-db command with the connection in the environment (nothing is written,
+# the password is never logged). Returns @{ Ok; Text } where Text is the server's plain answer.
+function Test-DbUrl {
+    param([string]$Url)
+    $exe = if (Test-Path (Join-Path $pkg $exeName)) { Join-Path $pkg $exeName } else { Join-Path $InstallDir $exeName }
+    # the connection goes to the check in the environment; a value the operator set is put back afterwards
+    $saved = $env:DEASYS_DATABASE_URL
+    $env:DEASYS_DATABASE_URL = $Url
+    try { $r = Invoke-DEASysProcess -FilePath $exe -ArgumentList @('check-db') }
+    finally { if ($null -eq $saved) { Remove-Item Env:\DEASYS_DATABASE_URL -ErrorAction SilentlyContinue } else { $env:DEASYS_DATABASE_URL = $saved } }
+    $text = (@($r.Output) -join "`n").Trim()
+    return @{ Ok = ($r.ExitCode -eq 0); Text = $text }
+}
+
+# The backup of an upgrade runs pg_dump, which must be of the same PostgreSQL major version as the server. Returns "" when it
+# matches, otherwise the plain reason. pg_dump is found from the pg_bin setting (or -PgBin), then from PATH.
+function Test-PgDumpVersion {
+    param([string]$ServerText, [string]$PgBinSetting)
+    $serverMajor = if ($ServerText -match 'PostgreSQL (\d+)') { $Matches[1] } else { '' }
+    $dir = if ($PgBin) { $PgBin } else { $PgBinSetting }
+    $dump = if ($dir -and (Test-Path (Join-Path $dir 'pg_dump.exe'))) { Join-Path $dir 'pg_dump.exe' } else { $cmd = Get-Command pg_dump.exe -ErrorAction SilentlyContinue; if ($cmd) { $cmd.Source } }
+    if (-not $dump) { return 'pg_dump (the PostgreSQL client tools) was not found. Add the PostgreSQL bin folder to PATH, or pass -PgBin <that folder>. The upgrade backup needs it.' }
+    $v = (& $dump --version 2>&1) -join ' '
+    $dumpMajor = if ($v -match '(\d+)(\.\d+)?') { $Matches[1] } else { '' }
+    if ($serverMajor -and $dumpMajor -and $serverMajor -ne $dumpMajor) {
+        return "pg_dump is version $dumpMajor but the server is $serverMajor. They must match: use the PostgreSQL $serverMajor bin folder (-PgBin) for the backup."
+    }
+    return ''
+}
+
+# Establishes the PostgreSQL connection before anything is written. An upgrade keeps the connection it already has and asks
+# again only when that connection fails. Interactive: a failure is explained and the values are asked again. Unattended: a failure stops.
+function Get-VerifiedDbUrl {
+    param($existingConf)
+    # advanced: a complete connection string in DEASYS_DATABASE_URL is used as it is (checked the same way)
+    if ($env:DEASYS_DATABASE_URL) {
+        $given = $env:DEASYS_DATABASE_URL
+        $check = Test-DbUrl -Url $given
+        if (-not $check.Ok) { Fail "the connection string in DEASYS_DATABASE_URL does not work: $($check.Text). Nothing was changed." }
+        Write-DEASysLog "PostgreSQL: the connection string from DEASYS_DATABASE_URL answers ($($check.Text)); it is not logged"
+        $script:DbCheckText = $check.Text
+        return $given
+    }
+    $existing = Get-ConfText 'database_url' $existingConf
+    if ($script:IsUpgrade -and $existing) {
+        $check = Test-DbUrl -Url $existing
+        if ($check.Ok) {
+            Write-DEASysLog "PostgreSQL: the connection of the existing installation answers ($($check.Text))"
+            $dumpProblem = Test-PgDumpVersion -ServerText $check.Text -PgBinSetting (Get-ConfText 'pg_bin' $existingConf)
+            if ($dumpProblem) { Fail "the upgrade is not started: $dumpProblem Nothing was changed." }
+            $script:DbCheckText = $check.Text
+            return $existing
+        }
+        Write-DEASysLog -Level WARN -Message "the existing connection does not answer: $($check.Text)"
+        if ($Unattended) { Fail 'the existing database connection in deasys.conf does not work (see above). Fix the database or the settings, then run the installer again.' }
+        Write-Host 'The connection in deasys.conf does not work. Enter the connection again.' -ForegroundColor Yellow
+    }
+    while ($true) {
+        $values = Read-DbConnectionValues
+        $url = ConvertTo-DbUrl -Values $values
+        $check = Test-DbUrl -Url $url
+        if ($check.Ok) {
+            Write-DEASysLog "PostgreSQL: $($values.Host):$($values.Port)/$($values.Name) as $($values.User) (sslmode $($values.SslMode)) answers; the password is not logged"
+            $dumpProblem = Test-PgDumpVersion -ServerText $check.Text -PgBinSetting ''
+            if ($dumpProblem) { Write-DEASysLog -Level WARN -Message "$dumpProblem (an upgrade of this installation will need it)" }
+            $script:DbCheckText = $check.Text
+            return $url
+        }
+        Write-DEASysLog -Level ERROR -Message "PostgreSQL check failed: $($check.Text)"
+        Write-Host $check.Text -ForegroundColor Red
+        if ($Unattended) { Fail 'the PostgreSQL prerequisite is not met (see the reason above). Nothing was changed.' }
+        $again = [string](Read-Host 'Press Enter to enter the connection again, or type Q to stop')
+        if ($again.Trim() -match '^[Qq]') { Fail 'stopped at the PostgreSQL check. Nothing was changed.' }
+    }
 }
 
 function Invoke-Rollback {
@@ -544,8 +482,10 @@ function Confirm-TermsInteractive {
     param([Parameter(Mandatory = $true)][string]$File, [Parameter(Mandatory = $true)][string]$Version)
     Show-Terms -File $File -Version $Version
     Write-Host 'To accept these terms, type ACCEPT and press Enter. Anything else stops the installation; nothing is changed.'
-    $answer = [string](Read-Host 'Type ACCEPT to accept')
-    return ($answer.Trim() -ieq 'ACCEPT')
+    # Read-Host returns nothing at the end of redirected input: that is a refusal, not an error
+    $answer = Read-Host 'Type ACCEPT to accept'
+    if ($null -eq $answer) { return $false }
+    return (([string]$answer).Trim() -ieq 'ACCEPT')
 }
 
 # Writes the acceptance record. No secret is written. The file is replaced in one step.
@@ -646,74 +586,11 @@ function Test-PortForPreflight {
     return ("the $Label port $Port is in use by " + ($busy -join '; ') + '. Stop that program or choose another port (-AppPort or -PgPort).')
 }
 
-# Whether the PostgreSQL download address answers a HEAD request (10 seconds, TLS 1.2).
-function Test-PgDownloadReachable {
-    param([Parameter(Mandatory = $true)]$Pin)
-    try {
-        [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
-        $r = Invoke-WebRequest -Uri $Pin.Url -Method Head -UseBasicParsing -TimeoutSec 10
-        return ([int]$r.StatusCode -ge 200 -and [int]$r.StatusCode -lt 400)
-    } catch {
-        $script:PgHeadError = $_.Exception.Message
-        return $false
-    }
-}
-
-# The PostgreSQL download: the pinned zip goes to DataDir\downloads (once), its SHA-256 is checked, and it is extracted to
-# InstallDir\postgresql. Runs in the change phase, after the summary was accepted. Does nothing when the programs are there.
-function Install-BundledPostgresFiles {
-    if ($DbMode -ne 'bundled') { return }
-    if (Resolve-PgBin) { return }
-    $pin = $script:Pin
-    if (-not $pin) { throw 'postgres-pin.psd1 is missing from the package; the PostgreSQL programs cannot be fetched' }
-    $sha = [string]$pin.Sha256
-    if ($sha -notmatch '^[0-9a-fA-F]{64}$') { throw 'postgres-pin.psd1 has no valid SHA-256 (a placeholder); the PostgreSQL download is refused' }
-    $dlDir = Join-Path $DataDir 'downloads'
-    New-Item -ItemType Directory -Force -Path $dlDir | Out-Null
-    $zip = Join-Path $dlDir $pin.FileName
-    if (Test-Path -LiteralPath $zip) {
-        Write-DEASysLog "PostgreSQL zip already in $dlDir; it is not downloaded again"
-    } else {
-        Write-DEASysLog -Level STEP -Message "downloading PostgreSQL $($pin.Version) from the pinned address (one time)"
-        $part = $zip + '.part'
-        Remove-Item -LiteralPath $part -Force -ErrorAction SilentlyContinue
-        $oldProgress = $ProgressPreference
-        $ProgressPreference = 'SilentlyContinue'
-        try {
-            [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
-            Invoke-WebRequest -Uri $pin.Url -OutFile $part -UseBasicParsing -TimeoutSec 1800
-        } catch {
-            Remove-Item -LiteralPath $part -Force -ErrorAction SilentlyContinue
-            throw ('the PostgreSQL download failed: ' + $_.Exception.Message)
-        } finally { $ProgressPreference = $oldProgress }
-        Move-Item -LiteralPath $part -Destination $zip -Force
-    }
-    $actual = (Get-FileHash -Algorithm SHA256 -LiteralPath $zip).Hash
-    if ($actual -ne $sha) {
-        Remove-Item -LiteralPath $zip -Force -ErrorAction SilentlyContinue
-        throw "SHA-256 mismatch for $($pin.FileName): expected $sha, got $actual. The file was deleted; nothing was installed."
-    }
-    Write-DEASysLog 'PostgreSQL zip: SHA-256 verified'
-    $tmp = Join-Path $DataDir ('tmp\pgx-' + [guid]::NewGuid().ToString('N'))
-    New-Item -ItemType Directory -Force -Path $tmp | Out-Null
-    try {
-        # the .NET unzip is many times faster than Expand-Archive on a package with thousands of files
-        Expand-PgSubset -Zip $zip -Dest $tmp -Top $pin.TopFolder -Keep @('bin', 'lib', 'share')
-        $src = Join-Path $tmp $pin.TopFolder
-        if (-not (Test-Path (Join-Path $src 'bin\initdb.exe'))) { throw "the zip has no $($pin.TopFolder)\bin\initdb.exe: wrong package" }
-        New-Item -ItemType Directory -Force -Path $InstallDir | Out-Null
-        $target = Join-Path $InstallDir 'postgresql'
-        if (Test-Path -LiteralPath $target) { Remove-Item -LiteralPath $target -Recurse -Force }
-        Move-FolderWithRetry -From $src -To $target
-    } finally { Remove-Item -LiteralPath $tmp -Recurse -Force -ErrorAction SilentlyContinue }
-    if (-not (Test-Path (Join-Path $InstallDir 'postgresql\bin\initdb.exe'))) { throw 'the PostgreSQL programs did not reach InstallDir\postgresql' }
-    Write-DEASysLog "PostgreSQL programs installed in $(Join-Path $InstallDir 'postgresql')"
-}
 
 # ---------------------------------------------------------------- pre-flight and summary
 # Runs every check that does not change anything. Each result is logged; any failure stops the install before a change.
 function Invoke-Preflight {
-    param([hashtable]$Paths, [bool]$PgNeedsFiles, [bool]$PgZipPresent)
+    param([hashtable]$Paths)
     $problems = New-Object System.Collections.Generic.List[string]
     Write-DEASysLog -Level STEP -Message 'pre-flight checks (these change nothing)'
 
@@ -734,10 +611,6 @@ function Invoke-Preflight {
     # administrator rights were checked before the terms; ports next
     $p1 = Test-PortForPreflight -Port $AppPort -Label 'web' -Kind 'web' -Paths $Paths
     if ($p1) { $problems.Add($p1) }
-    if ($DbMode -eq 'bundled') {
-        $p2 = Test-PortForPreflight -Port $PgPort -Label 'database' -Kind 'db' -Paths $Paths
-        if ($p2) { $problems.Add($p2) }
-    }
 
     # conflicting service names: ours on an upgrade is fine, anything else stops the install
     foreach ($svc in @($ServiceApp, $ServiceDb)) {
@@ -747,24 +620,8 @@ function Invoke-Preflight {
         $problems.Add("a Windows service named $svc already exists ($st), and $InstallDir has no DEASys installation to upgrade. Remove that service or choose other folders.")
     }
 
-    # PostgreSQL programs: a valid pin is needed to fetch or verify them; the download address is checked only when no zip is in place
-    if ($PgNeedsFiles) {
-        $pin = $script:Pin
-        $sha = ''
-        if ($pin) { $sha = [string]$pin.Sha256 }
-        if (-not $pin) { $problems.Add('postgres-pin.psd1 is missing from the package, so the PostgreSQL programs cannot be fetched or verified') }
-        elseif ($sha -notmatch '^[0-9a-fA-F]{64}$') { $problems.Add('postgres-pin.psd1 has a placeholder SHA-256 (this is not a release build), so the PostgreSQL programs cannot be verified. Use a release package, -PgBin, or -DbMode existing.') }
-        if ($PgZipPresent) {
-            Write-DEASysLog "the PostgreSQL zip is already in $(Join-Path $DataDir 'downloads'): the download address is not checked and the download is skipped"
-        } elseif ($pin -and $sha -match '^[0-9a-fA-F]{64}$') {
-            if (Test-PgDownloadReachable -Pin $pin) { Write-DEASysLog "the PostgreSQL download address answers: $($pin.Url)" }
-            else {
-                $problems.Add("the PostgreSQL download address cannot be reached ($($script:PgHeadError)). Do one of these: (1) put $($pin.FileName) in $(Join-Path $DataDir 'downloads') (download it on a computer that has internet access); (2) pass -PgBin <folder with bin\initdb.exe> or set DEASYS_PG_BIN; (3) use an existing PostgreSQL server with -DbMode existing.")
-            }
-        }
-    } elseif ($DbMode -eq 'bundled') {
-        Write-DEASysLog "PostgreSQL programs: found ($(Resolve-PgBin)); no download needed"
-    }
+    # PostgreSQL is a prerequisite: its server was checked before anything was written (Get-VerifiedDbUrl). Nothing is downloaded.
+    if ($DbMode -eq 'existing') { Write-DEASysLog "PostgreSQL prerequisite: checked before the install ($($script:DbCheckText))" }
 
     if ($problems.Count -gt 0) {
         foreach ($p in $problems) { Write-DEASysLog -Level ERROR -Message ('pre-flight: ' + $p) }
@@ -775,28 +632,18 @@ function Invoke-Preflight {
 
 # Plain-English list of what the install will change. Printed and logged; the operator confirms it unless -Unattended.
 function Show-ChangeSummary {
-    param([hashtable]$Paths, [bool]$PgNeedsFiles, [bool]$PgZipPresent, [bool]$TermsWillBeRecorded)
+    param([hashtable]$Paths, [bool]$TermsWillBeRecorded)
     Write-DEASysLog -Level STEP -Message 'what will be changed'
     Write-DEASysLog "  Program folder: $InstallDir - the web server program, the web interface (ui), the scripts, TERMS.txt, the licence and the readme."
     if ($script:IsUpgrade) { Write-DEASysLog "    upgrade: the database is backed up first; the previous program files are kept in $($Paths.Previous)" }
-    if ($DbMode -eq 'bundled') {
-        if ($PgNeedsFiles) {
-            if ($PgZipPresent) { Write-DEASysLog "    PostgreSQL programs: from the zip in $(Join-Path $DataDir 'downloads') (SHA-256 checked), into $(Join-Path $InstallDir 'postgresql')" }
-            else { Write-DEASysLog "    PostgreSQL programs: ONE-TIME DOWNLOAD from $($script:Pin.Url) into $(Join-Path $DataDir 'downloads') (SHA-256 checked), then into $(Join-Path $InstallDir 'postgresql')" }
-        } else { Write-DEASysLog "    PostgreSQL programs: already there ($(Resolve-PgBin)); not downloaded" }
-    }
     Write-DEASysLog "  Data folder: $DataDir - kept on upgrades and never deleted by the install:"
-    Write-DEASysLog '    deasys.conf (settings and secrets), logs, backups, run, tmp, downloads, terms-accepted.json'
-    if ($DbMode -eq 'bundled') { Write-DEASysLog '    pgdata (the database) and pgsuper.secret (the database superuser password, administrators only)' }
+    Write-DEASysLog '    deasys.conf (settings and secrets), logs, backups, run, tmp, terms-accepted.json'
+    if ($DbMode -eq 'bundled') { Write-DEASysLog '    pgdata (the database of the earlier bundled installation, kept as it is)' }
     if ($TermsWillBeRecorded) { Write-DEASysLog "  Terms record: $(Join-Path $DataDir 'terms-accepted.json') is written (version and time of your acceptance)" }
     if ($Portable) {
         Write-DEASysLog '  Test mode (-Portable): no Windows services, no firewall rule, no shortcuts, no local account.'
     } else {
         Write-DEASysLog "  Service 'DEASys': the web server; runs as LocalService; starts automatically with Windows."
-        if ($DbMode -eq 'bundled') {
-            Write-DEASysLog "  Service 'DEASysDB': the bundled database; starts automatically; runs as the local account $DbUser (not an administrator)."
-            Write-DEASysLog "  Local account ${DbUser}: created if it does not exist (used only to run the database service)."
-        }
         if ($AllowNetwork) { Write-DEASysLog "  Firewall rule 'DEASys web interface (TCP)': allows TCP $AppPort on private and domain networks." }
         else { Write-DEASysLog "  Firewall: no rule is added (an existing rule of that name is removed); only this computer can open DEASys." }
         if ($NoShortcuts) { Write-DEASysLog '  Shortcuts: none (-NoShortcuts).' }
@@ -805,11 +652,20 @@ function Show-ChangeSummary {
         }
     }
     Write-DEASysLog "  Web address: http://localhost:$AppPort/ $(if ($AllowNetwork -and -not $Portable) { '(all network addresses)' } else { '(this computer only)' })"
-    if ($DbMode -eq 'bundled') { Write-DEASysLog "  Database address: 127.0.0.1:$PgPort (this computer only)" }
-    else { Write-DEASysLog '  Database: the existing PostgreSQL server you name (its connection is asked for during the install).' }
+    if ($DbMode -eq 'bundled') { Write-DEASysLog '  Database: the PostgreSQL of the earlier bundled installation (kept as it is; its service is not changed).' }
+    else { Write-DEASysLog '  Database: the PostgreSQL server you name (checked before anything is written; DEASys installs no database server).' }
 }
 
 # ---------------------------------------------------------------- main
+Write-Host ""
+Write-Host "DEASys installer. The installer installs DEASys only; it downloads nothing." -ForegroundColor Cyan
+Write-Host "Before you start, these must be in place (the installer checks them and stops with the reason if one is missing):"
+Write-Host "  1. Windows 10 or 11, 64-bit, and administrator rights (not needed with -Portable, the test mode)."
+Write-Host "  2. PostgreSQL 16 (13 or later works) installed and running, from its official download."
+Write-Host "  3. An empty database and a login for DEASys (CREATE ROLE ... LOGIN PASSWORD ...; CREATE DATABASE ... OWNER ...;)."
+Write-Host "  The installer asks for the host, port, database, login and password, and tests the connection before it writes anything."
+Write-Host "  See README-FIRST.txt for the statements and the complete list."
+Write-Host ""
 if (-not $Portable -and -not (Test-IsAdministrator)) {
     Write-Host 'DEASys install: run this from an elevated PowerShell (Run as administrator), or add -Portable for a test install.' -ForegroundColor Red
     exit 1
@@ -861,10 +717,8 @@ $script:BackupFile = $null
 $script:ProgramChanged = $false
 $script:DbTouched = $false
 $script:IsUpgrade = (Test-Path (Join-Path $InstallDir $exeName)) -and (Test-Path (Join-Path $DataDir 'deasys.conf'))
-$script:Pin = $null
-$script:PgHeadError = ''
-$pinPath = Join-Path $pkg 'postgres-pin.psd1'
-if (Test-Path -LiteralPath $pinPath) { $script:Pin = Import-PowerShellDataFile -Path $pinPath }
+$script:DbUrl = $null
+$script:DbCheckText = ''
 $lastBackup = Join-Path $paths.Run 'last-backup.txt'
 if ($Phase -eq 'Install' -and (Test-Path $lastBackup)) {
     $script:BackupFile = (Get-Content -LiteralPath $lastBackup -Raw).Trim()
@@ -886,35 +740,29 @@ try {
         $ver = (& $paths.Exe version 2>$null) -join ' '
         Write-DEASysLog "installed program: $ver"
     }
-    if (-not $DbMode) {
-        if (Test-Path $paths.Conf) {
-            $existingConf = Read-DEASysConf -Path $paths.Conf
-            if ((Get-ConfText 'database_url' $existingConf) -match '127\.0\.0\.1:' -or (Test-Path $paths.PgData)) { $DbMode = 'bundled' } else { $DbMode = 'existing' }
-        } elseif ($Unattended) { $DbMode = 'bundled' }
-        else {
-            $answer = Read-Host 'Database: [B] bundled PostgreSQL (recommended) or [E] existing server? (B/E, default B)'
-            if ($answer -match '^[Ee]') { $DbMode = 'existing' } else { $DbMode = 'bundled' }
-        }
+    # An installation whose database is the bundled one (an earlier release) keeps it: its database is started, not changed.
+    # Every new installation uses an existing PostgreSQL server that the operator provides; DEASys installs no database.
+    $existingConf = @{}
+    if (Test-Path $paths.Conf) { $existingConf = Read-DEASysConf -Path $paths.Conf }
+    $legacyBundled = ((Get-ConfText 'database_url' $existingConf) -match '127\.0\.0\.1:') -and (Test-Path $paths.PgData)
+    if ($legacyBundled) { $DbMode = 'bundled' }
+    else {
+        if ($DbMode -eq 'bundled') { Fail 'DEASys no longer installs a database. Install PostgreSQL 16 (or later) first and run this installer again; README-FIRST.txt lists the prerequisites.' }
+        $DbMode = 'existing'
     }
-    if ($DbMode -eq 'bundled' -and -not $Unattended -and -not $Portable -and -not $PSBoundParameters.ContainsKey('AllowNetwork')) {
-        # the network question is asked only in an interactive fresh install
-        if (-not $isUpgrade) {
-            $net = Read-Host 'Allow other computers on your network to open DEASys? (y/N)'
-            if ($net -match '^[Yy]') { $AllowNetwork = $true }
-        }
+    if (-not $Unattended -and -not $Portable -and -not $isUpgrade -and -not $PSBoundParameters.ContainsKey('AllowNetwork')) {
+        # the network question is asked in an interactive fresh install
+        $net = Read-Host 'Allow other computers on your network to open DEASys? (y/N)'
+        if ($net -match '^[Yy]') { $AllowNetwork = $true }
     }
-    Write-DEASysLog "database mode: $DbMode; web address: http://localhost:$AppPort/ ; network: $([bool]$AllowNetwork)"
+    Write-DEASysLog "database: $(if ($DbMode -eq 'bundled') { 'the earlier bundled installation (kept)' } else { 'an existing PostgreSQL server (prerequisite)' }); web address: http://localhost:$AppPort/ ; network: $([bool]$AllowNetwork)"
 
-    # the PostgreSQL programs: needed for the bundled database unless they are already there or a zip is in DataDir\downloads
-    $pgNeedsFiles = ($DbMode -eq 'bundled') -and -not (Resolve-PgBin)
-    $pgZipPresent = $false
-    if ($pgNeedsFiles -and $script:Pin) {
-        $pgZipPresent = Test-Path -LiteralPath (Join-Path (Join-Path $DataDir 'downloads') $script:Pin.FileName)
-    }
+    # the PostgreSQL connection is verified before anything is written (a new install asks for it; an upgrade reuses its own)
+    if ($DbMode -eq 'existing') { $script:DbUrl = Get-VerifiedDbUrl -existingConf $existingConf }
 
     # ---- pre-flight (nothing is changed yet), then the summary and the confirmation
-    Invoke-Preflight -Paths $paths -PgNeedsFiles $pgNeedsFiles -PgZipPresent $pgZipPresent
-    Show-ChangeSummary -Paths $paths -PgNeedsFiles $pgNeedsFiles -PgZipPresent $pgZipPresent -TermsWillBeRecorded $termsNeedAccept
+    Invoke-Preflight -Paths $paths
+    Show-ChangeSummary -Paths $paths -TermsWillBeRecorded $termsNeedAccept
     if (-not $Unattended) {
         $go = [string](Read-Host 'Continue? (type Y to continue)')
         if ($go.Trim() -notmatch '^[Yy]$') { Fail 'not continued. Nothing was changed.' }
@@ -927,7 +775,6 @@ try {
         Write-TermsRecord -Path $termsRecordFile -Version $termsVersion -Source $termsSource -Method $termsMethod -ProgramVersion $version
         Write-DEASysLog "terms: version $termsVersion recorded in $termsRecordFile"
     }
-    if ($Phase -eq 'All' -or $Phase -eq 'Prepare' -or $Phase -eq 'Install') { Install-BundledPostgresFiles }
 
     if ($Phase -eq 'All' -or $Phase -eq 'Prepare') {
         if ($isUpgrade) { Invoke-PrepareUpgrade -paths $paths }
@@ -949,33 +796,16 @@ try {
     if (-not $jwt) { $jwt = New-DEASysJwtKey }
     $confValues = [ordered]@{}
     if ($DbMode -eq 'bundled') {
-        $script:PgBinDir = Resolve-PgBin
-        if (-not $script:PgBinDir) { $script:PgBinDir = Get-PgOnline }
-        if (-not $script:PgBinDir) {
-            Fail 'no PostgreSQL programs found. The package has no postgresql folder and the download is not available: pass -PgBin <folder with initdb.exe>, set DEASYS_PG_BIN, or use -DbMode existing.'
-        }
-        $appPw = ''
+        # the earlier bundled installation: its database and its connection are kept; the cluster is only started
         $existingUrl = Get-ConfText 'database_url' $existingConf
-        if ($existingUrl -match '^postgres://[^:]+:([^@]+)@127\.0\.0\.1:') { $appPw = $Matches[1] }
-        if (-not $appPw) { $appPw = New-DEASysSecret -Length 32 }
-        $superFile = Join-Path $DataDir 'pgsuper.secret'
-        $superPw = $null
-        if (Test-Path $superFile) { $superPw = (Get-Content -LiteralPath $superFile -Raw).Trim() }
-        if (-not $superPw) { $superPw = New-DEASysSecret -Length 32 }
-        if (-not (Test-Path (Join-Path $paths.PgData 'PG_VERSION'))) {
-            # the superuser password is kept only in a file that administrators (and the database account) can read
-            Set-Content -LiteralPath $superFile -Value $superPw -Encoding ASCII -NoNewline
-            # service mode: administrators only; test mode: the current user (the test folder is already private to it)
-            $fullSids = @()
-            if ($Portable) { $fullSids = @([Security.Principal.WindowsIdentity]::GetCurrent().User.Value) }
-            Set-DEASysRestrictedAcl -Path $superFile -ReadSids @() -FullSids $fullSids
-        }
-        Initialize-BundledDb -paths $paths -AppPassword $appPw -SuperPassword $superPw
-        $dbUrl = New-BundledUrl -Password $appPw
-        $confValues['database_url'] = $dbUrl
+        if ($existingUrl -match ':(\d+)/') { $PgPort = [int]$Matches[1] }
+        $script:PgBinDir = Resolve-PgBin
+        if (-not $script:PgBinDir) { Fail 'the earlier bundled installation needs its PostgreSQL programs (postgresql\bin in the program folder), and they are missing. Nothing was changed by this run.' }
+        Start-BundledDb -paths $paths
+        $confValues['database_url'] = $existingUrl
         $confValues['pg_bin'] = $script:PgBinDir
     } else {
-        $confValues['database_url'] = Read-ExistingDbConnection
+        $confValues['database_url'] = $script:DbUrl
         if ($PgBin) { $confValues['pg_bin'] = $PgBin }
     }
 
@@ -984,8 +814,16 @@ try {
     $confValues['jwt_key'] = $jwt
     $confValues['log_dir'] = $paths.Logs
     $confValues['ui_dir'] = $paths.Ui
-    $confValues['auto_migrate'] = 'on'
-    $confValues['public_url'] = "http://localhost:$AppPort"
+    # an upgrade keeps the owner's settings: a value the owner set (public_url, auto_migrate) stays, and so does any key this
+    # installer does not write. The generated public address follows the web port while it is still the generated one.
+    $ownedPublic = Get-ConfText 'public_url' $existingConf
+    if (-not $ownedPublic -or $ownedPublic -match '^http://localhost:\d+$') { $confValues['public_url'] = "http://localhost:$AppPort" }
+    else { $confValues['public_url'] = $ownedPublic }
+    $ownedAutoMigrate = Get-ConfText 'auto_migrate' $existingConf
+    $confValues['auto_migrate'] = if ($ownedAutoMigrate) { $ownedAutoMigrate } else { 'on' }
+    foreach ($k in $existingConf.Keys) {
+        if (-not $confValues.Contains($k)) { $confValues[$k] = [string]$existingConf[$k] }
+    }
     Write-DEASysConf -Path $paths.Conf -Values $confValues
     if (-not $Portable) {
         Set-DEASysRestrictedAcl -Path $paths.Conf -ReadSids @('S-1-5-19') -FullSids @()

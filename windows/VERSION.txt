@@ -1,0 +1,5 @@
+version=0.2.0-beta.1
+commit=ae1d21d
+built=2026-11-26
+exe-sha256=32ECC33166FBBE22D6EB7AF2322ED49AA876928F39C853A47A6E420F05F2C2D0
+prerequisite=PostgreSQL 13 or later (16 recommended), provided by the operator
