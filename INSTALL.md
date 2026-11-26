@@ -13,7 +13,7 @@ PostgreSQL yourself first, as described below.
 |---|---|
 | Windows | Windows 10 or Windows 11, 64-bit. Windows 10 is the only version tested so far. |
 | Administrator rights | Needed to run the installer. Not needed for `-Portable` (test mode only). |
-| PostgreSQL | **PostgreSQL 13 or later. PostgreSQL 16 or later is recommended.** PostgreSQL 13 no longer receives updates from PostgreSQL, so use 16 or later for a new installation. Tested with 13.6 and 16.4. Get it from [postgresql.org/download/windows](https://www.postgresql.org/download/windows/). Keep the password of the `postgres` administrator. The installer does not ask for it. |
+| PostgreSQL | **PostgreSQL 13 or later. PostgreSQL 16 or later is recommended.** PostgreSQL 13 no longer receives updates from PostgreSQL, so use 16 or later for a new installation. Tested in this release with 13.6. Get it from [postgresql.org/download/windows](https://www.postgresql.org/download/windows/). Keep the password of the `postgres` administrator. The installer does not ask for it. |
 | An empty database and a login | Created by you in step 2. The database must be empty. |
 | A web browser | Any current browser, for the first-run screen. |
 | Disk space | At least 1.5 GB free on the drive of the program folder and on the drive of the data folder. |
@@ -112,7 +112,7 @@ Run the new installer (or `install.ps1` from the new zip) over the existing inst
 - The database is **backed up first**, into `C:\ProgramData\DEASys\backups`.
 - New database changes are applied when the new program starts. If the new version fails to start, the installer puts back the old program files and the old database.
 - **Installs that used the bundled database** (0.1.0 installed its own PostgreSQL 16 as the service `DEASysDB`) keep that database, its data and its backups. The installer only starts the database when it is stopped. Upgrading these installs was tested.
-- **Installs that used your own PostgreSQL server in 0.1.0** keep using that server. Make a backup first (section 8). This upgrade path has not been tested separately in this beta.
+- **Installs that used your own PostgreSQL server in 0.1.0** keep using that server. Make a backup first (section 8). Tested in this release: a portable 0.1.0 install on PostgreSQL 13.6 was upgraded in place; the data, the sign-in and the pre-upgrade backup were checked.
 - The terms are asked again only when their version has changed.
 
 ## 6. Uninstall

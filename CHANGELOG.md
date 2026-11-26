@@ -38,11 +38,16 @@ Read [INSTALL.md](INSTALL.md) first.
 - Data Entry and other roles no longer read the audit trail, the API keys or the webhooks.
 - Bank file screens show only the branches the user may see.
 - Statement and reminder requests return the rule's own message (for example, a reminder with no overdue invoices) rather than a server error.
+- A receipt or payment entered as a voucher against an invoice or bill now settles it.
+- The Profit & Loss and Balance Sheet views show their amounts, including the expense side and the profit or loss.
+- Debtors Ageing lists the open invoices of customers who owe money.
 
 ### Verified
 
-- Fresh install against PostgreSQL 13.6 (Windows 10, unattended installer path): migrations applied, first run, sign-in.
-- Upgrade from 0.1.0 installed with its bundled PostgreSQL 16.4: the database is backed up first, data and sign-in are unchanged, and the pre-upgrade backup restores.
+- Server tests (`go test ./...`) on a seeded database: every package passes except two tests with out-of-date expectations (see the README).
+- Browser: a receipt and a payment, each entered as a voucher and checked and authorised by separate users, settle a sales invoice and a purchase bill. The trial balance, profit and loss, balance sheet and debtors ageing agree with the postings.
+- Fresh install in test mode (no service, no firewall rule) against PostgreSQL 13.6: first run, sign-in, and one voucher posted through maker, checker and authoriser.
+- Upgrade in place from 0.1.0 (test mode, PostgreSQL 13.6): the database is backed up first, 27 scripts are applied, and the data, sign-in and balances are unchanged.
 - Uninstall with the data kept, and uninstall with the data removed.
 
 ### Not verified or not built in this beta

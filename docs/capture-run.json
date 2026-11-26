@@ -893,20 +893,20 @@
     {
       "id": "88-report-profit-and-loss",
       "file": "88-report-profit-and-loss.png",
-      "status": "not captured",
-      "reason": "the Profit and Loss view leaves the expense rows, TOTAL EXPENSES and the profit line without amounts while the books hold the expenses (a product defect, see the product problems)"
+      "status": "captured",
+      "route": "/reports"
     },
     {
       "id": "89-report-balance-sheet",
       "file": "89-report-balance-sheet.png",
-      "status": "not captured",
-      "reason": "the Balance Sheet view leaves its amounts out of the lines while the books hold the balances (a product defect, see the product problems)"
+      "status": "captured",
+      "route": "/reports"
     },
     {
       "id": "90-report-debtors-ageing",
       "file": "90-report-debtors-ageing.png",
-      "status": "not captured",
-      "reason": "Debtors Ageing shows no rows although customers owe money in the books (suspected product defect, see the product problems)"
+      "status": "captured",
+      "route": "/reports"
     },
     {
       "id": "91-report-cost-centre-summary",

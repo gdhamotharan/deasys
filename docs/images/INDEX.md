@@ -1,10 +1,10 @@
 # Screenshot index
 
-Generated from `docs/screenshot-manifest.json` and the last capture run (2026-11-26T16:20:36.173Z, base http://127.0.0.1:5243).
+Generated from `docs/screenshot-manifest.json` and the last capture run (2026-11-26T16:30:14.945Z, base http://127.0.0.1:5251).
 Every image is a plain capture of the fictional demo company (Harbor Pine Trading Co. (Demo)) from a fresh install,
 1600 x 900, light theme. Nothing is annotated. Entries marked "not captured" are not in this folder.
 
-Captured: 134 of 160.
+Captured: 137 of 160.
 
 | File | Screen | Signed in as | Guide section | Caption | Status |
 |---|---|---|---|---|---|
@@ -95,9 +95,9 @@ Captured: 134 of 160.
 | [85-interest-statement.png](85-interest-statement.png) | /interest/statement | admin | 8 | Interest Statement: the interest computed for a period. | captured |
 | [86-year-end-close.png](86-year-end-close.png) | /period/year (Close year dialog open) | admin | 8 | Year-End Close: a year cannot be closed while vouchers in it are not authorised (13 are waiting in the demo). | captured |
 | [87-report-trial-balance.png](87-report-trial-balance.png) | /reports (open the Trial Balance family) | admin | 9 | Trial Balance run with data. | captured |
-| 88-report-profit-and-loss.png | /reports (open Profit and Loss) | admin | 9 | Profit and Loss statement. | not captured: the Profit and Loss view leaves the expense rows, TOTAL EXPENSES and the profit line without amounts while the books hold the expenses (a product defect, see the product problems) |
-| 89-report-balance-sheet.png | /reports (open Balance Sheet) | admin | 9 | Balance Sheet. | not captured: the Balance Sheet view leaves its amounts out of the lines while the books hold the balances (a product defect, see the product problems) |
-| 90-report-debtors-ageing.png | /reports (open Debtors Ageing) | admin | 9 | Debtors Ageing: what customers owe, by age. | not captured: Debtors Ageing shows no rows although customers owe money in the books (suspected product defect, see the product problems) |
+| [88-report-profit-and-loss.png](88-report-profit-and-loss.png) | /reports (open Profit and Loss) | admin | 9 | Profit and Loss statement. | captured |
+| [89-report-balance-sheet.png](89-report-balance-sheet.png) | /reports (open Balance Sheet) | admin | 9 | Balance Sheet. | captured |
+| [90-report-debtors-ageing.png](90-report-debtors-ageing.png) | /reports (open Debtors Ageing) | admin | 9 | Debtors Ageing: what customers owe, by age. | captured |
 | 91-report-cost-centre-summary.png | /reports (open Cost Centre Summary) | admin | 9 | Cost Centre Summary. | not captured: the Cost Centre Summary has no rows: no voucher in the demo carries a cost centre line |
 | 92-report-budget-variance.png | /reports (open Budget Variance) | admin | 9 | Budget Variance: budget against actual to date. | not captured: the Budget button of Cost Centres and Budgets opens the Budgets master, not the Budget Variance view (a product gap in the report menu) |
 | 93-report-drill-down.png | /reports (a figure clicked to drill down) | admin | 9 | Drilling down from a report figure to its vouchers. | not captured: the drill-down needs a ledger row in a run report; the Trial Balance returns no ledger rows in this build (see the product problems) |

@@ -2,8 +2,6 @@
 
 *Accounts, under control.*
 
-> **The 0.2.0-beta.1 download is not published yet.** The files in `bin/` and `windows/` are still version 0.1.0. This page, [INSTALL.md](INSTALL.md) and the screenshots describe 0.2.0-beta.1, which will be added soon.
-
 **DEASys** (Double Entry Accounting System) is free double-entry accounting software from Creative Global Financial Solutions. It runs on your own computer (Windows 10 or 11, 64-bit; a Linux program is also published) and you use it in your web browser.
 
 > **This is a beta.** It is for evaluation and trial use alongside your existing records. It is not complete, not certified and not compliant with any tax or statutory requirement. Check every figure with your accountant before you file, pay or sign anything.
@@ -53,6 +51,18 @@ All screens show a fictional demo company. [USER-GUIDE.md](USER-GUIDE.md) has ma
 
 ![Trial Balance run for the demo company, with closing debit and credit totals](docs/images/87-report-trial-balance.png)
 
+### Profit and loss
+
+![Profit and Loss summary for the demo company: period and year-to-date amounts for income and expenses](docs/images/88-report-profit-and-loss.png)
+
+### Balance sheet
+
+![Balance Sheet for the demo company, consolidated across its branches](docs/images/89-report-balance-sheet.png)
+
+### Debtors ageing
+
+![Debtors Ageing for the demo company: each customer's open invoices, with outstanding amounts by age](docs/images/90-report-debtors-ageing.png)
+
 ### Bank reconciliation
 
 ![Bank Reconciliation for a bank ledger: cleared and not-yet-reflected entries](docs/images/05-bank-reconciliation.png)
@@ -87,22 +97,27 @@ DEASys is free of charge, including for use in your own business. It is distribu
 
 ## What has been tested
 
-- Windows 10, with PostgreSQL 13.6 and 16.4.
-- A fresh install against PostgreSQL 13.6, and a first run.
-- An upgrade from 0.1.0 that used its bundled database (PostgreSQL 16.4), with the database backed up first and the pre-upgrade backup restored in a test.
-- Uninstall with the data kept, and uninstall with the data removed.
+- **Server tests** (`go test ./...`) against a seeded database. Every package passes except two tests whose expected results are out of date: a statement report run without a party, which is refused by design, and a webhook check that reads another test's leftover row. Neither is a product failure.
+- **Browser journey:** a receipt and a payment, each entered as a voucher, then checked and authorised by separate users. The receipt settles a sales invoice and the payment settles a purchase bill; both show as paid. The trial balance, profit and loss, balance sheet and debtors ageing agree with the postings.
+- **Fresh install** in test mode (no Windows service, no firewall rule) against an existing PostgreSQL 13.6 server: first run, sign-in, and one voucher posted through the maker, checker and authoriser steps.
+- **Upgrade from 0.1.0** in test mode on PostgreSQL 13.6: the database was backed up first, 27 database scripts were applied, and the data, the sign-in and the balances were unchanged.
+- **Uninstall**, with the data kept and with the data removed.
 
 ## Known limitations
 
-**Faults found in testing and being fixed (do not rely on these yet):**
+**Known limitations in this release:**
 
-- Under Reports, the Profit & Loss and Balance Sheet views leave some amounts blank. The expense side and the profit or loss are missing.
-- The Debtors Ageing report can show no rows although customers owe money.
-- A receipt or payment entered as a voucher against an invoice or bill posts to the ledger but leaves the invoice or bill open. Use the Receipts and Payments screens instead.
+- **Foreign-currency invoices cannot be settled.** A receipt or payment against a foreign-currency invoice or bill does not settle it.
+- **TDS on a receipt entered as a voucher is not added to the TDS receivable register.**
+- **Profit & Loss Financial Report shows its heading only.** Use the Profit & Loss summary, detail or hierarchy views.
+- **The credit sales register is empty.**
+- **Category analysis (CAT) reports need a category master**, which a new install does not have. Set one up before you use them.
+- **TDS reports under Reports are not available.** Use the TDS screens for TDS figures.
+- **Schedule III shows Duties & Taxes netted**, not as separate debit and credit balances.
 
 **Other limitations:**
 
-- **Tested on Windows 10 only,** with PostgreSQL 13.6 and 16.4. Windows 11 has not been tested.
+- **Tested on Windows 10 only,** with PostgreSQL 13.6. Windows 11 has not been tested.
 - **Not tested yet:** the Windows Setup wizard (an installer built with Inno Setup is not part of this beta; use `Install DEASys.cmd` or `install.ps1`), the Windows service and firewall steps on an administrator machine, and the Linux program.
 - **Performance is not proven.** No load test has been run on a large company.
 - **No multi-factor sign-in and no single sign-on.** Sign-in is by user name and password.
