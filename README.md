@@ -49,6 +49,18 @@ All screens show a fictional demo company. [USER-GUIDE.md](USER-GUIDE.md) has ma
 
 ![GSTR-3B with its tie-out checks against the books](docs/images/124-gst-returns.png)
 
+### Trial balance
+
+![Trial Balance run for the demo company, with closing debit and credit totals](docs/images/87-report-trial-balance.png)
+
+### Bank reconciliation
+
+![Bank Reconciliation for a bank ledger: cleared and not-yet-reflected entries](docs/images/05-bank-reconciliation.png)
+
+### Customer statement
+
+![Customer Statement: invoices, credit notes and receipts with a running balance](docs/images/68-customer-statement.png)
+
 ## Coverage
 
 DEASys covers part of our published feature list. The current figures, and the list of what is covered, partly built and not built yet, are in [docs/FEATURES.md](docs/FEATURES.md).

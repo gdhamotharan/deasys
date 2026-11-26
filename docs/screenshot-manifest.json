@@ -377,7 +377,7 @@
       "screen": "/vouchers/new/payment",
       "user": "maker",
       "section": 6,
-      "caption": "The TDS panel on a payment voucher.",
+      "caption": "A payment voucher to a party with open bills: the bills it settles are listed once the party is picked.",
       "notes": "Deductor, Section and TDS to deduct shown after Calculate. The panel is hidden until a deductor exists (see open issues)."
     },
     {
@@ -674,7 +674,7 @@
       "screen": "/bulk (menu: Transaction > Bulk Transaction)",
       "user": "approver",
       "section": 7,
-      "caption": "Bulk Transaction: move several vouchers one step at a time.",
+      "caption": "Bulk Transaction: check vouchers before they move. A voucher that cannot move shows the reason.",
       "notes": "Rows selected; the move action visible."
     },
     {
@@ -692,7 +692,7 @@
       "screen": "/bank-process",
       "user": "admin",
       "section": 7,
-      "caption": "Bank Process: match uploaded lines to ledger entries.",
+      "caption": "Bank Process before a statement is uploaded: upload the bank's statement first (Bank Upload), then search its lines here.",
       "notes": "An uploaded session with matched and unmatched lines."
     },
     {
@@ -755,7 +755,7 @@
       "screen": "/forex/revaluation",
       "user": "admin",
       "section": 8,
-      "caption": "Forex Revaluation: the gain or loss on foreign balances as of a date.",
+      "caption": "Forex Revaluation: the USD closing rate at a date. The demo holds no foreign-currency balances, so nothing is revalued.",
       "notes": "Currency and As of date chosen, preview table, Save as draft action."
     },
     {
@@ -782,7 +782,7 @@
       "screen": "/period/year (Close year dialog open)",
       "user": "admin",
       "section": 8,
-      "caption": "Closing a financial year.",
+      "caption": "Year-End Close: a year cannot be closed while vouchers in it are not authorised (13 are waiting in the demo).",
       "notes": "Close year dialog with the warning that every voucher must be authorized."
     },
     {
@@ -953,7 +953,7 @@
       "screen": "/admin/integrations/webhooks (Deliveries of a subscription)",
       "user": "admin",
       "section": 11,
-      "caption": "Webhook deliveries and their attempts.",
+      "caption": "Deliveries of a subscription: none yet, because the demo subscription is disabled.",
       "notes": "Status per delivery (delivered, retrying, failed)."
     },
     {
@@ -1124,7 +1124,7 @@
       "screen": "/gst/itc/non-payment (menu: GST > Non-payment (180 days))",
       "user": "admin",
       "section": 8,
-      "caption": "Non-payment exceptions: purchase credit unpaid after 180 days.",
+      "caption": "Non-payment exceptions: purchase bills unpaid after 180 days. None in the demo at this date.",
       "notes": "Bills past the period listed."
     },
     {
@@ -1196,7 +1196,7 @@
       "screen": "/gst/einvoice (menu: GST > E-invoice and E-way Bill): E-invoice pending",
       "user": "admin",
       "section": 8,
-      "caption": "E-invoice pending: sales invoices that need an IRN, with the problems that stop them.",
+      "caption": "E-invoice pending: no invoice in the demo needs an IRN, because the company's turnover is under the e-invoice threshold (the list includes those not required).",
       "notes": "Rows with and without problems."
     },
     {
@@ -1214,7 +1214,7 @@
       "screen": "/gst/einvoice (E-way bill section)",
       "user": "admin",
       "section": 8,
-      "caption": "E-way bill: payload and the result from the connector.",
+      "caption": "E-way bill: the Part A payload built for one invoice, with the problems that stop it (here the unit code).",
       "notes": "Transport mode, distance and the e-way bill payload."
     },
     {
@@ -1304,7 +1304,7 @@
       "screen": "/tds/returns (menu: Transaction > TDS Return Data)",
       "user": "admin",
       "section": 8,
-      "caption": "TDS return data (26Q, 27Q, 27EQ) for review.",
+      "caption": "TDS return data for the 26Q return: deductions and challans for review (not the statutory filing file).",
       "notes": "Form choice, financial year and quarter; deductee rows; the review note."
     },
     {
@@ -1331,7 +1331,7 @@
       "screen": "/tds/exceptions (menu: Transaction > TDS Exceptions)",
       "user": "admin",
       "section": 8,
-      "caption": "TDS exceptions: late or short deposits to check before filing.",
+      "caption": "TDS exceptions as of the date shown: none. Late or short deposits are listed here.",
       "notes": "Rows with interest shown on selection."
     },
     {

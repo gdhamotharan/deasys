@@ -1,6 +1,6 @@
 {
-  "base": "http://127.0.0.1:5197",
-  "generatedAt": "2026-11-26T13:05:18.224Z",
+  "base": "http://127.0.0.1:5251",
+  "generatedAt": "2026-11-26T16:30:14.945Z",
   "results": [
     {
       "id": "01-home",
@@ -282,7 +282,7 @@
       "id": "133-eway-bill",
       "file": "133-eway-bill.png",
       "status": "captured",
-      "route": "/gst/einvoice"
+      "route": "/gst/einvoice/9"
     },
     {
       "id": "134-invoice-gst-preview",
@@ -575,8 +575,8 @@
     {
       "id": "35-cost-centre-master",
       "file": "35-cost-centre-master.png",
-      "status": "captured",
-      "route": "/masters/projects"
+      "status": "not captured",
+      "reason": "the Cost Centre Master lists project cost centres (the single-level project list), which the demo does not hold: its cost centres are kept under cost categories (see 34)"
     },
     {
       "id": "36-budgets",
@@ -893,26 +893,26 @@
     {
       "id": "88-report-profit-and-loss",
       "file": "88-report-profit-and-loss.png",
-      "status": "captured",
-      "route": "/reports"
+      "status": "not captured",
+      "reason": "the Profit and Loss view leaves the expense rows, TOTAL EXPENSES and the profit line without amounts while the books hold the expenses (a product defect, see the product problems)"
     },
     {
       "id": "89-report-balance-sheet",
       "file": "89-report-balance-sheet.png",
-      "status": "captured",
-      "route": "/reports"
+      "status": "not captured",
+      "reason": "the Balance Sheet view leaves its amounts out of the lines while the books hold the balances (a product defect, see the product problems)"
     },
     {
       "id": "90-report-debtors-ageing",
       "file": "90-report-debtors-ageing.png",
-      "status": "captured",
-      "route": "/reports"
+      "status": "not captured",
+      "reason": "Debtors Ageing shows no rows although customers owe money in the books (suspected product defect, see the product problems)"
     },
     {
       "id": "91-report-cost-centre-summary",
       "file": "91-report-cost-centre-summary.png",
-      "status": "captured",
-      "route": "/reports"
+      "status": "not captured",
+      "reason": "the Cost Centre Summary has no rows: no voucher in the demo carries a cost centre line"
     },
     {
       "id": "92-report-budget-variance",

@@ -610,8 +610,6 @@ Cost centres track income and expense across branches or projects.
 ![Cost centres.](docs/images/34-cost-centres.png)
 *Cost centres.*
 
-![Cost Centre Master.](docs/images/35-cost-centre-master.png)
-*Cost Centre Master (the single-level list).*
 
 ![Budgets.](docs/images/36-budgets.png)
 *Budgets.*
@@ -741,8 +739,8 @@ Set up in this order:
 
 Then, on a payment voucher, the **TDS panel** calculates the deduction (section 7.1).
 
-![The TDS panel on a payment voucher.](docs/images/41-tds-payment-panel.png)
-*The TDS panel on a payment voucher.*
+![A payment voucher to a party with open bills: the bills it settles are listed once the party is picked.](docs/images/41-tds-payment-panel.png)
+*A payment voucher to a party with open bills: the bills it settles are listed once the party is picked.*
 
 > **Verify before use.** The section numbers, rates, thresholds and the no-PAN rate are **defaults** that a tax adviser must verify before any deduction is filed. The Income-tax Act 2025 takes effect on 1 April 2026 and renumbers these provisions; confirm the section mapping and the forms for the financial year.
 
@@ -845,8 +843,8 @@ The **New voucher** group shows these with a short hint each. Receipt, payment a
 
 Menu: **Transaction > Bulk Transaction** (`/bulk`). Move several vouchers one step at a time in one action. All selected vouchers must move: a refused voucher stops the whole batch and is named by its number.
 
-![Bulk Transaction.](docs/images/74-bulk-transaction.png)
-*Bulk Transaction.*
+![Bulk Transaction: check vouchers before they move. A voucher that cannot move shows the reason.](docs/images/74-bulk-transaction.png)
+*Bulk Transaction: check vouchers before they move. A voucher that cannot move shows the reason.*
 
 ### 7.3 Sales invoices
 
@@ -1004,8 +1002,8 @@ Use these screens in this order each month. They are in the **BRS** section.
 ![Bank Upload.](docs/images/75-bank-upload.png)
 *Bank Upload.*
 
-![Bank Process.](docs/images/76-bank-process.png)
-*Bank Process.*
+![Bank Process before a statement is uploaded: upload the bank's statement first (Bank Upload), then search its lines here.](docs/images/76-bank-process.png)
+*Bank Process before a statement is uploaded: upload the bank's statement first (Bank Upload), then search its lines here.*
 
 ![Bank Reconciliation (BRS).](docs/images/05-bank-reconciliation.png)
 *Bank Reconciliation (BRS).*
@@ -1126,8 +1124,8 @@ The GST screens are in the **Transaction > GST** group. They cover the setup (se
 ![Record a GST payment challan.](docs/images/122-gst-payment-challans.png)
 *GST payment challans.*
 
-![Non-payment exceptions.](docs/images/123-gst-non-payment.png)
-*Non-payment exceptions.*
+![Non-payment exceptions: purchase bills unpaid after 180 days. None in the demo at this date.](docs/images/123-gst-non-payment.png)
+*Non-payment exceptions: purchase bills unpaid after 180 days. None in the demo at this date.*
 
 **GSTIN Check** (`/gst/gstin`, menu **GST > GSTIN Check**). Checks the shape, the check character and the state of a GSTIN. A live lookup at the portal is not part of this server.
 
@@ -1155,14 +1153,14 @@ The GST screens are in the **Transaction > GST** group. They cover the setup (se
 3. To cancel an IRN, record the cancellation the connector made, with the reason and remarks. It is allowed within the window in the e-invoice parameters.
 4. **E-way bill**: build the e-way bill payload, with the transport mode (road, rail, ship or air), the distance, the transporter id and the vehicle number. The bill threshold decides whether one is needed. Record the e-way bill number and its valid-up-to date with **Record e-way bill result**.
 
-![E-invoice pending.](docs/images/131-einvoice-pending.png)
-*E-invoice pending.*
+![E-invoice pending: no invoice in the demo needs an IRN, because the company's turnover is under the e-invoice threshold (the list includes those not required).](docs/images/131-einvoice-pending.png)
+*E-invoice pending: no invoice in the demo needs an IRN, because the company's turnover is under the e-invoice threshold (the list includes those not required).*
 
 ![E-invoice payload and IRN result.](docs/images/132-einvoice-payload.png)
 *E-invoice payload and IRN result.*
 
-![E-way bill.](docs/images/133-eway-bill.png)
-*E-way bill.*
+![E-way bill: the Part A payload built for one invoice, with the problems that stop it (here the unit code).](docs/images/133-eway-bill.png)
+*E-way bill: the Part A payload built for one invoice, with the problems that stop it (here the unit code).*
 
 **Files.** Payloads can be downloaded as JSON text. The connector, not DEASys, sends them to the portal.
 
@@ -1192,7 +1190,7 @@ TDS is deducted on payments (section 7.1) and recorded as **deductions**. Deposi
 
 - **TDS Return Data** (`/tds/returns`, menu **Transaction > TDS Return Data**). The data for Forms 26Q, 27Q and 27EQ, for review: the deductees and challans behind a return. Choose the form, the financial year and the quarter.
 
-  ![TDS return data.](docs/images/143-tds-return-data.png)
+  ![TDS return data for the 26Q return: deductions and challans for review (not the statutory filing file).](docs/images/143-tds-return-data.png)
   *TDS return data.*
 
 - **Certificates (16A, 27D)** (`/tds/certificates`, menu **Transaction > Certificates (16A, 27D)**). The view and print of the certificate for one deductee: Form 16A for TDS and 27D for TCS. The statutory print layout is not in this release.
@@ -1207,7 +1205,7 @@ TDS is deducted on payments (section 7.1) and recorded as **deductions**. Deposi
 
 - **TDS Exceptions** (`/tds/exceptions`, menu **Transaction > TDS Exceptions**). Deductions not deposited by their due date, or deposited short. Select a row to see the interest a late deposit would attract. Check these before a return is prepared.
 
-  ![TDS exceptions.](docs/images/146-tds-exceptions.png)
+  ![TDS exceptions as of the date shown: none. Late or short deposits are listed here.](docs/images/146-tds-exceptions.png)
   *TDS exceptions.*
 
 > **Not a filing file.** The return data is for review and for your file-preparation tool. DEASys does not generate the NSDL/FVU text file, Form 24Q (salary) or the statutory certificate print in this release. Deposit due dates fall on the 7th of the next month (30 April for a March deduction).
@@ -1224,7 +1222,7 @@ For integrators: the same data is available through the API (`GET /api/v1/tds/ch
 
 - **Forex revaluation** (`/forex/revaluation`, menu **Forex revaluation**, in the Transaction section). Choose the currency and the as-of date. The screen previews the gain or loss on the foreign balances. **Save as draft** saves a journal as a draft; a different user must authorize it. Bill-wise ledgers are skipped.
 
-  ![Forex revaluation.](docs/images/83-forex-revaluation.png)
+  ![Forex Revaluation: the USD closing rate at a date. The demo holds no foreign-currency balances, so nothing is revalued.](docs/images/83-forex-revaluation.png)
   *Forex revaluation.*
 
 - **Interest settings** (`/interest/settings`) set the rate per year, the day basis (365 or 360), simple or compound interest, grace days and whether interest runs from the voucher or the due date, per ledger or per group. A ledger's own setting wins.
@@ -1257,8 +1255,8 @@ Posting to a closed day is refused:
 
 **Year-End Close** (`/period/year`, menu **Administration > Year-End Close**). Close a financial year once it has ended and every voucher in it is authorized. The **Close year** button is disabled while vouchers are pending. Reopen a closed year from its row if you must. The screen also carries the **carry-forward** of balances to the next year: preview the balances, then carry them forward. Do this once per year, after the year's last day is closed.
 
-![Closing a financial year.](docs/images/86-year-end-close.png)
-*Closing a financial year.*
+![Year-End Close: a year cannot be closed while vouchers in it are not authorised (13 are waiting in the demo).](docs/images/86-year-end-close.png)
+*Year-End Close: a year cannot be closed while vouchers in it are not authorised (13 are waiting in the demo).*
 
 ### 8.5 Month-end checklist
 
@@ -1305,17 +1303,9 @@ The main reports:
 ![Trial Balance.](docs/images/87-report-trial-balance.png)
 *Trial Balance.*
 
-![Profit and Loss.](docs/images/88-report-profit-and-loss.png)
-*Profit and Loss.*
 
-![Balance Sheet.](docs/images/89-report-balance-sheet.png)
-*Balance Sheet.*
 
-![Debtors Ageing.](docs/images/90-report-debtors-ageing.png)
-*Debtors Ageing.*
 
-![Cost Centre Summary.](docs/images/91-report-cost-centre-summary.png)
-*Cost Centre Summary.*
 
 *Screenshot not included in this release: the Budget button of Cost Centres and Budgets opens the Budgets master, not the Budget Variance view (a product gap in the report menu).*
 *Budget Variance.*
@@ -1579,8 +1569,8 @@ Each delivery is a `POST` of JSON with the headers `X-DEASys-Event`, `X-DEASys-E
 
 Answer 2xx within a few seconds. Any other answer is retried after 30 s, 60 s, 120 s and so on, up to an hour, 8 attempts by default. Open the subscription's **Deliveries** to see each attempt; an administrator can redeliver a failed one. Delivery is at least once, so handle a repeat by event id.
 
-![Deliveries of a subscription.](docs/images/105-webhook-deliveries.png)
-*Deliveries and their attempts.*
+![Deliveries of a subscription: none yet, because the demo subscription is disabled.](docs/images/105-webhook-deliveries.png)
+*Deliveries of a subscription: none yet, because the demo subscription is disabled.*
 
 **Configuration.** Webhooks are off until the server has `DEASYS_WEBHOOKS=on` and `DEASYS_WEBHOOK_KEY` (at least 16 characters). Without the key, creating a subscription answers 503.
 
@@ -1774,13 +1764,12 @@ Every image in this guide, in the order they were added to the manifest (`docs/s
 | 32 | [32-vendors.png](docs/images/32-vendors.png) | 6 | /purchases/vendors | Vendors: the businesses you buy from. |
 | 33 | [33-cost-categories.png](docs/images/33-cost-categories.png) | 6 | /cost/categories | Cost Categories: the groupings for cost centres. |
 | 34 | [34-cost-centres.png](docs/images/34-cost-centres.png) | 6 | /cost/centres | Cost Centres: where income and expense is tracked. |
-| 35 | [35-cost-centre-master.png](docs/images/35-cost-centre-master.png) | 6 | /masters/projects | Cost Centre Master: the single-level cost centre list. |
 | 36 | [36-budgets.png](docs/images/36-budgets.png) | 6 | /cost/budgets | Budgets: planned amounts by ledger or group, per month or per year. |
 | 37 | [37-credit-budget-controls.png](docs/images/37-credit-budget-controls.png) | 6 | /cost/controls | Credit & Budget Controls: warn or block a voucher that goes over. |
 | 38 | [38-currencies.png](docs/images/38-currencies.png) | 6 | /currency | Currencies: the base currency and the foreign currencies with their rates. |
 | 39 | [39-gst-master-add.png](docs/images/39-gst-master-add.png) | 6 | /masters/gst (Add dialog open) | Adding a GST rate for an HSN or SAC code. |
 | 40 | [40-tax-ledger-invoice-line.png](docs/images/40-tax-ledger-invoice-line.png) | 6 | /sales/invoices/new | The tax ledger on an invoice line. |
-| 41 | [41-tds-payment-panel.png](docs/images/41-tds-payment-panel.png) | 6 | /vouchers/new/payment | The TDS panel on a payment voucher. |
+| 41 | [41-tds-payment-panel.png](docs/images/41-tds-payment-panel.png) | 6 | /vouchers/new/payment | A payment voucher to a party with open bills: the bills it settles are listed once the party is picked. |
 | 42 | 42-tds-masters-api.png (not in this release) | 6 | terminal: GET /api/v1/tds/sections and /api/v1/tds/deductors | TDS sections and the deductor, read through the API (API-only in this release). |
 | 43 | [43-cheque-books.png](docs/images/43-cheque-books.png) | 6 | /cheques/books | Cheque Books: the cheque leaves of each bank account. |
 | 44 | [44-cheque-assign-print.png](docs/images/44-cheque-assign-print.png) | 6 | /cheques/assign | Cheque Assign and Print: issue a cheque number and print the cheque. |
@@ -1813,24 +1802,20 @@ Every image in this guide, in the order they were added to the manifest (`docs/s
 | 71 | [71-my-task-approve.png](docs/images/71-my-task-approve.png) | 7 | /tasks (a voucher open) | My Task: approving a voucher. |
 | 72 | [72-my-requests.png](docs/images/72-my-requests.png) | 7 | /requests (menu: Transaction > My Requests) | My Requests: vouchers you sent that are still moving. |
 | 73 | [73-my-ledger-requests.png](docs/images/73-my-ledger-requests.png) | 7 | /my-ledger-requests (menu: Ledger Request > My Ledger Requests) | My Ledger Requests: your ledger requests and their status. |
-| 74 | [74-bulk-transaction.png](docs/images/74-bulk-transaction.png) | 7 | /bulk (menu: Transaction > Bulk Transaction) | Bulk Transaction: move several vouchers one step at a time. |
+| 74 | [74-bulk-transaction.png](docs/images/74-bulk-transaction.png) | 7 | /bulk (menu: Transaction > Bulk Transaction) | Bulk Transaction: check vouchers before they move. A voucher that cannot move shows the reason. |
 | 75 | [75-bank-upload.png](docs/images/75-bank-upload.png) | 7 | /bank-upload | Bank Upload: load a bank statement file. |
-| 76 | [76-bank-process.png](docs/images/76-bank-process.png) | 7 | /bank-process | Bank Process: match uploaded lines to ledger entries. |
+| 76 | [76-bank-process.png](docs/images/76-bank-process.png) | 7 | /bank-process | Bank Process before a statement is uploaded: upload the bank's statement first (Bank Upload), then search its lines here. |
 | 77 | [77-bank-file-neft.png](docs/images/77-bank-file-neft.png) | 7 | /bank-file | Bank File: NEFT payments for the bank's upload file. |
 | 78 | [78-calc.png](docs/images/78-calc.png) | 7 | /calc | Calc: a quick calculator for amounts. |
 | 79 | 79-tds-challans-api.png (not in this release) | 8 | terminal: GET /api/v1/tds/challans | TDS challans recorded for the quarter (API-only in this release). |
 | 80 | 80-tds-returns-api.png (not in this release) | 8 | terminal: GET /api/v1/tds/returns/26Q?format=csv | TDS return data for review (API-only; not a filing file). |
 | 81 | [81-day-close.png](docs/images/81-day-close.png) | 8 | /period/day | Day Close: close a branch's day so that nothing more posts to it. |
 | 82 | [82-day-close-reopen.png](docs/images/82-day-close-reopen.png) | 8 | /period/day (Reopen day dialog open) | Reopening a closed day. |
-| 83 | [83-forex-revaluation.png](docs/images/83-forex-revaluation.png) | 8 | /forex/revaluation | Forex Revaluation: the gain or loss on foreign balances as of a date. |
+| 83 | [83-forex-revaluation.png](docs/images/83-forex-revaluation.png) | 8 | /forex/revaluation | Forex Revaluation: the USD closing rate at a date. The demo holds no foreign-currency balances, so nothing is revalued. |
 | 84 | [84-interest-settings.png](docs/images/84-interest-settings.png) | 8 | /interest/settings | Interest Settings: rates and rules for charging interest on overdue balances. |
 | 85 | [85-interest-statement.png](docs/images/85-interest-statement.png) | 8 | /interest/statement | Interest Statement: the interest computed for a period. |
-| 86 | [86-year-end-close.png](docs/images/86-year-end-close.png) | 8 | /period/year (Close year dialog open) | Closing a financial year. |
+| 86 | [86-year-end-close.png](docs/images/86-year-end-close.png) | 8 | /period/year (Close year dialog open) | Year-End Close: a year cannot be closed while vouchers in it are not authorised (13 are waiting in the demo). |
 | 87 | [87-report-trial-balance.png](docs/images/87-report-trial-balance.png) | 9 | /reports (open the Trial Balance family) | Trial Balance run with data. |
-| 88 | [88-report-profit-and-loss.png](docs/images/88-report-profit-and-loss.png) | 9 | /reports (open Profit and Loss) | Profit and Loss statement. |
-| 89 | [89-report-balance-sheet.png](docs/images/89-report-balance-sheet.png) | 9 | /reports (open Balance Sheet) | Balance Sheet. |
-| 90 | [90-report-debtors-ageing.png](docs/images/90-report-debtors-ageing.png) | 9 | /reports (open Debtors Ageing) | Debtors Ageing: what customers owe, by age. |
-| 91 | [91-report-cost-centre-summary.png](docs/images/91-report-cost-centre-summary.png) | 9 | /reports (open Cost Centre Summary) | Cost Centre Summary. |
 | 92 | 92-report-budget-variance.png (not in this release) | 9 | /reports (open Budget Variance) | Budget Variance: budget against actual to date. |
 | 93 | 93-report-drill-down.png (not in this release) | 9 | /reports (a figure clicked to drill down) | Drilling down from a report figure to its vouchers. |
 | 94 | [94-report-export-menu.png](docs/images/94-report-export-menu.png) | 9 | /reports (a report open with its export controls) | Exporting a report and printing it. |
@@ -1844,7 +1829,7 @@ Every image in this guide, in the order they were added to the manifest (`docs/s
 | 102 | [102-api-key-list.png](docs/images/102-api-key-list.png) | 11 | /admin/integrations/keys | Integration Keys: prefix, source system, status; the secret is never shown again. |
 | 103 | [103-inbox-list.png](docs/images/103-inbox-list.png) | 11 | /admin/integrations/inbox | Integration Inbox: messages with status, and the reasons for rejected ones. |
 | 104 | [104-webhook-create.png](docs/images/104-webhook-create.png) | 11 | /admin/integrations/webhooks (new subscription) | Creating a webhook subscription: the signing secret is shown once. |
-| 105 | [105-webhook-deliveries.png](docs/images/105-webhook-deliveries.png) | 11 | /admin/integrations/webhooks (Deliveries of a subscription) | Webhook deliveries and their attempts. |
+| 105 | [105-webhook-deliveries.png](docs/images/105-webhook-deliveries.png) | 11 | /admin/integrations/webhooks (Deliveries of a subscription) | Deliveries of a subscription: none yet, because the demo subscription is disabled. |
 | 106 | [106-error-unbalanced-journal.png](docs/images/106-error-unbalanced-journal.png) | 12 | /vouchers/new/journal (after Submit with unequal lines) | A voucher that does not balance is refused. |
 | 107 | 107-error-day-closed.png (not in this release) | 12 | /vouchers/new/payment (a date in a closed day) | Posting to a closed day is refused. |
 | 108 | [108-error-sign-in-locked.png](docs/images/108-error-sign-in-locked.png) | 12 | / (sign-in after repeated failed attempts) | Sign-in is paused after repeated failed attempts. |
@@ -1863,7 +1848,7 @@ Every image in this guide, in the order they were added to the manifest (`docs/s
 | 120 | [120-gst-itc-ledgers.png](docs/images/120-gst-itc-ledgers.png) | 8 | /gst/itc (menu: GST > ITC Ledgers) | ITC ledgers: the electronic credit, cash and liability balances of a registration. |
 | 121 | [121-gst-itc-reversals.png](docs/images/121-gst-itc-reversals.png) | 8 | /gst/itc/reversals (menu: GST > ITC Reversals) | ITC reversals: credit given back, with the reason. |
 | 122 | [122-gst-payment-challans.png](docs/images/122-gst-payment-challans.png) | 8 | /gst/itc/challans (menu: GST > Payment Challans) | GST payment challans: record a payment from the credit ledgers and cash. |
-| 123 | [123-gst-non-payment.png](docs/images/123-gst-non-payment.png) | 8 | /gst/itc/non-payment (menu: GST > Non-payment (180 days)) | Non-payment exceptions: purchase credit unpaid after 180 days. |
+| 123 | [123-gst-non-payment.png](docs/images/123-gst-non-payment.png) | 8 | /gst/itc/non-payment (menu: GST > Non-payment (180 days)) | Non-payment exceptions: purchase bills unpaid after 180 days. None in the demo at this date. |
 | 124 | [124-gst-returns.png](docs/images/124-gst-returns.png) | 8 | /gst/returns (menu: GST > GST Returns) | GST returns: the tie-out checks for a return and period. |
 | 125 | 125-gst-return-filed.png (not in this release) | 8 | /gst/returns (Mark as filed dialog open) | Marking a frozen return as filed. |
 | 126 | [126-gst-filing-calendar.png](docs/images/126-gst-filing-calendar.png) | 8 | /gst/calendar (menu: GST > Filing Calendar) | GST filing calendar: due dates by return and period, with status. |
@@ -1871,9 +1856,9 @@ Every image in this guide, in the order they were added to the manifest (`docs/s
 | 128 | [128-gstin-check.png](docs/images/128-gstin-check.png) | 8 | /gst/gstin (menu: GST > GSTIN Check) | GSTIN check: the shape and check character of a GSTIN. |
 | 129 | [129-gst-recon-import.png](docs/images/129-gst-recon-import.png) | 8 | /gst/recon (menu: GST > GSTR-2A/2B Reconciliation): Import the portal file | GSTR-2A or 2B reconciliation: import the portal JSON. |
 | 130 | 130-gst-recon-results.png (not in this release) | 8 | /gst/recon (Results and Match to a purchase bill) | GSTR-2A and 2B reconciliation results, with a match to a purchase bill. |
-| 131 | [131-einvoice-pending.png](docs/images/131-einvoice-pending.png) | 8 | /gst/einvoice (menu: GST > E-invoice and E-way Bill): E-invoice pending | E-invoice pending: sales invoices that need an IRN, with the problems that stop them. |
+| 131 | [131-einvoice-pending.png](docs/images/131-einvoice-pending.png) | 8 | /gst/einvoice (menu: GST > E-invoice and E-way Bill): E-invoice pending | E-invoice pending: no invoice in the demo needs an IRN, because the company's turnover is under the e-invoice threshold (the list includes those not required). |
 | 132 | [132-einvoice-payload.png](docs/images/132-einvoice-payload.png) | 8 | /gst/einvoice/:invoiceId (E-invoice for an invoice) | E-invoice payload and IRN result for one invoice. |
-| 133 | [133-eway-bill.png](docs/images/133-eway-bill.png) | 8 | /gst/einvoice (E-way bill section) | E-way bill: payload and the result from the connector. |
+| 133 | [133-eway-bill.png](docs/images/133-eway-bill.png) | 8 | /gst/einvoice (E-way bill section) | E-way bill: the Part A payload built for one invoice, with the problems that stop it (here the unit code). |
 | 134 | [134-invoice-gst-preview.png](docs/images/134-invoice-gst-preview.png) | 7 | /sales/invoices/new (GST preview) | A sales invoice with the live GST preview. |
 | 135 | [135-party-gst-profile.png](docs/images/135-party-gst-profile.png) | 6 | /sales/customers/:id (GST tab) | Customer GST profile: GSTIN, registration type and place of supply. |
 | 136 | [136-invoice-irn-block.png](docs/images/136-invoice-irn-block.png) | 7 | /sales/invoices/:id (E-invoice (IRN) block) | A posted invoice with its IRN and signed QR text. |
@@ -1883,10 +1868,10 @@ Every image in this guide, in the order they were added to the manifest (`docs/s
 | 140 | [140-tds-deductee-profiles.png](docs/images/140-tds-deductee-profiles.png) | 6 | /tds/deductees (menu: Administration > Deductee Profiles) | Deductee profiles: PAN, deductee type and default section. |
 | 141 | [141-tds-deductions.png](docs/images/141-tds-deductions.png) | 8 | /tds/deductions (menu: Transaction > TDS Deductions) | TDS deductions: each deduction with its tax and deposit status. |
 | 142 | [142-tds-challans.png](docs/images/142-tds-challans.png) | 8 | /tds/challans (menu: Transaction > Challans) | TDS challans: deposits and the deductions each one pays for. |
-| 143 | [143-tds-return-data.png](docs/images/143-tds-return-data.png) | 8 | /tds/returns (menu: Transaction > TDS Return Data) | TDS return data (26Q, 27Q, 27EQ) for review. |
+| 143 | [143-tds-return-data.png](docs/images/143-tds-return-data.png) | 8 | /tds/returns (menu: Transaction > TDS Return Data) | TDS return data for the 26Q return: deductions and challans for review (not the statutory filing file). |
 | 144 | [144-tds-certificates.png](docs/images/144-tds-certificates.png) | 8 | /tds/certificates (menu: Transaction > Certificates (16A, 27D)) | Certificates: Form 16A and 27D view for one deductee. |
 | 145 | [145-tds-summary.png](docs/images/145-tds-summary.png) | 8 | /tds/summary (menu: Transaction > TDS by Section) | TDS by Section: payable, deposited and pending per section. |
-| 146 | [146-tds-exceptions.png](docs/images/146-tds-exceptions.png) | 8 | /tds/exceptions (menu: Transaction > TDS Exceptions) | TDS exceptions: late or short deposits to check before filing. |
+| 146 | [146-tds-exceptions.png](docs/images/146-tds-exceptions.png) | 8 | /tds/exceptions (menu: Transaction > TDS Exceptions) | TDS exceptions as of the date shown: none. Late or short deposits are listed here. |
 | 147 | [147-integration-how-to-connect.png](docs/images/147-integration-how-to-connect.png) | 11 | /admin/integrations/connect (menu: Administration > How to Connect) | How to Connect: the steps for an integrator, with examples. |
 | 148 | [148-saved-reports.png](docs/images/148-saved-reports.png) | 9 | /reports/saved (menu: Reports > Saved Reports) | Saved Reports: report views kept with their filters. |
 | 149 | 149-export-format-options.png (not in this release) | 9 | /reports (a report open; Export format dropdown) | Export formats: CSV, Excel (.xlsx), Print view (HTML) and Print view (PDF). |
