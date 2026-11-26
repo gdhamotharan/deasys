@@ -1,6 +1,8 @@
 # Support
 
-Support contact, hours and any support agreement: **placeholder, to be provided by Creative Global Financial Solutions.**
+Report problems through the **Issues** tab of this repository. This is a beta: no response times or support agreement are offered.
+
+Issues are public. Do not include company names, financial data or screenshots of real records.
 
 When you report a problem, include:
 
