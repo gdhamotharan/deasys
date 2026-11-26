@@ -2,6 +2,8 @@
 
 *Accounts, under control.*
 
+> **The 0.2.0-beta.1 download is not published yet.** The files in `bin/` and `windows/` are still version 0.1.0. This page, [INSTALL.md](INSTALL.md) and the screenshots describe 0.2.0-beta.1, which will be added soon.
+
 **DEASys** (Double Entry Accounting System) is free double-entry accounting software from Creative Global Financial Solutions. It runs on your own computer (Windows 10 or 11, 64-bit; a Linux program is also published) and you use it in your web browser.
 
 > **This is a beta.** It is for evaluation and trial use alongside your existing records. It is not complete, not certified and not compliant with any tax or statutory requirement. Check every figure with your accountant before you file, pay or sign anything.
