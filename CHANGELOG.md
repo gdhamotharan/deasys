@@ -1,6 +1,55 @@
 # Changelog
 
-## v0.1.0 (date: placeholder)
+## v0.2.0-beta.1 (beta, not yet released as a final version)
+
+This is a beta for evaluation and trial use. It is not complete, not certified and not compliant with any statutory requirement.
+The feature coverage figures are in [docs/FEATURES.md](docs/FEATURES.md).
+
+**Before you upgrade or install:** PostgreSQL 13 or later is now a prerequisite. The installer no longer installs a database.
+Read [INSTALL.md](INSTALL.md) first.
+
+### Changed behaviour
+
+- **PostgreSQL is a prerequisite.** Install PostgreSQL 16 or later (13 is the minimum). The installer asks for the connection, tests it, and writes nothing until the test works. Earlier installs that used the bundled database keep that database.
+- **Installer.** The installer shows the terms, asks for the database connection (host, port, database, login and a hidden password), and runs its checks before it changes anything. An unattended install takes the same answers from `DEASYS_DB_*` variables.
+- **Sign-in sessions.** A sign-in token lasts 60 minutes. A session ends on sign-out, a password change, a deactivation, or a change of a user's default role or branch.
+- **Sign-in throttle.** Failed sign-in attempts are counted before the password is checked, so parallel guesses cannot exceed the limit.
+- **Optional voucher rules are off by default.** Rules that a voucher must satisfy (for example, payment details) are opt-in settings. They stay off until an administrator turns them on.
+- **Default roles.** A new installation gets role templates for each job: Administrator, CFO, Senior Accountant, Junior Accountant, Checker, Authorizer, Auditor and Viewer. The Auditor role creates and changes nothing. Every route is default-deny: a user needs the permission the route names. See [the guide, section 6.6](USER-GUIDE.md#66-roles-and-permissions).
+- **Opening-balance difference.** While the opening balances of the ledgers do not agree, the trial balance, the Schedule III balance sheet and the close checklist show a line "Difference in opening balances". It clears when the openings agree. One-sided openings are still accepted.
+- **Connectors are off by default.** Each external connector (GST return, e-invoice, e-way bill, GSTR-2B, Form 26AS, bank payment, bank statement) must be switched on by an administrator and given its settings. None has been verified with any provider.
+- **The first-start message.** Starting the program with no database configured prints the steps to create the database and the connection string.
+
+### Added
+
+- **Portal answer files** (`/gst/portal-responses`): upload the e-invoice IRN result, the e-way bill result, the GST return acknowledgement (ARN and date) and the TDS challan CIN as CSV. Each file is checked row by row; rows that fail the checks are listed with their line numbers and the others are applied. These are DEASys's own CSV layouts, not the portals' downloads.
+- **Bank response** (`/bank-response`): upload the bank's status file for NEFT payments, with the column and status mapping. Lines that are not applied are listed.
+- **GSTR-9 working data** (`/gst/gstr9`): the annual working data as JSON and as one CSV. This is not the portal's offline file.
+- **Connector framework** (off by default): test connection, send, cancel and fetch for each connector, with a request log that holds no secrets. Secrets are sealed in the database and never shown again.
+- **E-mail of invoices**: the invoice PDF attached, sent through an SMTP server you configure (STARTTLS or TLS; sign-in only on an encrypted connection). Off until configured.
+- **Statement and reminder PDFs** on the customer and vendor screens. Plain layout, not mailed.
+- **Form 26AS** import also reads the portal's `^`-delimited text layout.
+- **Bank statement rules** can be tested against a statement before they are saved; nothing is saved by the test.
+- **Payroll file upload** on the integration screens, for the payroll interface (the interface reads a file; DEASys does not compute payroll).
+
+### Fixed
+
+- Parallel requests that create the same ledger name create one ledger, whatever the letter case.
+- Data Entry and other roles no longer read the audit trail, the API keys or the webhooks.
+- Bank file screens show only the branches the user may see.
+- Statement and reminder requests return the rule's own message (for example, a reminder with no overdue invoices) rather than a server error.
+
+### Verified
+
+- Fresh install against PostgreSQL 13.6 (Windows 10, unattended installer path): migrations applied, first run, sign-in.
+- Upgrade from 0.1.0 installed with its bundled PostgreSQL 16.4: the database is backed up first, data and sign-in are unchanged, and the pre-upgrade backup restores.
+- Uninstall with the data kept, and uninstall with the data removed.
+
+### Not verified or not built in this beta
+
+See the known limitations in [the README](README.md#known-limitations).
+
+## v0.1.0 (first public release)
 
 First public release of DEASys: the accounting server with its web interface, for Windows and Linux.
 
@@ -21,9 +70,3 @@ First public release of DEASys: the accounting server with its web interface, fo
 - Roles and permissions per screen and action; users; numbering series; audit log (read only).
 - Integrations: API keys with scopes and branch limits; inbox; invoice, voucher and TDS imports; masters reads; signed webhooks; screens under Administration.
 - Command-line tools: init-admin, migrate, backup, restore, set-password, config, service (Windows).
-
-## Unreleased (0.1.0 rebuild)
-- Optional, unticked "tell the author" box on the terms step; off unless `registration_url` is configured. Terms revised (version `2026-11-10-draft-2`, sections 5.2 and 5.3).
-- The installer asks again when the terms text is revised on the same day.
-- Starting `deasys-server.exe` with no database configured now prints the steps to create the PostgreSQL database, the complete connection string and the commands to save the settings and start (it no longer prints one terse line). `config init --database-url` writes the database address and the signing key in one step.
-- New double-click installer wrapper `Install DEASys.cmd` (asks for administrator rights, keeps the window open). INSTALL.md and README explain that the `.exe` alone is not the installer.

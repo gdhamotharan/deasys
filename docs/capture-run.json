@@ -1,6 +1,6 @@
 {
   "base": "http://127.0.0.1:5197",
-  "generatedAt": "2026-11-10T08:46:37.303Z",
+  "generatedAt": "2026-11-26T13:05:18.224Z",
   "results": [
     {
       "id": "01-home",
@@ -429,10 +429,40 @@
       "by": "wizard.mjs"
     },
     {
+      "id": "156-connectors-settings",
+      "file": "156-connectors-settings.png",
+      "status": "captured",
+      "route": "/admin/integrations/connectors"
+    },
+    {
+      "id": "157-portal-answer-files",
+      "file": "157-portal-answer-files.png",
+      "status": "captured",
+      "route": "/gst/portal-responses"
+    },
+    {
+      "id": "158-bank-response-upload",
+      "file": "158-bank-response-upload.png",
+      "status": "captured",
+      "route": "/bank-response"
+    },
+    {
+      "id": "159-gstr9-working-data",
+      "file": "159-gstr9-working-data.png",
+      "status": "captured",
+      "route": "/gst/gstr9"
+    },
+    {
       "id": "16-home-first-sign-in",
       "file": "16-home-first-sign-in.png",
       "status": "captured",
       "route": "/"
+    },
+    {
+      "id": "160-invoice-email-dialog",
+      "file": "160-invoice-email-dialog.png",
+      "status": "captured",
+      "route": "/sales/invoices/9"
     },
     {
       "id": "17-change-password",

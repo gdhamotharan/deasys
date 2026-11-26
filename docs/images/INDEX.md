@@ -1,10 +1,10 @@
 # Screenshot index
 
-Generated from `docs/screenshot-manifest.json` and the last capture run (2026-11-10T08:46:37.303Z, base http://127.0.0.1:5197).
+Generated from `docs/screenshot-manifest.json` and the last capture run (2026-11-26T13:05:18.224Z, base http://127.0.0.1:5197).
 Every image is a plain capture of the fictional demo company (Harbor Pine Trading Co. (Demo)) from a fresh install,
 1600 x 900, light theme. Nothing is annotated. Entries marked "not captured" are not in this folder.
 
-Captured: 134 of 155.
+Captured: 139 of 160.
 
 | File | Screen | Signed in as | Guide section | Caption | Status |
 |---|---|---|---|---|---|
@@ -163,3 +163,8 @@ Captured: 134 of 155.
 | [152-menu-administration-section.png](152-menu-administration-section.png) | / (left menu, Administration section) | admin | 6 | The Administration section of the menu. | captured |
 | [153-masters-index.png](153-masters-index.png) | /masters (menu: Masters) | admin | 6 | Masters: the master lists of the company. | captured |
 | [154-invoice-post-to-ledger.png](154-invoice-post-to-ledger.png) | /sales/invoices/:id (Post to ledger button) | approver | 7 | An approved invoice with the Post to ledger button. | captured |
+| [156-connectors-settings.png](156-connectors-settings.png) | /admin/integrations/connectors | admin | 6 | API connectors (off by default): one card per external system, with its address, its sign-in and its enable switch. | captured |
+| [157-portal-answer-files.png](157-portal-answer-files.png) | /gst/portal-responses | admin | 8 | Portal answer files: upload the answer a portal or the TDS challan record gave back. | captured |
+| [158-bank-response-upload.png](158-bank-response-upload.png) | /bank-response | admin | 7 | Bank response: upload the bank status file for a NEFT payment file and map its columns. | captured |
+| [159-gstr9-working-data.png](159-gstr9-working-data.png) | /gst/gstr9 | admin | 8 | GSTR-9 working data: the year as JSON or one CSV, for the filer and the tax adviser. Not the portal file. | captured |
+| [160-invoice-email-dialog.png](160-invoice-email-dialog.png) | /sales/invoices/:id | approver | 7 | E-mail an invoice: the invoice PDF is attached to the message. Needs SMTP settings first. | captured |
