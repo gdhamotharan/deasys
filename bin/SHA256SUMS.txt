@@ -1,3 +1,3 @@
-ef8b2a96f0548a91a85b4f74754edb9934f227076b5cc06509025c368c600dfe *DEASys-0.2.0-beta.1-win64.zip
+c7ad0afa8cadb89f1f7eb49dc6b10cbefb582dbd6d5e5ba6873585ba9ba7bb9a *DEASys-0.2.0-beta.1-win64.zip
 332b7fcd36a0f6f78a274d5bdd94bcbcf80313a481bb9564d80a2dd77d51b35c *deasys-server-linux-amd64
 32ecc33166fbbe22d6eb7af2322ed49aa876928f39c853a47a6e420f05f2c2d0 *deasys-server-windows-amd64.exe

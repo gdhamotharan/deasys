@@ -45,11 +45,14 @@ function Show-UninstallPlan {
         Write-Host "  - the firewall rule 'DEASys web interface (TCP)', if it exists"
         Write-Host '  - the Start Menu folder DEASys and the desktop shortcut DEASys.url'
     }
-    Write-Host "  - the program files in $InstallDir : deasys-server.exe, ui, previous, postgresql (the bundled PostgreSQL"
-    Write-Host '    programs; a reinstall brings them back from the downloads folder or the package), the scripts,'
-    Write-Host '    TERMS.txt, LICENSE.txt, README-FIRST.txt, VERSION.txt and deasys.iss'
+    Write-Host "  - the program files in $InstallDir : deasys-server.exe, ui, previous, the scripts, TERMS.txt,"
+    Write-Host '    LICENSE.txt, README-FIRST.txt, VERSION.txt and deasys.iss'
     Write-Host ''
     Write-Host 'KEPT:'
+    if (Test-Path (Join-Path $DataDir 'pgdata')) {
+        Write-Host "  - the postgresql folder in $InstallDir : your database was set up by an earlier version that bundled"
+        Write-Host '    PostgreSQL, and this package does not contain it. It is removed only if the data is deleted too.'
+    }
     Write-Host "  - the data folder $DataDir : the database (pgdata), backups, deasys.conf (settings and secrets),"
     Write-Host '    pgsuper.secret, logs, terms-accepted.json, the downloads folder and the run and tmp folders'
     Write-Host '  - nothing in the data folder is deleted unless you give -RemoveData and type the confirmation phrase'
@@ -126,7 +129,7 @@ if (-not $Portable) {
 
 # 4. program files (never the data folder)
 if (Test-Path $InstallDir) {
-    foreach ($item in @('deasys-server.exe', 'ui', 'previous', 'postgresql', 'install.ps1', 'uninstall.ps1', 'deasys-common.ps1', 'LICENSE.txt', 'README-FIRST.txt', 'VERSION.txt', 'TERMS.txt', 'postgres-pin.psd1', 'deasys.iss')) {
+    foreach ($item in @('deasys-server.exe', 'ui', 'previous', 'install.ps1', 'uninstall.ps1', 'deasys-common.ps1', 'LICENSE.txt', 'README-FIRST.txt', 'VERSION.txt', 'TERMS.txt', 'postgres-pin.psd1', 'deasys.iss')) {
         $p = Join-Path $InstallDir $item
         if (Test-Path $p) { Remove-Item -LiteralPath $p -Recurse -Force -ErrorAction Continue }
     }
@@ -156,6 +159,19 @@ if ($RemoveData) {
     }
 } else {
     Write-DEASysLog "data kept: $DataDir (database, backups, configuration). Use -RemoveData to delete it."
+}
+
+# 6. PostgreSQL programs of an earlier bundled installation: only when no database is left that needs them
+$pgPrograms = Join-Path $InstallDir 'postgresql'
+if (Test-Path $pgPrograms) {
+    if (Test-Path $pgData) {
+        Write-Host "Kept $pgPrograms : the database in $pgData needs it. A reinstall uses it again."
+    } else {
+        Remove-Item -LiteralPath $pgPrograms -Recurse -Force -ErrorAction Continue
+        if (-not (Get-ChildItem -LiteralPath $InstallDir -Force -ErrorAction SilentlyContinue)) {
+            Remove-Item -LiteralPath $InstallDir -Force -ErrorAction SilentlyContinue
+        }
+    }
 }
 
 if ($failed) { Write-Host 'Uninstall finished with warnings (see the log).' -ForegroundColor Yellow; exit 1 }

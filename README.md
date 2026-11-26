@@ -102,6 +102,7 @@ DEASys is free of charge, including for use in your own business. It is distribu
 - **Fresh install** in test mode (no Windows service, no firewall rule) against an existing PostgreSQL 13.6 server: first run, sign-in, and one voucher posted through the maker, checker and authoriser steps.
 - **Upgrade from 0.1.0** in test mode on PostgreSQL 13.6: the database was backed up first, 27 database scripts were applied, and the data, the sign-in and the balances were unchanged.
 - **Uninstall**, with the data kept and with the data removed.
+- **0.1.0 with its bundled PostgreSQL 16.4:** upgrade, uninstall keeping the data (the PostgreSQL programs are kept with it), reinstall, and uninstall removing everything.
 
 ## Known limitations
 
@@ -114,6 +115,7 @@ DEASys is free of charge, including for use in your own business. It is distribu
 - **Category analysis (CAT) reports need a category master**, which a new install does not have. Set one up before you use them.
 - **TDS reports under Reports are not available.** Use the TDS screens for TDS figures.
 - **Schedule III shows Duties & Taxes netted**, not as separate debit and credit balances.
+- **A few other report views, such as cheque reconciliation, have not been confirmed to show data.**
 
 **Other limitations:**
 
