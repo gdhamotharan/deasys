@@ -94,6 +94,14 @@ DEASys is free of charge, including for use in your own business. It is distribu
 
 ## Known limitations
 
+**Faults found in testing and being fixed (do not rely on these yet):**
+
+- Under Reports, the Profit & Loss and Balance Sheet views leave some amounts blank. The expense side and the profit or loss are missing.
+- The Debtors Ageing report can show no rows although customers owe money.
+- A receipt or payment entered as a voucher against an invoice or bill posts to the ledger but leaves the invoice or bill open. Use the Receipts and Payments screens instead.
+
+**Other limitations:**
+
 - **Tested on Windows 10 only,** with PostgreSQL 13.6 and 16.4. Windows 11 has not been tested.
 - **Not tested yet:** the Windows Setup wizard (an installer built with Inno Setup is not part of this beta; use `Install DEASys.cmd` or `install.ps1`), the Windows service and firewall steps on an administrator machine, and the Linux program.
 - **Performance is not proven.** No load test has been run on a large company.
