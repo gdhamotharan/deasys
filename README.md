@@ -23,6 +23,30 @@
 
 Not included by design: inventory and stock, HR, and payroll computation.
 
+## Screens
+
+All screens show a fictional demo company. [USER-GUIDE.md](USER-GUIDE.md) has many more.
+
+### Home
+
+![The home screen: work waiting for you, drafts and quick links](docs/images/01-home.png)
+
+### Sales invoice with GST
+
+![A sales invoice with its lines, totals and the GST preview](docs/images/53-sales-invoice-filled.png)
+
+### Payment voucher
+
+![A payment voucher with the party, the bank ledger and the amount](docs/images/03-payment-voucher-filled.png)
+
+### Approvals
+
+![My Task: vouchers waiting to be checked](docs/images/04-my-task-list.png)
+
+### GST returns
+
+![GSTR-3B with its tie-out checks against the books](docs/images/124-gst-returns.png)
+
 ## Coverage
 
 DEASys covers part of our published feature list. The current figures, and the list of what is covered, partly built and not built yet, are in [docs/FEATURES.md](docs/FEATURES.md).
